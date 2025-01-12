@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+venv/
+.pylintrc
+__pycache__/
+.idea
+db.sqlite3
+media/
