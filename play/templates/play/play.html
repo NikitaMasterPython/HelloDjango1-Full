@@ -3,22 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главное меню</title>
+    <title>Симулятор крестьянина</title>
+<!--    <link rel="stylesheet" href="static/styles/style.css">-->
+    <style>
+
+        .button-image {
+            width: 100px; /* Задайте желаемую ширину изображения */
+            height: 100px; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+        }
+        .button-container1 {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 10px;
+        }
+        .normal-button {
+            margin-top: 10px; /* Отступ для обычных кнопок */
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .button-image:hover {
+            background: #45a049; /* Темно-зеленый при наведении */
+            background: transparent;
+        }
+
+        body {
+            background-image: url('/static/image/fons/village_summer.png');
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+
+    </style>
 
 </head>
 <body>
+    <div class="button-container1">
+        <!-- Кнопки в виде изображений -->
+        <button class="button-image">
+            <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
+        </button>
 
-<div class="game-container">
-    <h1>Главное меню</h1>
-    <div class="inventory">
-        <ul>
-            <li>События</li>
-            <li>Описание</li>
-            <li>Выбор действий</li>
-        </ul>
+        <div class="button-container1">
+        <button class="button-image">
+            <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
+        </button>
+
+        <!-- Обычные кнопки -->
+        <button class="normal-button">Обычная Кнопка 1</button>
+        <button class="normal-button">Обычная Кнопка 2</button>
     </div>
-
-
 
 </body>
 </html>

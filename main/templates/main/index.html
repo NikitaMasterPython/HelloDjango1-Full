@@ -5,20 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главное меню</title>
 
+    <style>
+        body {
+            background-image: url(static/image/fons/village_main.png);
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон для читаемости текста */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .button {
+            background: #8B4513; /* Коричневый цвет */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #45a049; /* Темно-зеленый при наведении */
+        }
+    </style>
 </head>
 <body>
-
-<div class="game-container">
-    <h1>Главное меню</h1>
-    <div class="inventory">
-        <ul>
-            <li>Новая игра</li>
-            <li>Продолжить</li>
-            <li>Достижения</li>
-        </ul>
+    <div class="menu">
+        <h1>Главное меню</h1>
+        <a href="play/" class="button">Новая игра</a>
+        <a href="play/" class="button">Продолжить игру</a>
+        <a href="achievements.html" class="button">Достижения</a>
+        <a href="about_game.html" class="button">Об игре</a>
     </div>
-    
-
-
 </body>
 </html>
