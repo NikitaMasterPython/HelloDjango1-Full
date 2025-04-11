@@ -4,26 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Симулятор крестьянина</title>
+
 <!--    <link rel="stylesheet" href="static/styles/style.css">-->
     <style>
 
+
+        .znachenie_hp {
+            position: absolute;
+            padding-left: 50px;
+            padding-top: 15px;
+            color: black;
+            font-weight: 900;
+            font-size: 25px;
+            margin: 1px;
+
+        }
         .button-image {
-            width: 100px; /* Задайте желаемую ширину изображения */
-            height: 100px; /* Задайте желаемую высоту изображения */
+            font-size: 1rem;
+            width: 7em; /* Задайте желаемую ширину изображения */
+            height: 7em; /* Задайте желаемую высоту изображения */
             border: none;
             cursor: pointer;
             background: transparent;
-        }
-        .button-container1 {
+            vertical-align: top;
             display: flex;
-            flex-direction: column;
+
+        }
+
+        .book-image {
+            font-size: 1rem;
+            width: 23em; /* Задайте желаемую ширину изображения */
+            height: 23em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            padding-left: 1px;
+
+        }
+        .button-container-hp {
+            display: table-cell;
+            flex-direction: row;
             align-items: flex-start;
             margin: 10px;
+            padding-top: 1px;
+
+
+        }
+        .button-container-bag {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 10px;
+            padding-right: 10px;
+
+
+        }
+        .button-container-market {
+            margin-top: 30px;
+            display: table-cell;
+            flex-direction: cow;
+            margin: 30px;
+
+
+
+
+
         }
         .normal-button {
             margin-top: 10px; /* Отступ для обычных кнопок */
             padding: 10px 20px;
             font-size: 16px;
+
         }
 
         .button-image:hover {
@@ -31,38 +85,302 @@
             background: transparent;
         }
 
+        .high-panel {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-top: 1px;
+        }
+        .book-container {
+
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-left: 7px;
+
+        }
+
         body {
             background-image: url('/static/image/fons/village_summer.png');
-            background-size: cover;
+            background-repeat: no-repeat;
             color: white;
             font-family: Arial, sans-serif;
-            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            height: 900px;
+            width: 400px;
+            margin-top: 1px;
+            margin-left: 1px;
+            border-top: 1px;
+            border-width: 1px;
         }
+
+        .choise-coutainer {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+        .button-choise-coutainer1 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 1px;
+            padding-right: 10px;
+        }
+
+        .button-choise-coutainer2 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 55px;
+            padding-right: 1px;
+        }
+
+        .button-image-choise1 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 1px;
+            }
+
+        .button-image-choise2 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 7px;
+            }
+
+        .event_picture {
+            width: 660px; /* Задайте желаемую ширину изображения */
+            height: 295px; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+
+            display: flex;
+            padding-top: 44px;
+            position: absolute;
+            padding-left: 43px;
+
+        }
+
+        .event_text {
+            /* Размеры и отступы */
+            width: 140px;
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 15px 15px 15px 210px;
+            padding-top: 180px;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+            hyphens: auto;            /* Автоматические дефисы (если поддерживается) */
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: black;
+
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
+
+        .action_1 {
+            left: 205px;       /* Заменяем padding-left на left */
+            width: 130px;
+            padding: 15px;
+            position: absolute;
+            top: 520px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+<!--            overflow-wrap: anywhere;-->
+<!--            hyphens: auto;-->
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+
+
+            /* Для отладки */
+            background-color: rgba(0,255,0,0.2); /* Полупрозрачный зеленый */
+        }
+
+        .action_2 {
+            left: 20px;        /* Заменяем padding-left на left */
+            width: 140px;
+            padding: 15px;
+            position: absolute;
+            top: 520px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+            overflow-wrap: anywhere;
+            hyphens: auto;
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+            /* Для отладки */
+            background-color: rgba(0,255,0,0.2);
+            /* Для отладки */
+            background-color: rgba(0,255,0,0.2); /* Полупрозрачный зеленый */
+        }
+
+
+        .event_url_start {
+            position: absolute;
+            top: 315px;
+            left: 225px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+
+            /* Для визуального отображения (можно убрать) */
+            background-color: rgba(255,0,0,0.2); /* Полупрозрачный
+        }
+
+        .event_url_start a,
+        .action_2 a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+
+
+
+
+
+
 
 
     </style>
 
 </head>
 <body>
-    <div class="button-container1">
-        <!-- Кнопки в виде изображений -->
-        <button class="button-image">
-            <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
-        </button>
 
-        <div class="button-container1">
-        <button class="button-image">
-            <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
-        </button>
 
-        <!-- Обычные кнопки -->
-        <button class="normal-button">Обычная Кнопка 1</button>
-        <button class="normal-button">Обычная Кнопка 2</button>
+
+    <div class="high-panel">
+
+        <div class="button-container-hp">
+            <!-- Кнопки в виде изображений -->
+            <p class= "znachenie_hp">
+                {{ Hit_points }}
+            </p>
+            <button class="button-image">
+                <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+
+        <div class="button-container-bag">
+            <!-- Кнопки в виде изображений -->
+            <button class="button-image">
+                <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+
+        <div class="button-container-market">
+            <button class="button-image">
+                <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
+            </button>
+        </div>
     </div>
+
+    <div class="event_url_start">
+<!--        <a href='{% url "index" %}'></a>-->
+        <a href="{% url "play_next" event_id=3 %}">Жить дальше</a>
+    </div>
+
+
+
+    <div class="event_picture">
+
+        <img src="{{ event.image_Event.url }}" alt="{{ event.image_Event }}">
+    </div>
+
+    <div class="event_text">
+
+        <p>{{ event.event_Text }}</p>
+    </div>
+
+<!--    <div class="action_1">-->
+
+<!--        <p>{{ event.action_1 }}</p>-->
+<!--    </div>-->
+
+    <div class="action_2">
+
+        <a href="{% url 'event_part_2' event_id=3 %}">{{ event.action_2 }}</a>
+    </div>
+
+    <div class="book-container">
+
+        <img src="/static/image/panel/book_norm.png" alt="Кнопка 2" class="book-image">
+
+    </div>
+
+    <div class="choise-coutainer">
+
+        <div class="button-choise-coutainer1">
+            <button class="button-image">
+                <img src="/static/image/panel/chois.png" alt="Кнопка 1" class="button-image-choise1">
+            </button>
+        </div>
+
+        <div class="button-choise-coutainer2">
+            <button class="button-image">
+                <img src="/static/image/panel/chois.png" alt="Кнопка 1" class="button-image-choise2">
+            </button>
+        </div>
+
+        <div class="action_1">
+            <a href="{% url 'event_part_2' event_id=3 %}">{{ event.action_1 }}</a>
+        </div>
+
+
+
 
 </body>
 </html>
