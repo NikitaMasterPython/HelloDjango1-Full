@@ -188,7 +188,7 @@
             width: 140px;
             max-width: 100%; /* На случай, если родительский блок уже */
             padding: 15px 15px 15px 210px;
-            padding-top: 180px;
+            padding-top: 155px;
 
             /* Перенос текста (3 уровня защиты) */
 
@@ -265,11 +265,13 @@
 
         .event_url_start {
             position: absolute;
-            top: 315px;
+            top: 445px;
             left: 225px;
             right: 15px;
             bottom: 15px;
             z-index: 100;
+
+
 
             /* Для визуального отображения (можно убрать) */
             background-color: rgba(255,0,0,0.2); /* Полупрозрачный
@@ -283,6 +285,22 @@
             text-decoration: none;
             color: inherit;
         }
+
+        .consequence {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+
+
 
 
 
@@ -328,10 +346,11 @@
         </div>
     </div>
 
-    <div class="event_url_start">
-<!--        <a href='{% url "index" %}'></a>-->
-        <a href="{% url "play_next" event_id=3 %}">Жить дальше</a>
-    </div>
+    {% if 'event_end' in request.path %}
+        <div class="event_url_start">
+            <a href="{% url 'random_event' %}">Жить дальше</a>
+        </div>
+    {% endif %}
 
 
 
@@ -350,10 +369,7 @@
 <!--        <p>{{ event.action_1 }}</p>-->
 <!--    </div>-->
 
-    <div class="action_2">
 
-        <a href="{% url 'event_part_2' event_id=3 %}">{{ event.action_2 }}</a>
-    </div>
 
     <div class="book-container">
 
@@ -375,9 +391,90 @@
             </button>
         </div>
 
-        <div class="action_1">
-            <a href="{% url 'event_part_2' event_id=3 %}">{{ event.action_1 }}</a>
-        </div>
+<!--        <div class="action_1">-->
+<!--            <a href="{% url 'event_part_2' event_id=event.id %}">-->
+<!--                {{ event.action_1 }}-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <div class="action_2">-->
+<!--            <a href="{% url 'event_part_2' event_id=event.id %}" onclick="this.parentElement.style.display='none'; return false;">-->
+<!--            {{ event.action_2 }}-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <div class="action_1">-->
+<!--            <a href="{% url 'event_part_2' event_id=event.id %}"-->
+<!--               onclick="document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); return false;">-->
+<!--                {{ event.action_1 }}-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <div class="action_2">-->
+<!--            <a href="{% url 'event_part_2' event_id=event.id %}"-->
+<!--               onclick="document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); return false;">-->
+<!--                {{ event.action_2 }}-->
+<!--            </a>-->
+<!--        </div>-->
+<!--            <div class="action_1">-->
+<!--                <a href="{% url 'event_part_2' event_id=event.id %}"-->
+<!--                   onclick="event.preventDefault(); document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); setTimeout(() => window.location.href = this.href, 100);">-->
+<!--                    {{ event.action_1 }}-->
+<!--                </a>-->
+<!--            </div>-->
+
+<!--            <div class="action_2">-->
+<!--                <a href="{% url 'event_part_2' event_id=event.id %}"-->
+<!--                   onclick="event.preventDefault(); document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); setTimeout(() => window.location.href = this.href, 100);">-->
+<!--                    {{ event.action_2 }}-->
+<!--                </a>-->
+<!--            </div>-->
+
+<div class="action_1">
+    <a href="{% url 'event_part_2' event_id=event.id %}" class="action-link">
+        {{ event.action_1 }}
+    </a>
+</div>
+
+<div class="action_2">
+    <a href="{% url 'event_part_2' event_id=event.id %}" class="action-link">
+        {{ event.action_2 }}
+    </a>
+</div>
+
+<script>
+// Проверка при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Checking storage...'); // Отладочное сообщение
+
+    if (sessionStorage.getItem('hide_action_buttons')) {
+        console.log('Hiding buttons...');
+
+        document.querySelectorAll('.action_1, .action_2').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        sessionStorage.removeItem('hide_action_buttons');
+    }
+});
+
+// Обработчики кликов
+document.querySelectorAll('.action-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault(); // Важно: отменяем стандартное поведение
+
+        console.log('Button clicked, setting flag...');
+        sessionStorage.setItem('hide_action_buttons', 'true');
+
+        // Переход после небольшой задержки
+        setTimeout(() => {
+            window.location.href = this.href;
+        }, 100);
+    });
+});
+</script>
+
+
 
 
 
