@@ -307,12 +307,12 @@
         }
        .consequence {
             position: absolute;
-            top: 325px;
+            top: 155px;
             left: 200px;
             right: 15px;
             bottom: 15px;
             z-index: 100;
-            width: 140px;
+            width: 125px;
             color: black;
 
             /* Стили для переноса текста */
@@ -390,10 +390,10 @@
     </div>
 
 
-    <div class="event_text">
+<!--    <div class="event_text">-->
 
-        <p>{{ event.event_Text }}</p>
-    </div>
+<!--        <p>{{ event.event_Text }}</p>-->
+<!--    </div>-->
 
 
     <div class="event_picture">
@@ -426,9 +426,15 @@
         </div>
 
 
+
+
+
+
+{% if show_event_text != False %}
 <div class="event_text">
     <p>{{ event.event_Text }}</p>
 </div>
+{% endif %}
 
 {% comment %} Блок с последствиями или действиями {% endcomment %}
 {% if consequence %}
@@ -483,7 +489,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 
 
 

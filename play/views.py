@@ -38,31 +38,22 @@ def play_next(request, event_id):
 
 
 def event_part_2(request, event_id):
-    """Обработка выбора действия"""
     event_obj = get_object_or_404(event, id=event_id)
     action = request.GET.get('action')
-    # player_status, _ = status.objects.get_or_create(pk=1)
 
     if action == '1':
         consequence = event_obj.consequence_1
-        # player_status.status_HP += event_obj.received_HP
-        # player_status.status_Money += event_obj.received_Money
-        # player_status.status_Loyalty += event_obj.received_Loyalty
     elif action == '2':
         consequence = event_obj.consequence_2
-        # player_status.status_HP += event_obj.received_HP_2
-        # player_status.status_Money += event_obj.received_Money_2
-        # player_status.status_Loyalty += event_obj.received_Loyalty_2
     else:
         return redirect('play_next', event_id=event_id)
-
-    # player_status.save()
 
     return render(request, 'play/play.html', {
         'event': event_obj,
         'consequence': consequence,
-        # 'player_status': player_status
+        'show_event_text': False  # Добавляем флаг
     })
+
 
 
 def random_event(request):
