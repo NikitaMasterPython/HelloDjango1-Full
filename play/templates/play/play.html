@@ -217,7 +217,7 @@
             width: 130px;
             padding: 15px;
             position: absolute;
-            top: 520px;
+            top: 505px;
             z-index: 101;
             cursor: pointer;
 
@@ -233,8 +233,7 @@
 
 
 
-            /* Для отладки */
-            background-color: rgba(0,255,0,0.2); /* Полупрозрачный зеленый */
+
         }
 
         .action_2 {
@@ -242,7 +241,7 @@
             width: 140px;
             padding: 15px;
             position: absolute;
-            top: 520px;
+            top: 505px;
             z-index: 101;
             cursor: pointer;
 
@@ -256,16 +255,13 @@
             background: transparent;
             color: black;
 
-            /* Для отладки */
-            background-color: rgba(0,255,0,0.2);
-            /* Для отладки */
-            background-color: rgba(0,255,0,0.2); /* Полупрозрачный зеленый */
+
         }
 
 
         .event_url_start {
             position: absolute;
-            top: 445px;
+            top: 462px;
             left: 225px;
             right: 15px;
             bottom: 15px;
@@ -273,9 +269,7 @@
 
 
 
-            /* Для визуального отображения (можно убрать) */
-            background-color: rgba(255,0,0,0.2); /* Полупрозрачный
-        }
+
 
         .event_url_start a,
         .action_2 a {
@@ -286,14 +280,57 @@
             color: inherit;
         }
 
-        .consequence {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f5f5f5;
+
+        .event_picture img {
+            max-width: 100%;
+            height: auto;
+        }
+        .player-status {
+            margin-top: 100px;
+            padding: 10px;
+            z-index: 1119;
             border-radius: 5px;
-            animation: fadeIn 0.3s ease;
         }
 
+        .action_1, .action_2 {
+            margin: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+
+
+        }
+        .no-image {
+            padding: 20px;
+            background: #f0f0f0;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+       .consequence {
+            position: absolute;
+            top: 325px;
+            left: 200px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+            width: 140px;
+            color: black;
+
+            /* Стили для переноса текста */
+            overflow-wrap: break-word;    /* Перенос длинных слов */
+            word-wrap: break-word;       /* Для старых браузеров */
+            word-break: break-word;      /* Дополнительное правило */
+
+            white-space: normal;
+            min-width: 0;
+
+
+            /* Дополнительные свойства для улучшения отображения */
+            overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
+            padding: 10px;               /* Отступы внутри блока */
+            font-size: 16px;             /* Читаемый размер шрифта */
+            line-height: 1.5;            /* Межстрочный интервал */
+
+        }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -330,6 +367,12 @@
             </button>
         </div>
 
+<!-- Статус игрока -->
+<!--        <div class="player-status">-->
+<!--            <p>Здоровье: {{ player_status.status_HP|default:100 }}</p>-->
+<!--            <p>Деньги: {{ player_status.status_Money|default:50 }}</p>-->
+<!--            <p>Лояльность: {{ player_status.status_Loyalty|default:0 }}</p>-->
+<!--        </div>-->
 
         <div class="button-container-bag">
             <!-- Кнопки в виде изображений -->
@@ -346,29 +389,20 @@
         </div>
     </div>
 
-    {% if 'event_end' in request.path %}
-        <div class="event_url_start">
-            <a href="{% url 'random_event' %}">Жить дальше</a>
-        </div>
-    {% endif %}
-
-
-
-    <div class="event_picture">
-
-        <img src="{{ event.image_Event.url }}" alt="{{ event.image_Event }}">
-    </div>
 
     <div class="event_text">
 
         <p>{{ event.event_Text }}</p>
     </div>
 
-<!--    <div class="action_1">-->
 
-<!--        <p>{{ event.action_1 }}</p>-->
-<!--    </div>-->
-
+    <div class="event_picture">
+        {% if event.image_Event and event.image_Event.url %}
+            <img src="{{ event.image_Event.url }}" alt="{{ event.event_Text }}">
+        {% else %}
+            <div class="no-image">Нет изображения</div>
+        {% endif %}
+    </div>
 
 
     <div class="book-container">
@@ -391,90 +425,64 @@
             </button>
         </div>
 
-<!--        <div class="action_1">-->
-<!--            <a href="{% url 'event_part_2' event_id=event.id %}">-->
-<!--                {{ event.action_1 }}-->
-<!--            </a>-->
-<!--        </div>-->
 
-<!--        <div class="action_2">-->
-<!--            <a href="{% url 'event_part_2' event_id=event.id %}" onclick="this.parentElement.style.display='none'; return false;">-->
-<!--            {{ event.action_2 }}-->
-<!--            </a>-->
-<!--        </div>-->
-
-<!--        <div class="action_1">-->
-<!--            <a href="{% url 'event_part_2' event_id=event.id %}"-->
-<!--               onclick="document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); return false;">-->
-<!--                {{ event.action_1 }}-->
-<!--            </a>-->
-<!--        </div>-->
-
-<!--        <div class="action_2">-->
-<!--            <a href="{% url 'event_part_2' event_id=event.id %}"-->
-<!--               onclick="document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); return false;">-->
-<!--                {{ event.action_2 }}-->
-<!--            </a>-->
-<!--        </div>-->
-<!--            <div class="action_1">-->
-<!--                <a href="{% url 'event_part_2' event_id=event.id %}"-->
-<!--                   onclick="event.preventDefault(); document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); setTimeout(() => window.location.href = this.href, 100);">-->
-<!--                    {{ event.action_1 }}-->
-<!--                </a>-->
-<!--            </div>-->
-
-<!--            <div class="action_2">-->
-<!--                <a href="{% url 'event_part_2' event_id=event.id %}"-->
-<!--                   onclick="event.preventDefault(); document.querySelectorAll('.action_1, .action_2').forEach(el => el.style.display='none'); setTimeout(() => window.location.href = this.href, 100);">-->
-<!--                    {{ event.action_2 }}-->
-<!--                </a>-->
-<!--            </div>-->
-
-<div class="action_1">
-    <a href="{% url 'event_part_2' event_id=event.id %}" class="action-link">
-        {{ event.action_1 }}
-    </a>
+<div class="event_text">
+    <p>{{ event.event_Text }}</p>
 </div>
 
-<div class="action_2">
-    <a href="{% url 'event_part_2' event_id=event.id %}" class="action-link">
-        {{ event.action_2 }}
-    </a>
-</div>
+{% comment %} Блок с последствиями или действиями {% endcomment %}
+{% if consequence %}
+    <div class="consequence">
+        {{ consequence }}
+    </div>
+    <div class="event_url_start">
+        <a href="{% url 'random_event' %}" class="btn-continue">Жить дальше</a>
+    </div>
+{% else %}
+    <div class="action_1">
+        <a href="#" class="action-link" data-consequence="consequence_1" data-url="{% url 'event_part_2' event_id=event.id %}?action=1">
+            {{ event.action_1 }}
+        </a>
+    </div>
+    <div class="action_2">
+        <a href="#" class="action-link" data-consequence="consequence_2" data-url="{% url 'event_part_2' event_id=event.id %}?action=2">
+            {{ event.action_2 }}
+        </a>
+    </div>
+{% endif %}
+
+{% comment %} Блок статуса игрока {% endcomment %}
+<!--<div class="player-status">-->
+<!--    <p>Здоровье: {{ player_status.status_HP|default:100 }}</p>-->
+<!--    <p>Деньги: {{ player_status.status_Money|default:50 }}</p>-->
+<!--    <p>Лояльность: {{ player_status.status_Loyalty|default:0 }}</p>-->
+<!--</div>-->
 
 <script>
-// Проверка при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Checking storage...'); // Отладочное сообщение
+    const links = document.querySelectorAll('.action-link');
 
-    if (sessionStorage.getItem('hide_action_buttons')) {
-        console.log('Hiding buttons...');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetUrl = this.getAttribute('data-url');
 
-        document.querySelectorAll('.action_1, .action_2').forEach(el => {
-            el.style.display = 'none';
+            // Плавное скрытие кнопок
+            document.querySelectorAll('.action_1, .action_2').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.display = 'none';
+                }, 300);
+            });
+
+            // Переход через 1 секунду
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1000);
         });
-
-        sessionStorage.removeItem('hide_action_buttons');
-    }
-});
-
-// Обработчики кликов
-document.querySelectorAll('.action-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault(); // Важно: отменяем стандартное поведение
-
-        console.log('Button clicked, setting flag...');
-        sessionStorage.setItem('hide_action_buttons', 'true');
-
-        // Переход после небольшой задержки
-        setTimeout(() => {
-            window.location.href = this.href;
-        }, 100);
     });
 });
 </script>
-
-
 
 
 
