@@ -589,7 +589,14 @@ document.getElementById('useHerbsButton').addEventListener('click', function() {
 });
 
 
-
+if (window.location.pathname.includes('/play_next/')) {
+    fetch('/get_player_status/')
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('hp-display').textContent = data.hp;
+        document.getElementById('herbs-display').textContent = data.herbs;
+    });
+}
 
 
 
