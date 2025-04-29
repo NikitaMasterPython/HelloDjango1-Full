@@ -10,6 +10,7 @@ urlpatterns = [
     path('event_end/<int:event_id>/', views.event_part_2, name='event_part_2'),
     path('random_event/', views.random_event, name='random_event'),
     path('consequence/<int:event_id>/<int:action>/', views.get_consequence, name='get_consequence'),
+    path('use_herbs/', views.use_herbs, name='use_herbs'),
 
 
 

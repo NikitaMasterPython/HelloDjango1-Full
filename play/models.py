@@ -5,7 +5,10 @@ class status(models.Model):
     status_HP = models.IntegerField(default=100, null=True, blank=True)
     status_Money = models.IntegerField(default=50, null=True, blank=True)
     status_Loyalty = models.IntegerField(default=0, null=True, blank=True)
-    status_Herbs = models.IntegerField(default=0)  # Добавьте это поле, если нужно
+    status_Herbs = models.IntegerField(default=0)  # Важно: с большой H!
+
+    class Meta:
+        verbose_name_plural = "statuses"
 
     def __str__(self):
         return f"HP: {self.status_HP}, Money: {self.status_Money}, Loyalty: {self.status_Loyalty}"

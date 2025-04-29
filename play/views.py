@@ -69,7 +69,7 @@ def event_part_2(request, event_id):
         player_status.status_HP += event_obj.received_HP_2
         player_status.status_Money += event_obj.received_Money_2
         player_status.status_Loyalty += event_obj.received_Loyalty_2
-        player_status.status_Herbs += event_obj.received_Medicinal_herbs
+        player_status.status_Herbs += event_obj.received_Medicinal_Herbs
     else:
         return redirect('play_next', event_id=event_id)
 
@@ -112,6 +112,42 @@ def get_consequence(request, event_id, action):
             'error': 'Event not found'
         }, status=404)
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import status
 
 
+@csrf_exempt
+def use_herbs(request):
+    if request.method == 'POST':
+        try:
+            player_status = status.objects.get(pk=1)
 
+            if player_status.status_Herbs <= 0:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Недостаточно трав'
+                })
+
+            # Сохраняем старые значения для сравнения
+            old_hp = player_status.status_HP
+
+            # Обновляем значения
+            player_status.status_HP += 10
+            player_status.status_Herbs -= 1
+            player_status.save()
+
+            return JsonResponse({
+                'success': True,
+                'new_hp': player_status.status_HP,
+                'new_money': player_status.status_Money,
+                'new_loyalty': player_status.status_Loyalty,
+                'new_herbs': player_status.status_Herbs,
+                'hp_diff': player_status.status_HP - old_hp  # Разница HP для анимации
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            })
+    return JsonResponse({'success': False, 'error': 'Invalid request'})

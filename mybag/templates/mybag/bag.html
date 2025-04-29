@@ -389,11 +389,10 @@
 
 
 <div class="player-status">
-    <p>{{ player_status.status_HP }}</p>
-    <p>{{ player_status.status_Money }}</p>
-    <p>{{ player_status.status_Loyalty }}</p>
+    <p id="hp-display">{{ player_status.status_HP }}</p>
+    <p id="money-display">{{ player_status.status_Money }}</p>
+    <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
 </div>
-
 
 
 
@@ -416,11 +415,7 @@
 {% comment %} Блок статуса игрока {% endcomment %}
 
 
-<div class="player-status">
-    <p>{{ player_status.status_HP }}</p>
-    <p>{{ player_status.status_Money }}</p>
-    <p>{{ player_status.status_Loyalty }}</p>
-</div>
+
 
 
 <style>
@@ -445,15 +440,11 @@
 
 
 
-    <p class="button_inventary_herbs">{{ player_status.status_Herbs }}</p>
+<p class="button_inventary_herbs" id="herbs-display">{{ player_status.status_Herbs }}</p>
 <div>
 
 
-    <button class="button-imagee">
 
-        <img src="/static/image/panel/herbs.png" alt="Кнопка 1" class="button-imagee">
-
-    </button>
     <style>
          .button_inventary_herbs {
             cursor: pointer;
@@ -523,9 +514,88 @@
                 transform: translateY(0);
             }
         }
+        .hp-increased {
+            animation: hpPulse 0.5s 2;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @keyframes hpPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 
+
+
 </div>
+
+<button class="button-imagee" id="useHerbsButton">
+    <img src="/static/image/panel/herbs.png" alt="Лечебные травы" class="button-imagee">
+</button>
+
+<!-- Элементы для отображения статуса -->
+<p id="hpDisplay">{{ player_status.status_HP }}</p>
+
+
+<script>
+document.getElementById('useHerbsButton').addEventListener('click', function() {
+    fetch('/use_herbs/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Обновляем все показатели на странице
+            document.getElementById('hp-display').textContent = data.new_hp;
+            document.getElementById('herbs-display').textContent = data.new_herbs;
+
+            // Добавляем визуальный эффект
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Произошла ошибка при обновлении данных');
+    });
+});
+
+
+
+
+
+
+
+</script>
+
 
 
 </body>
