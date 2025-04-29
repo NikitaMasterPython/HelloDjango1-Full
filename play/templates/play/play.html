@@ -59,6 +59,8 @@
             vertical-align: top;
             padding-left: 10px;
             padding-right: 10px;
+            position: relative;
+            z-index: 10; /* Чтобы поднять над другими элементами */
 
 
         }
@@ -285,17 +287,9 @@
             max-width: 100%;
             height: auto;
         }
-        .player-status {
-            margin-top: 100px;
-            padding: 10px;
-            z-index: 1119;
-            border-radius: 5px;
-        }
 
-        .action_1, .action_2 {
-            margin: 10px 0;
-            transition: opacity 0.3s ease;
-        }
+
+
 
 
         }
@@ -314,27 +308,27 @@
             z-index: 100;
             width: 125px;
             color: black;
+            line-height: 2px;
 
             /* Стили для переноса текста */
             overflow-wrap: break-word;    /* Перенос длинных слов */
             word-wrap: break-word;       /* Для старых браузеров */
             word-break: break-word;      /* Дополнительное правило */
 
-            white-space: normal;
-            min-width: 0;
+
 
 
             /* Дополнительные свойства для улучшения отображения */
             overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
             padding: 10px;               /* Отступы внутри блока */
             font-size: 16px;             /* Читаемый размер шрифта */
-            line-height: 1.5;            /* Межстрочный интервал */
+            line-height: 1;            /* Межстрочный интервал */
 
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
 
 
 
@@ -367,16 +361,11 @@
             </button>
         </div>
 
-<!-- Статус игрока -->
-<!--        <div class="player-status">-->
-<!--            <p>Здоровье: {{ player_status.status_HP|default:100 }}</p>-->
-<!--            <p>Деньги: {{ player_status.status_Money|default:50 }}</p>-->
-<!--            <p>Лояльность: {{ player_status.status_Loyalty|default:0 }}</p>-->
-<!--        </div>-->
+
 
         <div class="button-container-bag">
             <!-- Кнопки в виде изображений -->
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'mybag' %}'">
                 <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
@@ -390,10 +379,6 @@
     </div>
 
 
-<!--    <div class="event_text">-->
-
-<!--        <p>{{ event.event_Text }}</p>-->
-<!--    </div>-->
 
 
     <div class="event_picture">
@@ -430,7 +415,7 @@
 
 
 
-{% if show_event_text != False %}
+{% if show_event_text %}
 <div class="event_text">
     <p>{{ event.event_Text }}</p>
 </div>
@@ -458,11 +443,33 @@
 {% endif %}
 
 {% comment %} Блок статуса игрока {% endcomment %}
-<!--<div class="player-status">-->
-<!--    <p>Здоровье: {{ player_status.status_HP|default:100 }}</p>-->
-<!--    <p>Деньги: {{ player_status.status_Money|default:50 }}</p>-->
-<!--    <p>Лояльность: {{ player_status.status_Loyalty|default:0 }}</p>-->
-<!--</div>-->
+
+
+<div class="player-status">
+    <p>{{ player_status.status_HP }}</p>
+    <p>{{ player_status.status_Money }}</p>
+    <p>{{ player_status.status_Loyalty }}</p>
+</div>
+
+
+<style>
+    .player-status {
+            position: absolute;
+            left: 55px;
+            top: 5px;
+            width: 30px;
+            padding: 1px;
+
+            border-radius: 1px;
+
+            font-size: 24px;
+            line-height: 0.3;
+            z-index: 150;
+            color: black; /* Явно задаем цвет текста */
+            font-family: Impact, fantasy;
+
+        }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -485,6 +492,30 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 1000);
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('.action-link');
+
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetUrl = this.getAttribute('data-url');
+
+            // Плавное скрытие элементов
+            document.querySelectorAll('.action_1, .action_2').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.display = 'none';
+                }, 300);
+            });
+
+            // Переход по ссылке
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
         });
     });
 });

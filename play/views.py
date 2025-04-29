@@ -33,25 +33,55 @@ def play_next(request, event_id):
     return render(request, 'play/play.html', {
         'event': event_obj,
         'player_status': player_status,
-        'consequence': None
-    })
+        'consequence': None,
+        'show_event_text': True
 
+    })
+def get_player_status():
+    """Получаем или создаем статус игрока с значениями по умолчанию"""
+    status_obj, created = status.objects.get_or_create(
+        pk=1,
+        defaults={
+            'status_HP': 100,
+            'status_Money': 50,
+            'status_Loyalty': 0,
+            'status_Herbs': 0
+
+        }
+    )
+    return status_obj
 
 def event_part_2(request, event_id):
     event_obj = get_object_or_404(event, id=event_id)
+    player_status = get_player_status()
     action = request.GET.get('action')
 
     if action == '1':
         consequence = event_obj.consequence_1
+        # Обновляем статус при выборе действия 1
+        player_status.status_HP += event_obj.received_HP
+        player_status.status_Money += event_obj.received_Money
+        player_status.status_Loyalty += event_obj.received_Loyalty
+        player_status.status_Herbs += event_obj.received_Medicinal_herbs
     elif action == '2':
         consequence = event_obj.consequence_2
+        # Обновляем статус при выборе действия 2
+        player_status.status_HP += event_obj.received_HP_2
+        player_status.status_Money += event_obj.received_Money_2
+        player_status.status_Loyalty += event_obj.received_Loyalty_2
+        player_status.status_Herbs += event_obj.received_Medicinal_herbs
     else:
         return redirect('play_next', event_id=event_id)
 
+    # Сохраняем изменения статуса
+    player_status.save()
+
     return render(request, 'play/play.html', {
         'event': event_obj,
+        'player_status': player_status,
         'consequence': consequence,
-        'show_event_text': False  # Добавляем флаг
+        'show_actions': False,
+        'show_event_text': False  # Добавьте эту строку
     })
 
 
@@ -81,5 +111,7 @@ def get_consequence(request, event_id, action):
             'success': False,
             'error': 'Event not found'
         }, status=404)
+
+
 
 

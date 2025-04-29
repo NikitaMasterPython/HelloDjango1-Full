@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симулятор крестьянина</title>
+
+<!--    <link rel="stylesheet" href="static/styles/style.css">-->
+    <style>
+
+
+        .znachenie_hp {
+            position: absolute;
+            padding-left: 50px;
+            padding-top: 15px;
+            color: black;
+            font-weight: 900;
+            font-size: 25px;
+            margin: 1px;
+
+        }
+        .button-image {
+            font-size: 1rem;
+            width: 7em; /* Задайте желаемую ширину изображения */
+            height: 7em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+
+        }
+
+
+
+        .book-image {
+            font-size: 1rem;
+            width: 23em; /* Задайте желаемую ширину изображения */
+            height: 23em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            padding-left: 1px;
+
+        }
+        .button-container-hp {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 10px;
+            padding-top: 1px;
+
+
+        }
+        .button-container-bag {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 10px;
+            padding-right: 10px;
+
+
+        }
+        .button-container-market {
+            margin-top: 30px;
+            display: table-cell;
+            flex-direction: cow;
+            margin: 30px;
+
+
+
+
+
+        }
+        .normal-button {
+            margin-top: 10px; /* Отступ для обычных кнопок */
+            padding: 10px 20px;
+            font-size: 16px;
+
+        }
+
+        .button-image:hover {
+            background: #45a049; /* Темно-зеленый при наведении */
+            background: transparent;
+        }
+
+        .high-panel {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-top: 1px;
+        }
+        .book-container {
+
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-left: 7px;
+
+        }
+
+        body {
+            background-image: url('/static/image/fons/village_summer.png');
+            background-repeat: no-repeat;
+            color: white;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 900px;
+            width: 400px;
+            margin-top: 1px;
+            margin-left: 1px;
+            border-top: 1px;
+            border-width: 1px;
+        }
+
+        .choise-coutainer {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+        .button-choise-coutainer1 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 1px;
+            padding-right: 10px;
+        }
+
+        .button-choise-coutainer2 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 55px;
+            padding-right: 1px;
+        }
+
+        .button-image-choise1 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 1px;
+            }
+
+        .button-image-choise2 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 7px;
+            }
+
+        .event_picture {
+            width: 660px; /* Задайте желаемую ширину изображения */
+            height: 295px; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+
+            display: flex;
+            padding-top: 44px;
+            position: absolute;
+            padding-left: 43px;
+
+        }
+
+        .event_text {
+            /* Размеры и отступы */
+            width: 140px;
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 15px 15px 15px 210px;
+            padding-top: 155px;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+            hyphens: auto;            /* Автоматические дефисы (если поддерживается) */
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: black;
+
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
+
+        .action_1 {
+            left: 205px;       /* Заменяем padding-left на left */
+            width: 130px;
+            padding: 15px;
+            position: absolute;
+            top: 505px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+<!--            overflow-wrap: anywhere;-->
+<!--            hyphens: auto;-->
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+
+
+
+        }
+
+        .action_2 {
+            left: 20px;        /* Заменяем padding-left на left */
+            width: 140px;
+            padding: 15px;
+            position: absolute;
+            top: 505px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+            overflow-wrap: anywhere;
+            hyphens: auto;
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+
+        }
+
+
+        .event_url_start {
+            position: absolute;
+            top: 458px;
+            left: 225px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+
+
+
+
+
+        .event_url_start a,
+        .action_2 a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        .event_picture img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+
+
+
+        }
+        .no-image {
+            padding: 20px;
+            background: #f0f0f0;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+       .consequence {
+            position: absolute;
+            top: 155px;
+            left: 200px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+            width: 125px;
+            color: black;
+            line-height: 2px;
+
+            /* Стили для переноса текста */
+            overflow-wrap: break-word;    /* Перенос длинных слов */
+            word-wrap: break-word;       /* Для старых браузеров */
+            word-break: break-word;      /* Дополнительное правило */
+
+
+
+
+            /* Дополнительные свойства для улучшения отображения */
+            overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
+            padding: 10px;               /* Отступы внутри блока */
+            font-size: 16px;             /* Читаемый размер шрифта */
+            line-height: 1;            /* Межстрочный интервал */
+
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+
+</head>
+<body>
+
+
+
+    <div class="high-panel">
+
+        <div class="button-container-hp">
+            <!-- Кнопки в виде изображений -->
+            <p class= "znachenie_hp">
+                {{ Hit_points }}
+            </p>
+            <button class="button-image">
+                <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+
+
+
+        <div class="button-container-bag">
+            <!-- Кнопки в виде изображений -->
+            <button class="button-image" onclick="window.history.back();">
+                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+<!--        <div class="button-container-bag">-->
+
+<!--            <button class="button-image" onclick="window.location.href='{% url 'index' %}'">-->
+<!--                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">-->
+<!--            </button>-->
+<!--        </div>-->
+
+
+        <div class="button-container-market">
+            <button class="button-image">
+                <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
+            </button>
+        </div>
+    </div>
+
+
+
+<div class="player-status">
+    <p>{{ player_status.status_HP }}</p>
+    <p>{{ player_status.status_Money }}</p>
+    <p>{{ player_status.status_Loyalty }}</p>
+</div>
+
+
+
+
+
+
+<div class="book-container">
+
+    <img src="/static/image/panel/inventary_norm.png" alt="Кнопка 2" class="book-image">
+
+</div>
+
+
+
+
+
+
+
+
+
+{% comment %} Блок статуса игрока {% endcomment %}
+
+
+<div class="player-status">
+    <p>{{ player_status.status_HP }}</p>
+    <p>{{ player_status.status_Money }}</p>
+    <p>{{ player_status.status_Loyalty }}</p>
+</div>
+
+
+<style>
+    .player-status {
+            position: absolute;
+            left: 55px;
+            top: 5px;
+            width: 30px;
+            padding: 1px;
+
+            border-radius: 1px;
+
+            font-size: 24px;
+            line-height: 0.3;
+            z-index: 150;
+            color: black; /* Явно задаем цвет текста */
+            font-family: Impact, fantasy;
+
+        }
+</style>
+
+
+
+
+    <p class="button_inventary_herbs">{{ player_status.status_Herbs }}</p>
+<div>
+
+
+    <button class="button-imagee">
+
+        <img src="/static/image/panel/herbs.png" alt="Кнопка 1" class="button-imagee">
+
+    </button>
+    <style>
+         .button_inventary_herbs {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 83px;
+            top: 200px;
+            z-index: 200;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
+
+    </style>
+
+
+    <style>
+
+        .button-imagee {
+            /* Стили самой кнопки */
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0; /* Убираем внутренние отступы */
+            position: absolute;
+            left: 24px;
+            top: 84px;
+            z-index: 101;
+            display: inline-block; /* Для правильного позиционирования */
+            /* При наведении */
+            &:hover {
+
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            /* При нажатии */
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        .button-imagee img {
+            /* Стили изображения внутри кнопки */
+            width: 50px;  /* Желаемая ширина */
+            height: 50px; /* Желаемая высота */
+            object-fit: contain; /* Сохраняет пропорции */
+            display: block; /* Убирает лишние отступы */
+            /* При наведении */
+            &:hover {
+
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            /* При нажатии */
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</div>
+
+
+</body>
+</html>
+

@@ -11,4 +11,6 @@ urlpatterns = [
     path('random_event/', views.random_event, name='random_event'),
     path('consequence/<int:event_id>/<int:action>/', views.get_consequence, name='get_consequence'),
 
+
+
 ]
