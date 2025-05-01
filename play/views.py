@@ -151,3 +151,12 @@ def use_herbs(request):
                 'error': str(e)
             })
     return JsonResponse({'success': False, 'error': 'Invalid request'})
+
+
+
+def mybag(request):
+    player_status = get_player_status()  # Используем вашу существующую функцию
+    return render(request, 'mybag.html', {
+        'player_status': player_status,
+        'Hit_points': player_status.status_HP  # Дублируем для совместимости
+    })
