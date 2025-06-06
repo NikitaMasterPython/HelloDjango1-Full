@@ -69,7 +69,7 @@ def event_part_2(request, event_id):
         player_status.status_HP += event_obj.received_HP_2
         player_status.status_Money += event_obj.received_Money_2
         player_status.status_Loyalty += event_obj.received_Loyalty_2
-        player_status.status_Herbs += event_obj.received_Medicinal_Herbs
+        player_status.status_Herbs += event_obj.received_Medicinal_herbs
     else:
         return redirect('play_next', event_id=event_id)
 
@@ -152,11 +152,3 @@ def use_herbs(request):
             })
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
-
-
-def mybag(request):
-    player_status = get_player_status()  # Используем вашу существующую функцию
-    return render(request, 'mybag.html', {
-        'player_status': player_status,
-        'Hit_points': player_status.status_HP  # Дублируем для совместимости
-    })

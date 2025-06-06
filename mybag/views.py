@@ -17,3 +17,4 @@ def mybag(request):
     return render(request, 'mybag/bag.html', {
         'player_status': player_status
     })
+

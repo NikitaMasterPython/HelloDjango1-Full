@@ -364,12 +364,27 @@
 
 
 
-        <div class="button-container-bag">
-            <!-- Кнопки в виде изображений -->
-            <button class="button-image" onclick="window.history.back();">
-                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">
-            </button>
-        </div>
+<div class="button-container-bag">
+    <button class="button-image" onclick="goBackAndRefresh()">
+        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">
+    </button>
+</div>
+
+<script>
+function goBackAndRefresh() {
+    // 1. Получаем URL предыдущей страницы
+    const previousUrl = document.referrer;
+
+    // 2. Если есть предыдущая страница (не пустой реферер)
+    if (previousUrl && previousUrl !== window.location.href) {
+        // 3. Переходим на предыдущую страницу с параметром для обхода кеша
+        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();
+    } else {
+        // 4. Если нет истории (например, открыли в новой вкладке)
+        window.location.href = '/'; // Перенаправляем на главную
+    }
+}
+</script>
 
 <!--        <div class="button-container-bag">-->
 
