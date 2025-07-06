@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'main',
     'play',
     'mybag',
+    'play_restart',
 ]
 
 MIDDLEWARE = [

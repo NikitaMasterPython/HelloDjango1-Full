@@ -26,7 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('', include('play.urls')),
+    path('', include('play_restart.urls')),
     path('', include('mybag.urls')),
+
 
     # path('event/<int:event_id>/', views.play_next, name='play_next'),
 
