@@ -1,20 +1,94 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
-# Create your models here.
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
+from dateutil.relativedelta import relativedelta  # для работы с месяцами
 
+
+def validate_max_hp_100(status_HP):
+    if status_HP > 100:
+        raise ValidationError("Значение здоровья не может превышать 100")
+
+def validate_max_Loyalty_100(status_Loyalty):
+    if status_Loyalty > 100:
+        raise ValidationError("Значение Лояльности не может превышать 100")
 
 class status(models.Model):
-    status_HP = models.IntegerField(default=100, null=True, blank=True)
+    status_HP = models.IntegerField(
+        default=100,
+        validators=[validate_max_hp_100],  # Добавленный валидатор
+        null=True,
+        blank=True
+    )
+
+    def save(self, *args, **kwargs):
+        # Проверка и коррекция здоровья
+        if self.status_HP is not None and self.status_HP > 100:
+            self.status_HP = 100
+
+        # Проверка и коррекция лояльности
+        if self.status_Loyalty is not None and self.status_Loyalty > 100:
+            self.status_Loyalty = 100
+
+        super().save(*args, **kwargs)
+
     status_Money = models.IntegerField(default=50, null=True, blank=True)
-    status_Loyalty = models.IntegerField(default=0, null=True, blank=True)
-    status_Herbs = models.IntegerField(default=0)  # Важно: с большой H!
+
+    status_Loyalty = models.IntegerField(
+        default=0,
+        validators=[validate_max_Loyalty_100],  # Добавленный валидатор
+        null=True,
+        blank=True
+    )
+
+
+
+    status_Herbs = models.IntegerField(default=0)
+    status_Samogon = models.IntegerField(default=0)
+    status_Poison = models.IntegerField(default=0)
+    status_Fish = models.IntegerField(default=0)
+    status_Jewelry = models.IntegerField(default=0)
+
+
+    def reset(self):
+        """Сбрасывает все параметры к значениям по умолчанию"""
+        self.status_HP = 100
+        self.status_Money = 10
+        self.status_Loyalty = 0
+        self.status_Herbs = 1
+        self.status_Poison = 1
+        self.status_Samogon = 1
+        self.status_Fish = 1
+        self.status_Jewelry = 1
+        self.save()
+        return self
+
+    @classmethod
+    def get_default_status(cls):
+        """Получает или создает статус с параметрами по умолчанию"""
+        obj, created = cls.objects.get_or_create(pk=1)
+        if created:
+            obj.reset()
+        return obj
+
+
 
     class Meta:
         verbose_name_plural = "statuses"
 
     def __str__(self):
         return f"HP: {self.status_HP}, Money: {self.status_Money}, Loyalty: {self.status_Loyalty}"
+
+
+
+
+
+
+
+
+
 
 class event(models.Model):
     event_Season = models.CharField(default = "summer", max_length=500, verbose_name='Время года')
@@ -29,6 +103,11 @@ class event(models.Model):
 
 
     received_Medicinal_herbs = models.IntegerField(default = 0, verbose_name = 'Лечебные травы')
+    received_Samogon = models.IntegerField(default=0, verbose_name='Самогон')
+    received_Poison = models.IntegerField(default=0, verbose_name='Яд')
+    received_Fish = models.IntegerField(default=0, verbose_name='Рыба')
+    received_Jewelry = models.IntegerField(default=0, verbose_name='Драгоценности')
+
 
     action_2 = models.CharField(max_length=500, verbose_name = 'Действие 2')
     consequence_2 = models.CharField(max_length=500, verbose_name = 'Последствие 2')
@@ -36,6 +115,47 @@ class event(models.Model):
     received_Money_2 = models.IntegerField(default = 0, verbose_name = 'Изменение монет 2')
     received_Loyalty_2 = models.IntegerField(default = 0, verbose_name = 'Изменение лояльности 2')
 
+    received_Medicinal_herbs_2 = models.IntegerField(default = 0, verbose_name = 'Лечебные травы')
+    received_Samogon_2 = models.IntegerField(default=0, verbose_name='Самогон')
+    received_Poison_2 = models.IntegerField(default=0, verbose_name='Яд')
+    received_Fish_2 = models.IntegerField(default=0, verbose_name='Рыба')
+    received_Jewelry_2 = models.IntegerField(default=0, verbose_name='Драгоценности')
+
     def __str__(self):
         return self.event_Text  # Это будет отображаться в админке вместо "event object (1)"
+
+
+class UserDate(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='play_restart_game_date'
+    )
+    current_date = models.DateField(default=date(1701, 4, 1))
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def next_month(self):
+        """Переход на следующий месяц"""
+        self.current_date += relativedelta(months=1)
+        self.save()
+        return self.current_date
+
+    def reset_date(self):
+        """Сброс даты к начальной"""
+        self.current_date = date(1701, 4, 1)
+        self.save()
+
+    def get_season(self):
+        """Определение текущего сезона"""
+        month = self.current_date.month
+        if month in [10, 11, 12, 1, 2, 3]:
+            return 'winter'
+        elif month in [4, 5, 6,  7, 8, 9]:
+            return 'summer'
+
+    def __str__(self):
+        return f"{self.user.username} - {self.current_date}"
+
+
+
 

@@ -28,7 +28,11 @@ SECRET_KEY = 'django-insecure-skbc+6$mt2(v18#02jvl=_yy03xpx7(1v3+*0%bd0h8tb1dqs#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.0.103',  # Ваш текущий локальный IP
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
     'play',
     'mybag',
     'play_restart',
+    'death',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'play.context_processors.user_date',
             ],
         },
     },

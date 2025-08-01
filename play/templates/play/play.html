@@ -106,16 +106,15 @@
         body {
             background-image: url('/static/image/fons/village_summer.png');
             background-repeat: no-repeat;
+            background-size: cover;  /* Растягивает фон на весь экран */
+            background-position: center;  /* Центрирует изображение */
             color: white;
             font-family: Arial, sans-serif;
-            justify-content: center;
-            align-items: center;
-            height: 900px;
-            width: 400px;
-            margin-top: 1px;
-            margin-left: 1px;
-            border-top: 1px;
-            border-width: 1px;
+            margin: 0;  /* Убирает отступы по умолчанию */
+            padding: 0;
+            min-height: 100vh;  /* Занимает всю высоту экрана */
+            width: 100%;  /* Занимает всю ширину */
+            overflow-x: hidden;  /* Блокирует горизонтальный скролл */
         }
 
         .choise-coutainer {
@@ -172,7 +171,7 @@
             }
 
         .event_picture {
-            width: 660px; /* Задайте желаемую ширину изображения */
+            width: 360px; /* Задайте желаемую ширину изображения */
             height: 295px; /* Задайте желаемую высоту изображения */
             border: none;
             cursor: pointer;
@@ -371,6 +370,9 @@
         </div>
 
 
+
+
+
         <div class="button-container-market">
             <button class="button-image">
                 <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
@@ -442,6 +444,10 @@
     </div>
 {% endif %}
 
+
+
+
+
 {% comment %} Блок статуса игрока {% endcomment %}
 
 
@@ -451,6 +457,9 @@
     <p>{{ player_status.status_Loyalty }}</p>
 </div>
 
+<div class="date-display">
+    Текущая дата: {{ user_date.current_date|date:"F Y" }}
+</div>
 
 <style>
     .player-status {
@@ -473,54 +482,174 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const links = document.querySelectorAll('.action-link');
+    // Инициализация элементов
+    const actionButtons = document.querySelectorAll('.action-link');
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'choice-message';
+    document.body.appendChild(messageContainer);
 
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetUrl = this.getAttribute('data-url');
+    // Определяем ID текущего события из URL
+    const getCurrentEventId = () => {
+        const pathParts = window.location.pathname.split('/');
+        return pathParts[pathParts.length - 2]; // Предполагаем формат /play/event_id/
+    };
 
-            // Плавное скрытие кнопок
-            document.querySelectorAll('.action_1, .action_2').forEach(el => {
-                el.style.opacity = '0';
-                setTimeout(() => {
-                    el.style.display = 'none';
-                }, 300);
-            });
+    const currentEventId = getCurrentEventId();
+    const lastProcessedEvent = sessionStorage.getItem('lastProcessedEvent');
 
-            // Переход через 1 секунду
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 1000);
+    // Сбрасываем состояние, если это новое событие
+    if (!lastProcessedEvent || lastProcessedEvent !== currentEventId) {
+        sessionStorage.removeItem('choiceMade');
+    }
+
+    // Восстанавливаем состояние кнопок
+    const choiceMade = sessionStorage.getItem('choiceMade') === 'true';
+    if (choiceMade) {
+        actionButtons.forEach(btn => {
+            btn.style.opacity = '0.5';
+            btn.style.pointerEvents = 'none';
         });
+    }
+
+    // Блокировка истории
+    history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function() {
+        if (choiceMade) {
+            showMessage("Изменение выбора невозможно!");
+            history.pushState(null, null, window.location.href);
+        }
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    const links = document.querySelectorAll('.action-link');
-
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
+    // Обработчик для кнопок выбора
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetUrl = this.getAttribute('data-url');
 
-            // Плавное скрытие элементов
-            document.querySelectorAll('.action_1, .action_2').forEach(el => {
-                el.style.opacity = '0';
-                setTimeout(() => {
-                    el.style.display = 'none';
-                }, 300);
+            if (sessionStorage.getItem('choiceMade') === 'true') {
+                showMessage("Вы уже сделали выбор!");
+                return;
+            }
+
+            // Сохраняем состояние
+            sessionStorage.setItem('choiceMade', 'true');
+            sessionStorage.setItem('lastProcessedEvent', currentEventId);
+
+            // Визуальные эффекты
+            this.classList.add('selected');
+            actionButtons.forEach(btn => {
+                btn.style.transition = 'opacity 0.3s ease';
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
             });
 
-            // Переход по ссылке
+            // Переход с задержкой
             setTimeout(() => {
-                window.location.href = targetUrl;
+                window.location.href = this.getAttribute('data-url');
             }, 500);
         });
     });
+
+    function showMessage(text) {
+        messageContainer.textContent = text;
+        messageContainer.style.display = 'block';
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 2000);
+    }
 });
 </script>
 
+<style>
+.choice-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.action-link {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-link.selected {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.action-link.processed {
+    opacity: 0.5;
+    pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('/event_end/')) {
+        const bagButtonContainer = document.querySelector('.button-container-bag');
+        const bagButton = bagButtonContainer.querySelector('.button-image');
+
+        if (bagButton) {
+            // 1. Сохраняем оригинальные стили и содержимое
+            const originalHTML = bagButton.innerHTML;
+            const originalStyles = window.getComputedStyle(bagButton);
+
+            // 2. Блокируем функционал
+            bagButton.onclick = null;
+            bagButton.style.cursor = 'not-allowed';
+
+            // 3. Создаем заблокированную версию с тем же HTML
+            bagButton.innerHTML = `
+                <div style="
+                    width: ${originalStyles.width};
+                    height: ${originalStyles.height};
+                    position: relative;
+                    display: inline-block;
+                ">
+                    <img src="/static/image/panel/bag_disabled.png"
+                         alt="Сумка недоступна"
+                         style="
+                            width: 103%;
+                            height: 103%;
+                            object-fit: contain;
+                            filter: grayscale(100%) brightness(0.7);
+                         ">
+                    <span class="bag-tooltip" style="
+                        position: absolute;
+                        bottom: -20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(0,0,0,0.8);
+                        color: white;
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        white-space: nowrap;
+                        visibility: hidden;
+                        width: max-content;
+                    ">В настоящее время недоступно</span>
+                </div>
+            `;
+
+            // 4. Добавляем обработчик для подсказки
+            const newImg = bagButton.querySelector('img');
+            newImg.addEventListener('mouseenter', function() {
+                bagButton.querySelector('.bag-tooltip').style.visibility = 'visible';
+            });
+            newImg.addEventListener('mouseleave', function() {
+                bagButton.querySelector('.bag-tooltip').style.visibility = 'hidden';
+            });
+        }
+    }
+});
+</script>
 
 
 </body>

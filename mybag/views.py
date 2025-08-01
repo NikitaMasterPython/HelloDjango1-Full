@@ -18,3 +18,5 @@ def mybag(request):
         'player_status': player_status
     })
 
+
+

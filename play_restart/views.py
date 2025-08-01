@@ -1,19 +1,23 @@
 from django.shortcuts import redirect
-from .models import status  # Импортируем вашу модель
+
+from .models import status
+from .models import UserDate
+
 
 
 def play_restart(request):
-    # Получаем или создаём запись статуса (если её нет)
-    game_status, created = status.objects.get_or_create(pk=1)
 
-    # Сбрасываем параметры к значениям по умолчанию
-    game_status.status_HP = 100
-    game_status.status_Money = 50
-    game_status.status_Loyalty = 0
-    game_status.status_Herbs = 0
+    # user_date, created = UserDate.objects.get_or_create(user=request.user)
+    # user_date.reset_date()
+    #
+    # """Полностью сбрасывает игру"""
+    # # Получаем или создаем статус
+    # player_status = status.get_default_status()
+    #
+    # # Принудительно сбрасываем параметры
+    # player_status.reset()
 
-    # Сохраняем изменения
-    game_status.save()
 
-    # Перенаправляем пользователя на страницу игры
-    return redirect('play_restart/')  # Замените 'play' на имя вашего URL для игры
+    # Перенаправляем на страницу игры с параметром сброса
+    return redirect(f'/play?reset=true')
+

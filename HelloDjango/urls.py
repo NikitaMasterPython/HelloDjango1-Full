@@ -26,8 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('', include('play.urls')),
-    path('', include('play_restart.urls')),
+    path('play_restart/', include('play_restart.urls')),  # Уберите лишний префикс
     path('', include('mybag.urls')),
+    path('death/', include('death.urls')),  # Без указания namespace
 
 
     # path('event/<int:event_id>/', views.play_next, name='play_next'),

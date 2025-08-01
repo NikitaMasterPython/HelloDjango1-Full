@@ -106,16 +106,15 @@
         body {
             background-image: url('/static/image/fons/village_summer.png');
             background-repeat: no-repeat;
+            background-size: cover;  /* Растягивает фон на весь экран */
+            background-position: center;  /* Центрирует изображение */
             color: white;
             font-family: Arial, sans-serif;
-            justify-content: center;
-            align-items: center;
-            height: 900px;
-            width: 400px;
-            margin-top: 1px;
-            margin-left: 1px;
-            border-top: 1px;
-            border-width: 1px;
+            margin: 0;  /* Убирает отступы по умолчанию */
+            padding: 0;
+            min-height: 100vh;  /* Занимает всю высоту экрана */
+            width: 100%;  /* Занимает всю ширину */
+            overflow-x: hidden;  /* Блокирует горизонтальный скролл */
         }
 
         .choise-coutainer {
@@ -456,6 +455,11 @@ function goBackAndRefresh() {
 
 
 <p class="button_inventary_herbs" id="herbs-display">{{ player_status.status_Herbs }}</p>
+<p class="button_inventary_Samogon" id="Samogon-display">{{ player_status.status_Samogon }}</p>
+<p class="button_inventary_Poison" id="Poison-display">{{ player_status.status_Poison }}</p>
+<p class="button_inventary_Fish" id="Fish-display">{{ player_status.status_Fish }}</p>
+<p class="button_inventary_Jewelry" id="Jewelry-display">{{ player_status.status_Jewelry }}</p>
+
 <div>
 
 
@@ -482,53 +486,286 @@ function goBackAndRefresh() {
             border-radius: 4px;
         }
 
+        .button_inventary_Samogon {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 141px;
+            top: 200px;
+            z-index: 200;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
+
+        .button_inventary_Poison {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 200px;
+            top: 200px;
+            z-index: 1500;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
+
+
+
+         .button_inventary_Fish {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 258px;
+            top: 200px;
+            z-index: 1500;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
+
+        .button_inventary_Jewelry {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 317px;
+            top: 200px;
+            z-index: 1500;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
     </style>
 
 
     <style>
 
-        .button-imagee {
-            /* Стили самой кнопки */
+        .button-imagee,
+        .button-imagee_Samogon {
             border: none;
-            background: transparent;
+            background: transparent; /* Прозрачность */
             cursor: pointer;
-            padding: 0; /* Убираем внутренние отступы */
+            padding: 0;
             position: absolute;
+            z-index: 101;
+            display: inline-block;
+        }
+
+        /* Стили для кнопки с травами */
+        .button-imagee {
             left: 24px;
             top: 84px;
-            z-index: 101;
-            display: inline-block; /* Для правильного позиционирования */
-            /* При наведении */
-            &:hover {
-
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            }
-
-            /* При нажатии */
-            &:active {
-                transform: translateY(0);
-            }
         }
 
-        .button-imagee img {
-            /* Стили изображения внутри кнопки */
-            width: 50px;  /* Желаемая ширина */
-            height: 50px; /* Желаемая высота */
-            object-fit: contain; /* Сохраняет пропорции */
-            display: block; /* Убирает лишние отступы */
-            /* При наведении */
-            &:hover {
-
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            }
-
-            /* При нажатии */
-            &:active {
-                transform: translateY(0);
-            }
+        /* Стили для кнопки с самогоном */
+        .button-imagee_Samogon {
+            left: 54px;
+            top: 84px;
         }
+
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_Samogon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-imagee:active,
+        .button-imagee_Samogon:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для изображений внутри кнопок */
+        .button-imagee img,
+        .button-imagee_Samogon img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .button-imagee_Poison{
+            border: none;
+            background: transparent; /* Прозрачность */
+            cursor: pointer;
+            padding: 0;
+            position: absolute;
+            z-index: 1001;
+            display: inline-block;
+        }
+
+        /* Стили для кнопки с травами */
+        .button-imagee {
+            left: 24px;
+            top: 84px;
+        }
+
+        /* Стили для кнопки с ядом ух, заебало конечно */
+        .button-imagee_Poison {
+            left: 83px;
+            top: 84px;
+        }
+
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_Poison:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-imagee:active,
+        .button-imagee_Poison:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для изображений внутри кнопок */
+        .button-imagee img,
+        .button-imagee_Poison img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .button-imagee_Fish{
+            border: none;
+            background: transparent; /* Прозрачность */
+            cursor: pointer;
+            padding: 0;
+            position: absolute;
+            z-index: 1001;
+            display: inline-block;
+        }
+
+        /* Стили для кнопки с травами */
+        .button-imagee {
+            left: 24px;
+            top: 84px;
+        }
+
+        /* Стили для кнопки с fish ух, заебало конечно */
+        .button-imagee_Fish{
+            left: 110px;
+            top: 84px;
+        }
+
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_Fish:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-imagee:active,
+        .button-imagee_Fish:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для изображений внутри кнопок */
+
+        .button-imagee_Fish img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            display: block;
+        }
+
+
+        .button-imagee_Jewelry{
+            border: none;
+            background: transparent; /* Прозрачность */
+            cursor: pointer;
+            padding: 0;
+            position: absolute;
+            z-index: 1001;
+            display: inline-block;
+        }
+
+        /* Стили для кнопки */
+        .button-imagee {
+            left: 24px;
+            top: 84px;
+        }
+
+        /* Стили для кнопки ух, заебало конечно */
+        .button-imagee_Jewelry{
+            left: 141px;
+            top: 83px;
+        }
+
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_Jewelry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-imagee:active,
+        .button-imagee_Jewelry:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для изображений внутри кнопок */
+
+        .button-imagee_Jewelry img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            display: block;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         .hp-increased {
             animation: hpPulse 0.5s 2;
             color: #27ae60;
@@ -564,32 +801,52 @@ function goBackAndRefresh() {
     <img src="/static/image/panel/herbs.png" alt="Лечебные травы" class="button-imagee">
 </button>
 
-<!-- Элементы для отображения статуса -->
-<p id="hpDisplay">{{ player_status.status_HP }}</p>
+<button class="button-imagee_Samogon" id="useSamogonButton">
+    <img src="/static/image/panel/samogon.png" alt="Самогон" class="button-imagee_Samogon">
+</button>
+
+<button class="button-imagee_Poison" id="usePoisonButton">
+    <img src="/static/image/panel/poison.png" alt="яд" class="button-imagee_Poison">
+</button>
+
+<button class="button-imagee_Fish" id="useFishButton">
+    <img src="/static/image/panel/fish.png" alt="рыба" class="button-imagee_Fish">
+</button>
+
+<button class="button-imagee_Jewelry" id="useJewelryButton">
+    <img src="/static/image/panel/jewelry.png" alt="драгоценности" class="button-imagee_Jewelry">
+</button>
+
 
 
 <script>
+// Общая инициализация статуса (выполняется один раз)
+if (window.location.pathname.includes('/play_next/')) {
+    fetch('/get_player_status/')
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('hp-display').textContent = data.hp;
+        document.getElementById('herbs-display').textContent = data.herbs;
+        document.getElementById('Samogon-display').textContent = data.Samogon;
+        document.getElementById('Poison-display').textContent = data.Poison;
+        document.getElementById('Fish-display').textContent = data.Fish;
+        document.getElementById('Fish-display').textContent = data.Jewelry;
+    });
+}
+
+// Обработчик для трав
 document.getElementById('useHerbsButton').addEventListener('click', function() {
     fetch('/use_herbs/', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
         body: JSON.stringify({action: 'use'})
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network error');
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Обновляем все показатели на странице
             document.getElementById('hp-display').textContent = data.new_hp;
             document.getElementById('herbs-display').textContent = data.new_herbs;
-
-            // Добавляем визуальный эффект
+            // Эффект обновления HP
             const hpElement = document.getElementById('hp-display');
             hpElement.classList.add('hp-increased');
             setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
@@ -597,28 +854,100 @@ document.getElementById('useHerbsButton').addEventListener('click', function() {
             alert('Ошибка: ' + data.error);
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Произошла ошибка при обновлении данных');
-    });
+    .catch(error => alert('Ошибка сети'));
+});
+
+// Обработчик для самогона
+document.getElementById('useSamogonButton').addEventListener('click', function() {
+    fetch('/use_Samogon/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('hp-display').textContent = data.new_hp;
+            document.getElementById('Samogon-display').textContent = data.new_Samogon; // исправлено
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => alert('Ошибка сети'));
+});
+
+// Обработчик для яда
+document.getElementById('usePoisonButton').addEventListener('click', function() {
+    fetch('/use_Poison/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('hp-display').textContent = data.new_hp;
+            // Ключ исправлен на new_Poison
+            document.getElementById('Poison-display').textContent = data.new_Poison;
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => alert('Ошибка сети'));
 });
 
 
-if (window.location.pathname.includes('/play_next/')) {
-    fetch('/get_player_status/')
-    .then(r => r.json())
+    // Обработчик для рыбы
+document.getElementById('useFishButton').addEventListener('click', function() {
+    fetch('/use_Fish/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => response.json())
     .then(data => {
-        document.getElementById('hp-display').textContent = data.hp;
-        document.getElementById('herbs-display').textContent = data.herbs;
-    });
-}
+        if (data.success) {
+            document.getElementById('hp-display').textContent = data.new_hp;
+            // Ключ исправлен на new_fish
+            document.getElementById('Fish-display').textContent = data.new_Fish;
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => alert('Ошибка сети'));
+});
 
-
-
-
+     // Обработчик для драгоценностей
+document.getElementById('useJewelryButton').addEventListener('click', function() {
+    fetch('/use_Jewelry/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('hp-display').textContent = data.new_hp;
+            document.getElementById('Jewelry-display').textContent = data.new_Jewelry;
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Внимание: ' + data.attention);
+        }
+    })
+    .catch(error => alert('Ошибка сети'));
+});
 </script>
-
-
 
 </body>
 </html>
