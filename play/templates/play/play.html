@@ -186,10 +186,69 @@
 
         .event_text {
             /* Размеры и отступы */
-            width: 140px;
+            width: 132px;
             max-width: 100%; /* На случай, если родительский блок уже */
             padding: 15px 15px 15px 210px;
             padding-top: 155px;
+            text-align: center;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: black;
+
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
+
+        .date-display {
+            /* Размеры и отступы дата */
+
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 1px 1px 1px 60px;
+            padding-top: 142px;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+            hyphens: auto;            /* Автоматические дефисы (если поддерживается) */
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: black;
+
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
+
+        .date-display_2 {
+            /* Размеры и отступы дата */
+
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 1px 1px 1px 223px;
+            padding-top: 145px;
 
             /* Перенос текста (3 уровня защиты) */
 
@@ -221,10 +280,11 @@
             top: 505px;
             z-index: 101;
             cursor: pointer;
+            text-align: center;
 
             /* Текст */
 <!--            overflow-wrap: anywhere;-->
-<!--            hyphens: auto;-->
+
             white-space: normal;
 
             /* Внешний вид */
@@ -232,23 +292,38 @@
             background: transparent;
             color: black;
 
+        }
 
 
+        .action_1 a {
+            color: black !important;
+            text-decoration: none !important;
+        }
 
+        /* Для состояний ссылки */
+        .action_1 a:hover,
+        .action_1 a:visited,
+        .action_1 a:focus {
+            color: black !important;
+            text-decoration: none !important;
         }
 
         .action_2 {
-            left: 20px;        /* Заменяем padding-left на left */
+            left: 18px;        /* Заменяем padding-left на left */
             width: 140px;
             padding: 15px;
             position: absolute;
             top: 505px;
             z-index: 101;
             cursor: pointer;
+            text-align: center;
+
+
+
 
             /* Текст */
             overflow-wrap: anywhere;
-            hyphens: auto;
+
             white-space: normal;
 
             /* Внешний вид */
@@ -258,15 +333,38 @@
 
 
         }
+        .action_2 a {
+            color: black !important;
+            text-decoration: none !important;
+        }
+
+        /* Для состояний ссылки */
+        .action_2 a:hover,
+        .action_2 a:visited,
+        .action_2 a:focus {
+            color: black !important;
+            text-decoration: none !important;
+        }
 
 
         .event_url_start {
             position: absolute;
-            top: 462px;
+            top: 440px;
             left: 225px;
             right: 15px;
             bottom: 15px;
             z-index: 100;
+            color: black !important;
+            text-decoration: none !important;
+        }
+
+        /* Для состояний ссылки */
+        .event_url_start a:hover,
+        .aevent_url_start a:visited,
+        .event_url_start a:focus {
+            color: black !important;
+            text-decoration: none !important;
+        }
 
 
 
@@ -280,6 +378,8 @@
             text-decoration: none;
             color: inherit;
         }
+
+
 
 
         .event_picture img {
@@ -299,35 +399,34 @@
             border: 1px dashed #ccc;
         }
        .consequence {
-            position: absolute;
-            top: 155px;
-            left: 200px;
-            right: 15px;
-            bottom: 15px;
-            z-index: 100;
-            width: 125px;
+            /* Размеры и отступы */
+            width: 132px;
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 15px 15px 15px 210px;
+            padding-top: 165px;
+            text-align: center;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
             color: black;
-            line-height: 2px;
 
-            /* Стили для переноса текста */
-            overflow-wrap: break-word;    /* Перенос длинных слов */
-            word-wrap: break-word;       /* Для старых браузеров */
-            word-break: break-word;      /* Дополнительное правило */
-
-
-
-
-            /* Дополнительные свойства для улучшения отображения */
-            overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
-            padding: 10px;               /* Отступы внутри блока */
-            font-size: 16px;             /* Читаемый размер шрифта */
-            line-height: 1;            /* Межстрочный интервал */
-
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
 
 
 
@@ -458,7 +557,11 @@
 </div>
 
 <div class="date-display">
-    Текущая дата: {{ user_date.current_date|date:"F Y" }}
+    Текущая дата:
+</div>
+
+<div class="date-display_2">
+    {{ user_date.current_date|date:"F Y" }}
 </div>
 
 <style>
