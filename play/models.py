@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
 from dateutil.relativedelta import relativedelta  # для работы с месяцами
+import django.core.validators
 
 
 def validate_max_hp_100(status_HP):
@@ -18,9 +19,18 @@ def validate_max_Loyalty_100(status_Loyalty):
 class status(models.Model):
     status_HP = models.IntegerField(
         default=100,
-        validators=[validate_max_hp_100],  # Добавленный валидатор
+        # validators=[validate_max_hp_100],  # Добавленный валидатор
+        validators=[django.core.validators.MaxValueValidator(100)],
         null=True,
-        blank=True
+        blank=True,
+
+    )
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='game_status',
+        primary_key=True  # Делаем user primary key
     )
 
     def save(self, *args, **kwargs):
@@ -38,7 +48,8 @@ class status(models.Model):
 
     status_Loyalty = models.IntegerField(
         default=0,
-        validators=[validate_max_Loyalty_100],  # Добавленный валидатор
+        # validators=[validate_max_Loyalty_100],  # Добавленный валидатор
+        validators=[django.core.validators.MaxValueValidator(100)],
         null=True,
         blank=True
     )
@@ -58,7 +69,7 @@ class status(models.Model):
         self.status_Money = 10
         self.status_Loyalty = 0
         self.status_Herbs = 1
-        self.status_Poison = 1
+        self.status_Poison = 2
         self.status_Samogon = 1
         self.status_Fish = 1
         self.status_Jewelry = 1
@@ -66,9 +77,9 @@ class status(models.Model):
         return self
 
     @classmethod
-    def get_default_status(cls):
-        """Получает или создает статус с параметрами по умолчанию"""
-        obj, created = cls.objects.get_or_create(pk=1)
+    def get_default_status(cls, user):
+        """Получает или создает статус для текущего пользователя"""
+        obj, created = cls.objects.get_or_create(user=user)
         if created:
             obj.reset()
         return obj

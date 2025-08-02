@@ -4,7 +4,7 @@ from play.models import status  # Импорт модели из приложе�
 
 def check_death(request):
     """Проверяет, умер ли персонаж, и перенаправляет на смерть"""
-    player_status = status.get_default_status()  # Получаем статус
+    player_status = status.get_default_status(request.user)
 
     if player_status.status_HP <= 0:
         return render(request, 'death/death.html', status=200)

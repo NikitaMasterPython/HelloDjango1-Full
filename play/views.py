@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from death.views import check_death  # Импортируем проверку смерти
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import event, status  # Добавляем импорт модели status
+from play.models import event, status, UserDate
 import random
 
 from .models import UserDate
@@ -31,15 +31,18 @@ def get_random_event_id():
 
 def play(request):
     """Главная страница игры с обработкой сброса"""
-    # Обработка параметра сброса
+    if not request.user.is_authenticated:
+        return redirect('login')  # Перенаправляем неаутентифицированных пользователей
+
+
     if request.GET.get('reset') == 'true':
-        player_status = status.get_default_status()
+        player_status = status.get_default_status(request.user)
         player_status.reset()
 
         user_date, created = UserDate.objects.get_or_create(user=request.user)
         user_date.reset_date()
     else:
-        player_status = status.get_default_status()
+        player_status = status.get_default_status(request.user)
 
         user_date, created = UserDate.objects.get_or_create(user=request.user)
         user_date.reset_date()
@@ -59,12 +62,12 @@ def play_next(request, event_id):
 
     # Проверяем параметр сброса
     if request.GET.get('reset') == 'true':
-        player_status = status.get_default_status()
+        player_status = status.get_default_status(request.user)
         player_status.reset()
 
 
     else:
-        player_status = status.get_default_status()
+        player_status = status.get_default_status(request.user)
 
 
 
@@ -106,7 +109,7 @@ def get_player_status():
 
 def event_part_2(request, event_id):
     event_obj = get_object_or_404(event, id=event_id)
-    player_status = status.get_default_status()
+    player_status = status.get_default_status(request.user)
     # player_status = get_player_status()
     action = request.GET.get('action')
 
@@ -189,9 +192,9 @@ from .models import status
 
 @csrf_exempt
 def use_herbs(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         try:
-            player_status = status.objects.get(pk=1)
+            player_status = status.objects.get(user=request.user)
 
             if player_status.status_Herbs <= 0:
                 return JsonResponse({
@@ -224,9 +227,9 @@ def use_herbs(request):
 
 
 def use_Samogon(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         try:
-            player_status = status.objects.get(pk=1)
+            player_status = status.objects.get(user=request.user)
 
             if player_status.status_Samogon <= 0:
                 return JsonResponse({
@@ -259,9 +262,9 @@ def use_Samogon(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 def use_Poison(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         try:
-            player_status = status.objects.get(pk=1)
+            player_status = status.objects.get(user=request.user)
 
             if player_status.status_Poison <= 0:
                 return JsonResponse({
@@ -295,9 +298,9 @@ def use_Poison(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 def use_Fish(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         try:
-            player_status = status.objects.get(pk=1)
+            player_status = status.objects.get(user=request.user)
 
             if player_status.status_Fish <= 0:
                 return JsonResponse({
@@ -331,9 +334,9 @@ def use_Fish(request):
 
 
 def use_Jewelry(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         try:
-            player_status = status.objects.get(pk=1)
+            player_status = status.objects.get(user=request.user)
 
             if player_status.status_Jewelry >= 0:
                 return JsonResponse({
