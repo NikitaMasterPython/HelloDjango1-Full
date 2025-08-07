@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Моя Игра</title>
+</head>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+            <p>Вы вошли как {{ user.email }} | <a href="{% url 'account_logout' %}">Выйти</a></p>
+        {% else %}
+            <a href="{% url 'account_login' %}">Войти</a> |
+            <a href="{% url 'account_signup' %}">Регистрация</a>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
