@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load account %}
+{% load i18n %}
+
+{% autoescape off %}
+{% user_display user as user_display %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+
+<h2>Подтверждение регистрации</h2>
+<p>Здравствуйте, {{ user_display }}!</p>
+
+<p>Вы получили это письмо, потому что зарегистрировались на сайте {{ site_name }}.</p>
+
+<p>Для подтверждения регистрации перейдите по ссылке:</p>
+<p><a href="{{ activate_url }}">Подтвердить email</a></p>
+
+<p>Если вы не регистрировались на сайте, проигнорируйте это письмо.</p>
+
+<p>С уважением,<br>
+Команда {{ site_name }}</p>
+{% endblocktrans %}
+{% endautoescape %}

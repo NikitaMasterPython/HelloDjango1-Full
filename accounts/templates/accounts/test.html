@@ -1,46 +1,253 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать в игру</title>
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Old Standard TT', serif;
+            background-image: url("{% static 'image/fons/village_main.png' %}");
+            background-size: cover;
+            background-position: center;
+            color: #f5e9c9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #8B4513;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 2px 5px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            align-items: center;
+            padding-left: 20px;
+
+        }
+
+
+
+        .main-content {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: rgba(43, 24, 9, 0.85);
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .welcome-section h1 {
+            color: #d4af37;
+            font-size: 42px;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 15px;
+        }
+
+        .welcome-section p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .game-features {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: rgba(43, 24, 9, 0.85);
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h2 {
+            color: #d4af37;
+            font-size: 26px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            color: #d4af37;
+            font-size: 28px;
+        }
+
+        .feature-card p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .auth-section {
+            background: rgba(43, 24, 9, 0.85);
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .auth-section h2 {
+            color: #d4af37;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background: #8B4513;
+            color: #f5e9c9;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Old Standard TT', serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button:hover {
+            background: #a0522d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .button-gold {
+            background: linear-gradient(to bottom, #d4af37, #b8860b);
+            color: #2b1809;
+        }
+
+        .button-gold:hover {
+            background: linear-gradient(to bottom, #e6c158, #c99a1e);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 20px 0;
+            border-top: 2px solid #8B4513;
+            color: #d4af37;
+            font-size: 18px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <div class="logo">РУССКАЯ САГА</div>
 
+        </header>
 
-{% extends "base.html" %}
+        <div class="main-content">
+            <div class="welcome-section">
+                <h1>Добро пожаловать в игру!</h1>
+                <p>Смутное время на Руси. Вы - простой крестьянин в голодной деревне, где каждый день - борьба за выживание. Ваша судьба зависит от решений: какую работу выбрать, как продать урожай, поддержать ли бунт или остаться верным господину. Каждый выбор - шаг к новой судьбе.</p>
+                <p>Начните с грядки и сохи. Пройдите путь от крепостного до царского престола. Сколачивайте состояние через торговлю, грабьте, интригуйте при дворе. Ваша смекалка и решительность определят, как высоко вы сможете подняться по социальной лестнице Руси.</p>
+                <p>Помните: в Смутное время трон шатается, и последний может стать первым. Ваша история начинается сейчас - какой вы её напишете?</p>
+            </div>
 
-{% block content %}
-<div class="auth-container">
-    <h2>Регистрация</h2>
-    <form method="post" action="{% url 'account_signup' %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="id_email">Email:</label>
-            {{ form.email }}
-            {{ form.email.errors }}
+            <div class="game-features">
+                 <div class="feature-card">
+                    <h2><span class="feature-icon">📦</span> Торговые пути</h2>
+                    <p>Сколачивайте капитал, покупая дешевое зерно в деревнях и продавая в голодных городах. Инвестируйте в товары, обманывайте конкурентов. Деньги - ваша ступень к дворянству.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h2><span class="feature-icon">👑</span> Дворянские хитрости</h2>
+                    <p>Входите в круг элиты. Заводите связи, участвуйте в заговорах. Поднимитесь так высоко, чтобы свергнуть царя и занять его место!</p>
+                </div>
+
+                <div class="feature-card">
+                    <h2><span class="feature-icon">📜</span> Историческая точность</h2>
+                    <p>Погрузитесь в мир, созданный с вниманием к историческим деталям. Встречайте реальных исторических персонажей и участвуйте в знаковых событиях.</p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_password1">Пароль:</label>
-            {{ form.password1 }}
-            {{ form.password1.errors }}
-        </div>
-        <div class="form-group">
-            <label for="id_password2">Подтвердите пароль:</label>
-            {{ form.password2 }}
-            {{ form.password2.errors }}
-        </div>
-        <div class="form-group">
-            {{ form.captcha }}
-        </div>
-        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-    </form>
-    <p class="mt-3">
-        Уже есть аккаунт? <a href="{% url 'account_login' %}">Войти</a>
-    </p>
-</div>
-{% endblock %}
 
+        <div class="auth-section">
+            <h2>Начните свое приключение</h2>
+            <div class="auth-buttons">
+                <a href="{% url 'account_login' %}" class="button button-gold">Войти</a>
+                <a href="{% url 'account_signup' %}" class="button button-gold">Зарегистрироваться</a>
+<!--                <a href="{% url 'index' %}" class="button">Вернуться на главную</a>-->
+            </div>
+        </div>
+    </div>
 
-
+    <footer>
+        <p>© 2023 Русская Сага. Все права защищены.</p>
+    </footer>
 </body>
-</html>
+{% endblock %}

@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Подтверждение email</h2>
+{% if confirmation %}
+  <p>Подтвердите email адрес <b>{{ confirmation.email_address.email }}</b></p>
+  <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+    {% csrf_token %}
+    <button type="submit">Подтвердить</button>
+  </form>
+{% else %}
+  <p>Ссылка для подтверждения недействительна или срок ее действия истек.</p>
+  <p><a href="{% url 'account_email' %}">Отправить новое письмо подтверждения</a></p>
+{% endif %}
+{% endblock %}

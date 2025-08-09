@@ -32,6 +32,19 @@
         }
 
 
+        .button-image_2 {
+            font-size: 1rem;
+            width: 22em; /* Задайте желаемую ширину изображения */
+            height: 8em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+
+        }
+
+
 
         .book-image {
             font-size: 1rem;
@@ -100,6 +113,18 @@
             align-items: flex-start;
             padding: 5px;
             padding-left: 7px;
+
+        }
+
+        .button-container-map {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 1px;
+            padding-right: 10px;
+
 
         }
 
@@ -363,27 +388,65 @@
 
 
 
+<!--<script>-->
+<!--function goBackFromBag() {-->
+<!--    // Возвращаемся на страницу игры (play)-->
+<!--    window.location.href = "{% url 'play' %}?_refresh=" + Date.now();-->
+<!--}-->
+<!--</script>-->
+
+<!--<div class="button-container-bag">-->
+<!--    <button class="button-image" onclick="goBackFromBag()">-->
+<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
+<!--    </button>-->
+<!--</div>-->
+
+
 <div class="button-container-bag">
-    <button class="button-image" onclick="goBackAndRefresh()">
+    <button class="button-image" onclick="window.location.href='{% url 'play' %}'">
         <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">
     </button>
 </div>
 
-<script>
-function goBackAndRefresh() {
-    // 1. Получаем URL предыдущей страницы
-    const previousUrl = document.referrer;
+<!--<div class="button-container-bag">-->
+<!--    <button class="button-image" onclick="history.back()">-->
+<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
+<!--    </button>-->
+<!--</div>-->
 
-    // 2. Если есть предыдущая страница (не пустой реферер)
-    if (previousUrl && previousUrl !== window.location.href) {
-        // 3. Переходим на предыдущую страницу с параметром для обхода кеша
-        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();
-    } else {
-        // 4. Если нет истории (например, открыли в новой вкладке)
-        window.location.href = '/'; // Перенаправляем на главную
-    }
-}
-</script>
+
+<!--<script>-->
+<!--function goBackAndRefresh() {-->
+<!--    // 1. Получаем URL предыдущей страницы-->
+<!--    const previousUrl = document.referrer;-->
+
+<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
+<!--    if (previousUrl && previousUrl !== window.location.href) {-->
+<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
+<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
+<!--    } else {-->
+<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
+<!--        window.location.href = '/'; // Перенаправляем на главную-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
+
+
+<!--<script>-->
+<!--function goBackAndRefresh() {-->
+<!--    // 1. Получаем URL предыдущей страницы-->
+<!--    const previousUrl = document.referrer;-->
+
+<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
+<!--    if (previousUrl && previousUrl !== window.location.href) {-->
+<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
+<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
+<!--    } else {-->
+<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
+<!--        window.location.href = '/'; // Перенаправляем на главную-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
 
 <!--        <div class="button-container-bag">-->
 
@@ -415,6 +478,12 @@ function goBackAndRefresh() {
 <div class="book-container">
 
     <img src="/static/image/panel/inventary_norm.png" alt="Кнопка 2" class="book-image">
+
+    <div class="button-container-map">
+        <button class="button-image" onclick="window.location.href='{% url 'map_0' %}'">
+            <img src="/static/image/panel/map_0.png" alt="Кнопка 1" class="button-image_2">
+        </button>
+    </div>
 
 </div>
 
@@ -947,6 +1016,8 @@ document.getElementById('useJewelryButton').addEventListener('click', function()
     })
     .catch(error => alert('Ошибка сети'));
 });
+
+
 </script>
 
 </body>

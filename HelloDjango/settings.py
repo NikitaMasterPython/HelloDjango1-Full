@@ -13,7 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+import os
+import ssl
 
+# Временное решение для разработки (не использовать в продакшене)
+ssl._create_default_https_context = ssl._create_unverified_context
+
+# Укажите путь к сертификатам
+os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(__file__), 'cacert.pem')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +31,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-skbc+6$mt2(v18#02jvl=_yy03xpx7(1v3+*0%bd0h8tb1dqs#'
+
+
+# Для тестирования
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+
+# Для продакшена зарегистрируйтесь на https://www.google.com/recaptcha/admin/
+# RECAPTCHA_PUBLIC_KEY = 'ваш_публичный_ключ'
+# RECAPTCHA_PRIVATE_KEY = 'ваш_приватный_ключ'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,11 +63,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'captcha',
+    'accounts',
+
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+
     'main',
     'play',
     'mybag',
     'play_restart',
     'death',
+    'map',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -60,6 +92,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'HelloDjango.urls'
@@ -67,7 +101,7 @@ ROOT_URLCONF = 'HelloDjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,3 +175,51 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'templates/')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Настройки аутентификации
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+# Настройки allauth
+
+
+
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Разрешить вход по email или username
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_LOGIN_METHODS = ['email']  # Использовать email для входа
+ACCOUNT_SIGNUP_FIELDS = ['email*']  # Обязательные поля при регистрации
+
+
+
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False  # Отключаем вход по коду
+
+LOGIN_REDIRECT_URL = '/main'
+LOGOUT_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'auth.User'  # Используйте стандартную модель
+
+
+# Для тестирования (письма в консоль)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Для реальной отправки (пример для Yandex)
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_USE_SSL = True
+# EMAIL_HOST_USER = 'ваш@email.ru'
+# EMAIL_HOST_PASSWORD = 'пароль'
+# DEFAULT_FROM_EMAIL = 'ваш@email.ru'

@@ -2,56 +2,244 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главное меню</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Русская Сага - Главное меню</title>
+    {% load static %}
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            background-image: url(static/image/fons/village_main.png);
+            background-image: url("{% static 'image/fons/village_main.png' %}");
             background-size: cover;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f5e9c9;
+            font-family: 'Times New Roman', Times, serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 15px;
+            overflow-x: hidden;
+            touch-action: manipulation;
         }
-        .menu {
+
+        .menu-container {
+            background:
+                radial-gradient(circle, transparent 30%, rgba(43, 24, 9, 0.95) 100%),
+                url("{% static 'image/fons/parchment_texture.jpg' %}");
+            background-size: cover;
+            border: 2px solid #8B4513;
+            border-radius: 12px;
+            box-shadow:
+                0 0 15px rgba(139, 69, 19, 0.7),
+                inset 0 0 30px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 400px;
+            padding: 25px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-container::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .title {
+            color: #d4af37;
+            font-size: 32px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #8B4513;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        .title::after {
+            content: "✸";
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4af37;
+            font-size: 20px;
+        }
+
+        .game-subtitle {
+            color: #f5e9c9;
+            font-size: 16px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            margin: 15px auto 10px;
+            padding: 0 10px;
+        }
+
+        .game-subtitle span {
+            color: #d4af37;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .decoration {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .decoration-item {
+            color: #d4af37;
+            font-size: 24px;
+            text-shadow: 0 0 5px rgba(139, 69, 19, 0.8);
+            opacity: 0.7;
+        }
+
+        .menu-buttons {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон для читаемости текста */
-            padding: 20px;
-            border-radius: 10px;
+            gap: 12px;
+            margin-top: 20px;
         }
+
         .button {
-            background: #8B4513; /* Коричневый цвет */
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            margin: 10px 0;
-            border-radius: 5px;
+            background: linear-gradient(to bottom, #8B4513, #5d2c0d);
+            color: #f5e9c9;
+            border: 1px solid #d4af37;
+            padding: 16px 10px;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
-            text-align: center;
-            font-size: 16px;
-            transition: background 0.3s;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .button:hover {
-            background: #45a049; /* Темно-зеленый при наведении */
+
+        .button:hover, .button:focus {
+            background: linear-gradient(to bottom, #a0522d, #703818);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Медиа-запросы для самых маленьких экранов */
+        @media (max-width: 360px) {
+            .title {
+                font-size: 28px;
+            }
+
+            .game-subtitle {
+                font-size: 14px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 14px 8px;
+                min-height: 50px;
+            }
+
+            .decoration-item {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .menu-container {
+                padding: 15px 10px;
+            }
+
+            .title {
+                margin-bottom: 15px;
+                font-size: 28px;
+            }
+
+            .game-subtitle {
+                margin: 10px auto;
+                font-size: 14px;
+            }
+
+            .menu-buttons {
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .button {
+                padding: 12px 8px;
+                min-height: 48px;
+                font-size: 16px;
+            }
+        }
+
+        /* Портретный режим */
+        @media (orientation: portrait) {
+            body {
+                padding: 10px;
+            }
+
+            .menu-container {
+                max-width: 95%;
+            }
+        }
+
+        /* Ландшафтный режим */
+        @media (orientation: landscape) {
+            .menu-container {
+                max-width: 80%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="menu">
-        <h1>Главное меню</h1>
-        <a href="play_restart/" class="button">Новая игра</a>
-        <a href="play/" class="button">Продолжить игру</a>
-        <a href="achievements.html" class="button">Достижения</a>
-        <a href="about_game.html" class="button">Об игре</a>
+    <div class="menu-container">
+        <h1 class="title">РУССКАЯ САГА</h1>
 
+        <p class="game-subtitle">
+            <span>1601 год. Смутное время.</span>
+            От крестьянина до царя - ваша судьба в ваших руках
+        </p>
 
+        <div class="decoration">
+            <div class="decoration-item">🌾</div>
+            <div class="decoration-item">⚔️</div>
+            <div class="decoration-item">👑</div>
+        </div>
 
+        <div class="menu-buttons">
+            <a href="{% url 'play_restart' %}" class="button">Новая игра</a>
+            <a href="{% url 'play' %}" class="button">Продолжить</a>
+            <a href="#" class="button">Достижения</a>
+            <a href="#" class="button">Об игре</a>
+        </div>
+    </div>
 </body>
 </html>

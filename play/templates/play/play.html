@@ -467,9 +467,8 @@
 
 
         <div class="button-container-bag">
-            <!-- Кнопки в виде изображений -->
             <button class="button-image" onclick="window.location.href='{% url 'mybag' %}'">
-                <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
+                <img src="/static/image/panel/bag_norm.png" alt="Сумка" class="button-image">
             </button>
         </div>
 
@@ -521,30 +520,45 @@
 
 
 
-{% if show_event_text %}
-<div class="event_text">
-    <p>{{ event.event_Text }}</p>
-</div>
-{% endif %}
+{% comment %} Блок события {% endcomment %}
 
-{% comment %} Блок с последствиями или действиями {% endcomment %}
-{% if consequence %}
-    <div class="consequence">
-        {{ consequence }}
+
+{# Блок события #}
+{% if event %}
+    {% if show_event_text %}
+    <div class="event_text">
+        <p>{{ event.event_Text }}</p>
     </div>
-    <div class="event_url_start">
-        <a href="{% url 'random_event' %}" class="btn-continue">Жить дальше</a>
-    </div>
+    {% endif %}
+
+    {# Блок с последствиями или действиями #}
+    {% if consequence %}
+        <div class="consequence">
+            {{ consequence }}
+        </div>
+        <div class="event_url_start">
+            <a href="{% url 'random_event' %}" class="btn-continue">Жить дальше</a>
+        </div>
+    {% elif show_actions %}
+        <div class="action_1">
+            <a href="#" class="action-link" data-consequence="consequence_1"
+               data-url="{% url 'event_part_2' event_id=event.id %}?action=1">
+                {{ event.action_1 }}
+            </a>
+        </div>
+        <div class="action_2">
+            <a href="#" class="action-link" data-consequence="consequence_2"
+               data-url="{% url 'event_part_2' event_id=event.id %}?action=2">
+                {{ event.action_2 }}
+            </a>
+        </div>
+    {% endif %}
 {% else %}
-    <div class="action_1">
-        <a href="#" class="action-link" data-consequence="consequence_1" data-url="{% url 'event_part_2' event_id=event.id %}?action=1">
-            {{ event.action_1 }}
-        </a>
-    </div>
-    <div class="action_2">
-        <a href="#" class="action-link" data-consequence="consequence_2" data-url="{% url 'event_part_2' event_id=event.id %}?action=2">
-            {{ event.action_2 }}
-        </a>
+    {# Главный экран без активного события #}
+    <div class="main-screen">
+        <div class="event_url_start">
+            <a href="{% url 'random_event' %}" class="btn-continue">Начать игру</a>
+        </div>
     </div>
 {% endif %}
 
@@ -555,11 +569,80 @@
 {% comment %} Блок статуса игрока {% endcomment %}
 
 
+<!--<div class="player-status">-->
+<!--    <p>{{ player_status.status_HP }}</p>-->
+<!--    <p>{{ player_status.status_Money }}</p>-->
+<!--    <p>{{ player_status.status_Loyalty }}</p>-->
+<!--</div>-->
 <div class="player-status">
-    <p>{{ player_status.status_HP }}</p>
-    <p>{{ player_status.status_Money }}</p>
-    <p>{{ player_status.status_Loyalty }}</p>
+    <p id="hp-display">{{ player_status.status_HP }}</p>
+    <p id="money-display">{{ player_status.status_Money }}</p>
+    <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
 </div>
+
+<script>
+// Функция для обновления статусов
+function updatePlayerStatus() {
+    fetch('/get_player_status/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('hp-display').textContent = data.hp;
+            document.getElementById('money-display').textContent = data.money;
+            document.getElementById('loyalty-display').textContent = data.loyalty;
+        });
+}
+
+// Обновляем при загрузке
+document.addEventListener('DOMContentLoaded', updatePlayerStatus);
+
+// Обновляем при возврате на страницу
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        updatePlayerStatus();
+    }
+});
+
+// Делаем функцию глобально доступной
+window.updatePlayerStatus = updatePlayerStatus;
+
+
+
+// Обновляем статус при возврате на страницу
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        updatePlayerStatus();
+    }
+});
+
+// Принудительное обновление статуса при загрузке
+window.addEventListener('load', function() {
+    updatePlayerStatus();
+});
+
+
+
+
+
+
+
+
+// Обновляем статус при возврате на страницу
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        updatePlayerStatus();
+    }
+});
+
+// Принудительное обновление статуса при загрузке
+window.addEventListener('load', function() {
+    updatePlayerStatus();
+});
+</script>
+
+
+
+
+
 
 <div class="date-display">
     Текущая дата:
@@ -665,6 +748,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     }
 });
+
+
+
+
+
+
 </script>
 
 <style>
@@ -760,5 +849,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-</body>
+    </body>
 </html>

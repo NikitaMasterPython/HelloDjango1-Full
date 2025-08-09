@@ -1,18 +1,191 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Моя Игра</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Русская Сага</title>
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-image: url("{% static 'image/fons/village_main.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f5e9c9;
+            font-family: 'Times New Roman', Times, serif;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 15px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background:
+                radial-gradient(circle, transparent 20%, rgba(43, 24, 9, 0.95) 90%),
+                url("{% static 'image/fons/parchment_texture.jpg' %}");
+            background-size: cover;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            box-shadow:
+                0 0 15px rgba(139, 69, 19, 0.7),
+                inset 0 0 20px rgba(0, 0, 0, 0.6);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+      .user-info {
+            color: #f5e9c9;
+            font-size: 14px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+            padding-right: 10px;
+        }
+
+        .user-info strong {
+            color: #d4af37;
+            font-weight: normal;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 1px;
+
+        }
+
+        .header-link {
+            background: linear-gradient(to bottom, #8B4513, #5d2c0d);
+            color: #f5e9c9;
+            border: 1px solid #d4af37;
+            padding: 5px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            min-width: max-content;
+            display: inline-block;
+        }
+
+        .header-link:hover {
+            background: linear-gradient(to bottom, #a0522d, #703818);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-link:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .divider {
+            color: #d4af37;
+            opacity: 0.5;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 50px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+
+            .user-info {
+                justify-content: center;
+                width: 100%;
+
+            }
+        }
+
+
+
+        @media (max-width: 480px) {
+            .header-link {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+
+            .user-info {
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        {% if user.is_authenticated %}
-            <p>Вы вошли как {{ user.email }} | <a href="{% url 'account_logout' %}">Выйти</a></p>
-        {% else %}
-            <a href="{% url 'account_login' %}">Войти</a> |
-            <a href="{% url 'account_signup' %}">Регистрация</a>
-        {% endif %}
-    </header>
+    <header2>
+        <div class="header-container">
+            <div class="user-info">
+                {% if user.is_authenticated %}
+                    <span>Вы вошли как <strong>{{ user.email }}</strong></span>
+                {% else %}
+                    <span>Гость</span>
+                {% endif %}
+            </div>
+
+            <div class="header-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'main' %}" class="header-link">Продолжить игру</a>
+                    <span class="divider">|</span>
+                    <a href="{% url 'account_logout' %}" class="header-link">Выйти</a>
+                {% else %}
+                    <a href="{% url 'index' %}" class="header-link">Главная</a>
+                    <span class="divider">|</span>
+                    <a href="{% url 'account_login' %}" class="header-link">Войти</a>
+                    <span class="divider">|</span>
+                    <a href="{% url 'account_signup' %}" class="header-link">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </header2>
 
     <main>
         {% block content %}{% endblock %}

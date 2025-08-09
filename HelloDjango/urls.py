@@ -25,10 +25,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('main/', views.main, name='main'),
     path('', include('play.urls')),
     path('play_restart/', include('play_restart.urls')),  # Уберите лишний префикс
     path('', include('mybag.urls')),
     path('death/', include('death.urls')),  # Без указания namespace
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
 
 
     # path('event/<int:event_id>/', views.play_next, name='play_next'),

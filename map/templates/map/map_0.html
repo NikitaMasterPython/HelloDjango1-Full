@@ -36,7 +36,7 @@
         .book-image {
             font-size: 1rem;
             width: 23em; /* Задайте желаемую ширину изображения */
-            height: 23em; /* Задайте желаемую высоту изображения */
+            height: 33em; /* Задайте желаемую высоту изображения */
             border: none;
             cursor: pointer;
             background: transparent;
@@ -363,27 +363,45 @@
 
 
 
+<!--<script>-->
+<!--&lt;!&ndash;function goBackFromMap() {&ndash;&gt;-->
+<!--&lt;!&ndash;    // Возвращаемся в сумку (bag)&ndash;&gt;-->
+<!--&lt;!&ndash;    window.location.href = "{% url 'mybag' %}?_refresh=" + Date.now();&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+<!--</script>-->
+
+<!--<div class="button-container-bag">-->
+<!--    <button class="button-image" onclick="goBackFromMap()">-->
+<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
+<!--    </button>-->
+<!--</div>-->
+
+
+
 <div class="button-container-bag">
-    <button class="button-image" onclick="goBackAndRefresh()">
+    <button class="button-image" onclick="history.back()">
         <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">
     </button>
 </div>
 
-<script>
-function goBackAndRefresh() {
-    // 1. Получаем URL предыдущей страницы
-    const previousUrl = document.referrer;
+<!--<script>-->
+<!--function goBackAndRefresh() {-->
+<!--    // Проверяем, откуда мы пришли-->
+<!--    const previousUrl = document.referrer;-->
 
-    // 2. Если есть предыдущая страница (не пустой реферер)
-    if (previousUrl && previousUrl !== window.location.href) {
-        // 3. Переходим на предыдущую страницу с параметром для обхода кеша
-        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();
-    } else {
-        // 4. Если нет истории (например, открыли в новой вкладке)
-        window.location.href = '/'; // Перенаправляем на главную
-    }
-}
-</script>
+<!--    // Определяем текущий путь-->
+<!--    const currentPath = window.location.pathname;-->
+
+<!--    // Если предыдущая страница существует и не является текущей-->
+<!--    if (previousUrl && new URL(previousUrl).pathname !== currentPath) {-->
+<!--        // Просто переходим назад без обновления-->
+<!--        history.back();-->
+<!--    } else {-->
+<!--        // Резервный вариант: переход на главную-->
+<!--        window.location.href = '/';-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
 
 <!--        <div class="button-container-bag">-->
 
@@ -414,7 +432,7 @@ function goBackAndRefresh() {
 
 <div class="book-container">
 
-    <img src="/static/image/panel/inventary_norm.png" alt="Кнопка 2" class="book-image">
+    <img src="/static/image/panel/map_1.png" alt="Кнопка 2" class="book-image">
 
 </div>
 
@@ -454,11 +472,6 @@ function goBackAndRefresh() {
 
 
 
-<p class="button_inventary_herbs" id="herbs-display">{{ player_status.status_Herbs }}</p>
-<p class="button_inventary_Samogon" id="Samogon-display">{{ player_status.status_Samogon }}</p>
-<p class="button_inventary_Poison" id="Poison-display">{{ player_status.status_Poison }}</p>
-<p class="button_inventary_Fish" id="Fish-display">{{ player_status.status_Fish }}</p>
-<p class="button_inventary_Jewelry" id="Jewelry-display">{{ player_status.status_Jewelry }}</p>
 
 <div>
 
@@ -551,7 +564,7 @@ function goBackAndRefresh() {
             border-radius: 4px;
         }
 
-        .button_inventary_Jewelry {
+        .button_inventary_cave {
             cursor: pointer;
             user-select: none;
             color: black;
@@ -707,7 +720,7 @@ function goBackAndRefresh() {
         }
 
 
-        .button-imagee_Jewelry{
+        .button-imagee_cave{
             border: none;
             background: transparent; /* Прозрачность */
             cursor: pointer;
@@ -724,28 +737,28 @@ function goBackAndRefresh() {
         }
 
         /* Стили для кнопки ух, заебало конечно */
-        .button-imagee_Jewelry{
-            left: 141px;
-            top: 83px;
+        .button-imagee_cave{
+            left: 124px;
+            top: 289px;
         }
 
         /* Общие эффекты при наведении и нажатии */
         .button-imagee:hover,
-        .button-imagee_Jewelry:hover {
+        .button-imagee_cave:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .button-imagee:active,
-        .button-imagee_Jewelry:active {
+        .button-imagee_cave:active {
             transform: translateY(0);
         }
 
         /* Стили для изображений внутри кнопок */
 
-        .button-imagee_Jewelry img {
-            width: 55px;
-            height: 55px;
+        .button-imagee_cave img {
+            width: 40px;
+            height: 40px;
             object-fit: contain;
             display: block;
         }
@@ -813,141 +826,73 @@ function goBackAndRefresh() {
     <img src="/static/image/panel/fish.png" alt="рыба" class="button-imagee_Fish">
 </button>
 
-<button class="button-imagee_Jewelry" id="useJewelryButton">
-    <img src="/static/image/panel/jewelry.png" alt="драгоценности" class="button-imagee_Jewelry">
+<button class="button-imagee_cave" onclick="window.location.href='{% url 'play' %}'"
+        data-tooltip="Исследовать пещеру">
+    <img src="/static/image/panel/cave.png" alt="пещера" class="button-imagee_cave">
 </button>
 
+<style>
+/* Стили для контейнера подсказки */
+.button-imagee_cave {
 
-
-<script>
-// Общая инициализация статуса (выполняется один раз)
-if (window.location.pathname.includes('/play_next/')) {
-    fetch('/get_player_status/')
-    .then(r => r.json())
-    .then(data => {
-        document.getElementById('hp-display').textContent = data.hp;
-        document.getElementById('herbs-display').textContent = data.herbs;
-        document.getElementById('Samogon-display').textContent = data.Samogon;
-        document.getElementById('Poison-display').textContent = data.Poison;
-        document.getElementById('Fish-display').textContent = data.Fish;
-        document.getElementById('Fish-display').textContent = data.Jewelry;
-    });
+    display: inline-block;
 }
 
-// Обработчик для трав
-document.getElementById('useHerbsButton').addEventListener('click', function() {
-    fetch('/use_herbs/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('herbs-display').textContent = data.new_herbs;
-            // Эффект обновления HP
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
+/* Стили для самой подсказки */
+.button-imagee_cave::before {
 
-// Обработчик для самогона
-document.getElementById('useSamogonButton').addEventListener('click', function() {
-    fetch('/use_Samogon/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('Samogon-display').textContent = data.new_Samogon; // исправлено
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
+    top: 338px;
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    left: 65px;
+    color: A52A2A;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 
-// Обработчик для яда
-document.getElementById('usePoisonButton').addEventListener('click', function() {
-    fetch('/use_Poison/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            // Ключ исправлен на new_Poison
-            document.getElementById('Poison-display').textContent = data.new_Poison;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
+}
 
+/* Стрелка подсказки */
+.button-imagee_cave::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    left: 142px;
+    top: 275px;
+    transform: translateX(-50%) translateY(100%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
 
-    // Обработчик для рыбы
-document.getElementById('useFishButton').addEventListener('click', function() {
-    fetch('/use_Fish/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            // Ключ исправлен на new_fish
-            document.getElementById('Fish-display').textContent = data.new_Fish;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
+/* Показываем подсказку при наведении */
+.button-imagee_cave:hover::before,
+.button-imagee_cave:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
 
-     // Обработчик для драгоценностей
-document.getElementById('useJewelryButton').addEventListener('click', function() {
-    fetch('/use_Jewelry/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('Jewelry-display').textContent = data.new_Jewelry;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Внимание: ' + data.attention);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-</script>
+.button-imagee_cave:hover::after {
+    transform: translateX(-50%) translateY(1px);
+}
+</style>
+
 
 </body>
 </html>

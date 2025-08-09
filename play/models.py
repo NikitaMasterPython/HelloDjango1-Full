@@ -1,4 +1,3 @@
-from django.db import models
 from django.core.exceptions import ValidationError
 
 from django.db import models
@@ -23,7 +22,6 @@ class status(models.Model):
         validators=[django.core.validators.MaxValueValidator(100)],
         null=True,
         blank=True,
-
     )
 
     user = models.OneToOneField(
@@ -32,6 +30,7 @@ class status(models.Model):
         related_name='game_status',
         primary_key=True  # Делаем user primary key
     )
+
 
     def save(self, *args, **kwargs):
         # Проверка и коррекция здоровья
@@ -54,14 +53,11 @@ class status(models.Model):
         blank=True
     )
 
-
-
     status_Herbs = models.IntegerField(default=0)
     status_Samogon = models.IntegerField(default=0)
     status_Poison = models.IntegerField(default=0)
     status_Fish = models.IntegerField(default=0)
     status_Jewelry = models.IntegerField(default=0)
-
 
     def reset(self):
         """Сбрасывает все параметры к значениям по умолчанию"""
@@ -84,22 +80,11 @@ class status(models.Model):
             obj.reset()
         return obj
 
-
-
     class Meta:
         verbose_name_plural = "statuses"
 
     def __str__(self):
         return f"HP: {self.status_HP}, Money: {self.status_Money}, Loyalty: {self.status_Loyalty}"
-
-
-
-
-
-
-
-
-
 
 class event(models.Model):
     event_Season = models.CharField(default = "summer", max_length=500, verbose_name='Время года')
@@ -112,13 +97,11 @@ class event(models.Model):
 
     image_Event = models.ImageField(null=True, blank=True,upload_to='image/event', max_length=10000, verbose_name = 'Изображение события')
 
-
     received_Medicinal_herbs = models.IntegerField(default = 0, verbose_name = 'Лечебные травы')
     received_Samogon = models.IntegerField(default=0, verbose_name='Самогон')
     received_Poison = models.IntegerField(default=0, verbose_name='Яд')
     received_Fish = models.IntegerField(default=0, verbose_name='Рыба')
     received_Jewelry = models.IntegerField(default=0, verbose_name='Драгоценности')
-
 
     action_2 = models.CharField(max_length=500, verbose_name = 'Действие 2')
     consequence_2 = models.CharField(max_length=500, verbose_name = 'Последствие 2')
@@ -135,15 +118,16 @@ class event(models.Model):
     def __str__(self):
         return self.event_Text  # Это будет отображаться в админке вместо "event object (1)"
 
-
 class UserDate(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name='play_game_date'
+        related_name='play_game_date',
+        primary_key = True
     )
-    current_date = models.DateField(default=date(1701, 4, 1))
-    last_updated = models.DateTimeField(auto_now=True)
+
+    current_date = models.DateField(default=date(1601, 4, 1))
+    last_event_id = models.PositiveIntegerField(null=True, blank=True)
 
     def next_month(self):
         """Переход на следующий месяц"""
@@ -153,15 +137,15 @@ class UserDate(models.Model):
 
     def reset_date(self):
         """Сброс даты к начальной"""
-        self.current_date = date(1701, 1, 1)
+        self.current_date = date(1701, 4, 1)
         self.save()
 
     def get_season(self):
         """Определение текущего сезона"""
         month = self.current_date.month
         if month in [10, 11, 12, 1, 2, 3]:
-            return 'winter'
-        return 'summer'
+            return 'winter_time'
+        return 'summer_time'
 
     def __str__(self):
         return f"{self.user.username} - {self.current_date}"

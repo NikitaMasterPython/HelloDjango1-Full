@@ -1,119 +1,115 @@
-from django.http import HttpResponse
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.shortcuts import render, get_object_or_404
-from .models import event
-import random
 from django.shortcuts import render, get_object_or_404, redirect
-from death.views import check_death  # Импортируем проверку смерти
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
-from play.models import event, status, UserDate
+from play.models import event
 import random
+from .models import UserDate, status
+from django.core.cache import cache
+from django.http import JsonResponse
+from django.views.decorators.cache import never_cache
 
-from .models import UserDate
 
+@never_cache
+def get_player_status(request):
+    # ваш существующий код
+    return JsonResponse({...})
 
+def get_random_event_id(user, exclude_id=None):
+    # Получаем дату пользователя (создаем если не существует)
+    user_date, created = UserDate.objects.get_or_create(user=user)
 
+    # Определяем текущий сезон пользователя
+    current_season = "winter" if user_date.get_season() == "winter_time" else "summer"
 
-def get_random_event_id():
-    """Получение случайного ID события"""
-    event_ids = list(event.objects.values_list('id', flat=True))
+    # Получаем ID событий, соответствующих текущему сезону
+    event_ids = list(
+        event.objects
+        .filter(event_Season=current_season)
+        .values_list('id', flat=True)
+    )
+
+    # Исключаем предыдущее событие если нужно
+    if exclude_id is not None and exclude_id in event_ids:
+        event_ids.remove(exclude_id)
+
     return random.choice(event_ids) if event_ids else None
 
 
-# def play(request):
-#     """Главная страница игры"""
-#     random_id = get_random_event_id()
-#     if random_id:
-#         return redirect('play_next', event_id=random_id)
-#     return render(request, 'play/play.html')
+
 
 def play(request):
     """Главная страница игры с обработкой сброса"""
+
     if not request.user.is_authenticated:
         return redirect('login')  # Перенаправляем неаутентифицированных пользователей
 
-
+    player_status, created = status.objects.get_or_create(user=request.user)
+    user_date, created = UserDate.objects.get_or_create(user=request.user)
+    """Сброс игры Новая игра"""
     if request.GET.get('reset') == 'true':
-        player_status = status.get_default_status(request.user)
+        # Сброс состояния
         player_status.reset()
-
-        user_date, created = UserDate.objects.get_or_create(user=request.user)
         user_date.reset_date()
-    else:
-        player_status = status.get_default_status(request.user)
+        # Сбрасываем последнее событие
+        user_date.last_event_id = None
+        user_date.save()
 
-        user_date, created = UserDate.objects.get_or_create(user=request.user)
-        user_date.reset_date()
+        # Получаем случайное событие, исключая последнее
+    random_id = get_random_event_id(request.user, user_date.last_event_id)
 
-    random_id = get_random_event_id()
-    if random_id:
-        return redirect('play_next', event_id=random_id)
+    # Если не нашли подходящее, берем любое
+    if not random_id:
+        random_id = get_random_event_id(request.user)
 
-    return render(request, 'play/play.html', {
-        'player_status': player_status
-    })
+    # Обновляем последнее событие пользователя
+    user_date.last_event_id = random_id
+    user_date.save()
+
+    return redirect('play_next', event_id=random_id)
 
 
 def play_next(request, event_id):
-    """Обработка конкретного события с проверкой сброса"""
+    """Обработка конкретного события"""
+    # Получаем объект события
     event_obj = get_object_or_404(event, id=event_id)
 
-    # Проверяем параметр сброса
-    if request.GET.get('reset') == 'true':
-        player_status = status.get_default_status(request.user)
-        player_status.reset()
+    # Получаем статус пользователя
+    player_status = status.get_default_status(request.user)
 
-
-    else:
-        player_status = status.get_default_status(request.user)
-
-
+    # Обновляем последнее событие в UserDate
+    user_date = UserDate.objects.get(user=request.user)
+    user_date.last_event_id = event_id
+    user_date.save()
 
     return render(request, 'play/play.html', {
         'event': event_obj,
         'player_status': player_status,
         'consequence': None,
-        'show_event_text': True
-    })
-# def play_next(request, event_id):
-#     """Обработка конкретного события"""
-#     event_obj = get_object_or_404(event, id=event_id)
-#     player_status, _ = status.objects.get_or_create(pk=1)
-#
-#     return render(request, 'play/play.html', {
-#         'event': event_obj,
-#         'player_status': player_status,
-#         'consequence': None,
-#         'show_event_text': True
-#
-#     })
-def get_player_status():
-    """Получаем или создаем статус игрока с значениями по умолчанию"""
-    status_obj, created = status.objects.get_or_create(
-        pk=1,
-        defaults={
-            'status_HP': 100,
-            'status_Money': 50,
-            'status_Loyalty': 0,
-            'status_Herbs': 0,
-            'status_Samogon': 0,
-            'status_Poison': 0,
-            'status_Fish': 0,
-            'status_Jewelry': 0
+        'show_event_text': True,
 
-        }
-    )
-    return status_obj
+        'show_actions': True  # Добавляем эту переменную
+    })
+
+
+@never_cache
+def get_player_status(request):
+    # Получаем или создаем статус для пользователя
+    player_status = status.get_default_status(request.user)
+
+    return JsonResponse({
+        'hp': player_status.status_HP,
+        'money': player_status.status_Money,
+        'loyalty': player_status.status_Loyalty,
+        'herbs': player_status.status_Herbs,
+        'samogon': player_status.status_Samogon,
+        'poison': player_status.status_Poison,
+        'fish': player_status.status_Fish,
+        'jewelry': player_status.status_Jewelry,
+    })
 
 def event_part_2(request, event_id):
     event_obj = get_object_or_404(event, id=event_id)
     player_status = status.get_default_status(request.user)
     # player_status = get_player_status()
     action = request.GET.get('action')
-
-
 
     if action == '1':
         consequence = event_obj.consequence_1
@@ -156,15 +152,27 @@ def event_part_2(request, event_id):
 
 
 def random_event(request):
-    """Перенаправление на случайное событие с обновлением даты"""
-    if request.user.is_authenticated:
-        user_date = UserDate.objects.get(user=request.user)
-        user_date.next_month()
+    """Перенаправление на случайное событие"""
+    if not request.user.is_authenticated:
+        return redirect('login')
 
-    random_id = get_random_event_id()
-    if random_id:
-        return redirect('play_next', event_id=random_id)
-    return redirect('play')
+    # Обновляем дату
+    user_date = UserDate.objects.get(user=request.user)
+    user_date.next_month()
+
+    # Получаем случайное событие, исключая последнее
+    random_id = get_random_event_id(request.user, user_date.last_event_id)
+
+    # Если не нашли подходящее, берем любое
+    if not random_id:
+        random_id = get_random_event_id(request.user)
+
+    # Обновляем последнее событие
+    user_date.last_event_id = random_id
+    user_date.save()
+
+    return redirect('play_next', event_id=random_id)
+
 
 
 def get_consequence(request, event_id, action):
@@ -188,7 +196,6 @@ def get_consequence(request, event_id, action):
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import status
-
 
 @csrf_exempt
 def use_herbs(request):
@@ -224,7 +231,6 @@ def use_herbs(request):
                 'error': str(e)
             })
     return JsonResponse({'success': False, 'error': 'Invalid request'})
-
 
 def use_Samogon(request):
     if request.method == 'POST' and request.user.is_authenticated:
