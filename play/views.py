@@ -174,6 +174,10 @@ def random_event(request):
     return redirect('play_next', event_id=random_id)
 
 
+    # random_id = get_random_event_id()
+    # if random_id:
+    #     return redirect('play_next', event_id=random_id)
+    # return redirect('play')
 
 def get_consequence(request, event_id, action):
     """API для получения последствий (AJAX)"""

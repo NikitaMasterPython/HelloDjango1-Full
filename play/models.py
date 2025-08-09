@@ -129,6 +129,7 @@ class UserDate(models.Model):
     current_date = models.DateField(default=date(1601, 4, 1))
     last_event_id = models.PositiveIntegerField(null=True, blank=True)
 
+
     def next_month(self):
         """Переход на следующий месяц"""
         self.current_date += relativedelta(months=1)
