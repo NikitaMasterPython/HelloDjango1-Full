@@ -5,7 +5,66 @@ from .models import UserDate, status
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
+from django.conf import settings
 
+SUMMER_BACKGROUNDS = [
+    'village_summer1.png',
+    'village_summer2.png',
+    'village_summer3.png',
+]
+
+WINTER_BACKGROUNDS = [
+    'village_winter1.png',
+    'village_winter2.png',
+    'village_winter3.png',
+]
+
+
+
+#
+# def get_seasonal_background(request, user_date):
+#     """Возвращает фон для текущего сезона, сохраняя его до смены сезона"""
+#     # Ключ для кэша: background_<user_id>_<season>
+#     cache_key = f'background_{request.user.id}_{user_date.get_season()}'
+#
+#     # Пытаемся получить фон из кэша
+#     background = cache.get(cache_key)
+#
+#     if not background:
+#         # Выбираем случайный фон для сезона
+#         if user_date.get_season() == 'winter_time':
+#             background = random.choice(WINTER_BACKGROUNDS)
+#         else:
+#             background = random.choice(SUMMER_BACKGROUNDS)
+#
+#         # Сохраняем в кэше до конца сезона (на 6 месяцев)
+#         cache.set(cache_key, background, 60 * 60 * 24 * 183)  # 183 дня ≈ 6 месяцев
+#
+#     return f"{settings.STATIC_URL}image/fons/{background}"
+
+# def get_seasonal_background(user_date):
+#     """Генерирует стабильный фон на основе года и сезона"""
+#     year = user_date.current_date.year
+#     season = user_date.get_season()
+#
+#     # Создаем seed на основе года
+#     random.seed(year)
+#
+#     if season == 'winter_time':
+#         background = random.choice(WINTER_BACKGROUNDS)
+#     else:
+#         background = random.choice(SUMMER_BACKGROUNDS)
+#
+#     # Сбрасываем seed, чтобы не влиять на другую логику
+#     random.seed()
+#
+#     return f"{settings.STATIC_URL}image/fons/{background}"
+
+def get_random_background(season):
+    """Выбирает случайный фон для сезона"""
+    if season == 'winter_time':
+        return random.choice(WINTER_BACKGROUNDS)
+    return random.choice(SUMMER_BACKGROUNDS)
 
 @never_cache
 def get_player_status(request):
@@ -63,6 +122,8 @@ def play(request):
     user_date.last_event_id = random_id
     user_date.save()
 
+
+
     return redirect('play_next', event_id=random_id)
 
 
@@ -79,12 +140,24 @@ def play_next(request, event_id):
     user_date.last_event_id = event_id
     user_date.save()
 
+    user_date = UserDate.objects.get(user=request.user)
+    season = user_date.get_season()
+    # Убедимся, что фон установлен
+    if not user_date.current_background:
+        user_date.update_background(season)
+
+    background_image_url = f"{settings.STATIC_URL}image/fons/{user_date.current_background}"
+
+    # season = user_date.get_season()
+    # background_image = get_random_background(season)
+    # background_image_url = f"{settings.STATIC_URL}image/fons/{background_image}"
+
     return render(request, 'play/play.html', {
         'event': event_obj,
         'player_status': player_status,
         'consequence': None,
         'show_event_text': True,
-
+        'background_image_url': background_image_url,
         'show_actions': True  # Добавляем эту переменную
     })
 
@@ -134,10 +207,26 @@ def event_part_2(request, event_id):
         player_status.status_Fish += event_obj.received_Fish_2
         player_status.status_Jewelry += event_obj.received_Jewelry_2
     else:
-        return redirect('play_next', event_id=event_id)
+        return redirect('play_next',  event_id=event_id)
 
     # Сохраняем изменения статуса
     player_status.save()
+
+    user_date = UserDate.objects.get(user=request.user)
+    user_date.last_event_id = event_id
+    user_date.save()
+
+    user_date = UserDate.objects.get(user=request.user)
+    season = user_date.get_season()
+    # Убедимся, что фон установлен
+    if not user_date.current_background:
+        user_date.update_background(season)
+
+    background_image_url = f"{settings.STATIC_URL}image/fons/{user_date.current_background}"
+
+    # season = user_date.get_season()
+    # background_image = get_random_background(season)
+    # background_image_url = f"{settings.STATIC_URL}image/fons/{background_image}"
 
     if player_status.status_HP <= 0:
         return redirect('death_page')
@@ -147,7 +236,9 @@ def event_part_2(request, event_id):
         'player_status': player_status,
         'consequence': consequence,
         'show_actions': False,
-        'show_event_text': False  # Добавьте эту строку
+        'show_event_text': False,  # Добавьте эту строку
+        'background_image_url': background_image_url,
+
     })
 
 

@@ -129,10 +129,11 @@
         }
 
         body {
-            background-image: url('/static/image/fons/village_summer.png');
+            background-image: url('{{ background_image_url }}');
             background-repeat: no-repeat;
-            background-size: cover;  /* Растягивает фон на весь экран */
-            background-position: center;  /* Центрирует изображение */
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1.5s ease-in-out;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;  /* Убирает отступы по умолчанию */

@@ -5,7 +5,19 @@ from django.contrib.auth.models import User
 from datetime import date
 from dateutil.relativedelta import relativedelta  # для работы с месяцами
 import django.core.validators
+import random
 
+SUMMER_BACKGROUNDS = [
+    'village_summer1.png',
+    'village_summer2.png',
+    'village_summer3.png',
+]
+
+WINTER_BACKGROUNDS = [
+    'village_winter1.png',
+    'village_winter2.png',
+    'village_winter3.png',
+]
 
 def validate_max_hp_100(status_HP):
     if status_HP > 100:
@@ -129,17 +141,39 @@ class UserDate(models.Model):
     current_date = models.DateField(default=date(1601, 4, 1))
     last_event_id = models.PositiveIntegerField(null=True, blank=True)
 
+    current_season = models.CharField(max_length=20, blank=True)
+    current_background = models.CharField(max_length=100, blank=True)
+
+
+    def update_background(self, season):
+        """Обновляет фон при смене сезона"""
+        if season != self.current_season:
+            self.current_season = season
+            if season == 'winter_time':
+                self.current_background = random.choice(WINTER_BACKGROUNDS)
+            else:
+                self.current_background = random.choice(SUMMER_BACKGROUNDS)
+
 
     def next_month(self):
         """Переход на следующий месяц"""
+        old_season = self.get_season()
         self.current_date += relativedelta(months=1)
+        new_season = self.get_season()
+
+        # Обновляем фон при смене сезона
+        if old_season != new_season:
+            self.update_background(new_season)
+
         self.save()
-        return self.current_date
+
 
     def reset_date(self):
         """Сброс даты к начальной"""
         self.current_date = date(1701, 4, 1)
+        self.update_background('summer_time')
         self.save()
+
 
     def get_season(self):
         """Определение текущего сезона"""

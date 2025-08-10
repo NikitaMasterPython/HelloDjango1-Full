@@ -1,25 +1,133 @@
 {% extends "account/base_manage.html" %}
-{% load allauth i18n %}
-{% block head_title %}
-    {% trans "Sign Out" %}
-{% endblock head_title %}
+{% load static allauth i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Out" %}
-    {% endelement %}
-    {% element p %}
-        {% trans 'Are you sure you want to sign out?' %}
-    {% endelement %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Old Standard TT', serif;
+        background-image: url("{% static 'image/fons/village_main.png' %}");
+        background-size: cover;
+        background-position: center;
+        color: #f5e9c9;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .logout-container {
+        max-width: 600px;
+        margin: 50px auto;
+        width: 100%;
+        background: rgba(43, 24, 9, 0.9);
+        border: 3px solid #8B4513;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        text-align: center;
+    }
+
+    .logout-header {
+        color: #d4af37;
+        font-size: 36px;
+        margin-bottom: 30px;
+        text-align: center;
+        border-bottom: 2px solid #8B4513;
+        padding-bottom: 15px;
+    }
+
+    .logout-message {
+        font-size: 22px;
+        line-height: 1.6;
+        margin-bottom: 40px;
+    }
+
+    .logout-form {
+        margin-top: 30px;
+    }
+
+    .button {
+        background: #8B4513;
+        color: #f5e9c9;
+        border: none;
+        padding: 15px 40px;
+        font-size: 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-family: 'Old Standard TT', serif;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+        max-width: 300px;
+        margin: 10px 0;
+    }
+
+    .button:hover {
+        background: #a0522d;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .button-gold {
+        background: linear-gradient(to bottom, #d4af37, #b8860b);
+        color: #2b1809;
+    }
+
+    .button-gold:hover {
+        background: linear-gradient(to bottom, #e6c158, #c99a1e);
+    }
+
+    .logout-footer {
+        text-align: center;
+        margin-top: auto;
+        padding: 20px 0;
+        border-top: 2px solid #8B4513;
+        color: #d4af37;
+        font-size: 18px;
+    }
+</style>
+
+<div class="logout-container">
+    <h1 class="logout-header">{% trans "Выход из Русской Саги" %}</h1>
+
+    <p class="logout-message">
+        {% trans 'Вы уверены, что хотите покинуть наш мир?' %}<br>
+        {% trans 'Ваши земли и достижения будут ждать вашего возвращения' %}
+    </p>
+
     {% url 'account_logout' as action_url %}
     {% element form method="post" action=action_url no_visible_fields=True %}
         {% slot body %}
             {% csrf_token %}
-            {{ redirect_field }}
+            {% if redirect_field_value %}
+                <input type="hidden"
+                       name="{{ redirect_field_name }}"
+                       value="{{ redirect_field_value }}" />
+            {% endif %}
         {% endslot %}
         {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
+            {% element button type="submit" class="button button-gold" %}
+                {% trans 'Выйти' %}
             {% endelement %}
+
+            <a href="/" class="button">{% trans 'Остаться в игре' %}</a>
         {% endslot %}
     {% endelement %}
-{% endblock content %}
+</div>
+
+<footer class="logout-footer">
+    <p>© 2023 Русская Сага. Все права защищены.</p>
+</footer>
+{% endblock %}
