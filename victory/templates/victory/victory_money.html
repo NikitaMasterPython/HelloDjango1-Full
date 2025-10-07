@@ -1,0 +1,660 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вы выйграли</title>
+
+
+
+<!--    <link rel="stylesheet" href="static/styles/style.css">-->
+    <style>
+
+
+        .znachenie_hp {
+            position: absolute;
+            padding-left: 50px;
+            padding-top: 15px;
+            color: black;
+            font-weight: 900;
+            font-size: 25px;
+            margin: 1px;
+
+        }
+        .button-image {
+            font-size: 1rem;
+            width: 7em; /* Задайте желаемую ширину изображения */
+            height: 7em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+
+        }
+
+        .book-image {
+            font-size: 1rem;
+            width: 23em; /* Задайте желаемую ширину изображения */
+            height: 23em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            padding-left: 1px;
+
+        }
+        .button-container-hp {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 10px;
+            padding-top: 1px;
+
+
+        }
+.button-container-bag {
+    display: table-cell;
+    flex-direction: row;
+
+    z-index: 10;
+
+    /* Стили для некликабельного состояния */
+
+
+    cursor: not-allowed; /* Курсор "недоступно" */
+    pointer-events: none; /* Блокировка кликов */
+    opacity: 0.7; /* Легкая прозрачность */
+    text-decoration: none; /* Убираем подчеркивание */
+
+    border-radius: 4px; /* Скругление углов */
+        }
+        .button-container-market {
+            margin-top: 10px;
+            display: table-cell;
+            flex-direction: row;  /* Исправлено с "cow" на "row" */
+            margin: 10px;
+
+            /* Стили для некликабельного состояния */
+
+            cursor: not-allowed; /* Курсор "недоступно" */
+            pointer-events: none; /* Блокировка кликов */
+            opacity: 0.6; /* Прозрачность */
+
+            border-radius: 4px; /* Скругление углов */
+            padding: 8px 16px; /* Отступы внутри кнопки */
+            text-decoration: none; /* Убираем подчеркивание */
+            font-size: 14px;
+            user-select: none; /* Запрет выделения текста */
+        }
+        .normal-button {
+            margin-top: 10px; /* Отступ для обычных кнопок */
+            padding: 10px 20px;
+            font-size: 16px;
+
+        }
+
+        .button-image:hover {
+            background: #45a049; /* Темно-зеленый при наведении */
+            background: transparent;
+        }
+
+        .high-panel {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 1px;
+            padding-top: 0px;
+        }
+        .book-container {
+
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-left: 7px;
+
+        }
+
+        body {
+            background-image: url('/static/image/fons/village_summer.png');
+            background-repeat: no-repeat;
+            background-size: cover;  /* Растягивает фон на весь экран */
+            background-position: center;  /* Центрирует изображение */
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;  /* Убирает отступы по умолчанию */
+            padding: 0;
+            min-height: 100vh;  /* Занимает всю высоту экрана */
+            width: 100%;  /* Занимает всю ширину */
+            overflow-x: hidden;  /* Блокирует горизонтальный скролл */
+        }
+
+        .choise-coutainer {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+        .button-choise-coutainer1 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 1px;
+            padding-right: 10px;
+        }
+
+        .button-choise-coutainer2 {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 1px;
+            vertical-align: top;
+            padding-left: 55px;
+            padding-right: 1px;
+        }
+
+        .button-image-choise1 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 1px;
+            }
+
+        .button-image-choise2 {
+            font-size: 1rem;
+            width: 11em; /* Задайте желаемую ширину изображения */
+            height: 11em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+            padding-left: 7px;
+            }
+
+        .event_picture {
+            width: 1100px; /* Задайте желаемую ширину изображения */
+            height: 300px; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+
+            display: flex;
+            padding-top: 40px;
+            position: absolute;
+            padding-left: 43px;
+
+        }
+
+        .event_text {
+            /* Размеры и отступы */
+            width: 140px;
+            max-width: 100%; /* На случай, если родительский блок уже */
+            padding: 15px 15px 15px 210px;
+            padding-top: 155px;
+
+            /* Перенос текста (3 уровня защиты) */
+
+            overflow-wrap: anywhere;   /* Современная альтернатива break-word */
+            hyphens: auto;            /* Автоматические дефисы (если поддерживается) */
+
+            /* Сброс возможных конфликтов */
+            white-space: normal !important;
+            min-width: 0;             /* Важно для flex-контекста */
+
+            /* Оформление */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: black;
+
+            /* Позиционирование */
+            position: absolute;
+            left: 0;                  /* Фиксируем позицию */
+            top: 0;
+            display: block;
+        }
+
+        .action_1 {
+            left: 205px;       /* Заменяем padding-left на left */
+            width: 130px;
+            padding: 15px;
+            position: absolute;
+            top: 505px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+<!--            overflow-wrap: anywhere;-->
+<!--            hyphens: auto;-->
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+
+
+
+        }
+
+        .action_2 {
+            left: 20px;        /* Заменяем padding-left на left */
+            width: 140px;
+            padding: 15px;
+            position: absolute;
+            top: 505px;
+            z-index: 101;
+            cursor: pointer;
+
+            /* Текст */
+            overflow-wrap: anywhere;
+            hyphens: auto;
+            white-space: normal;
+
+            /* Внешний вид */
+            border: none;
+            background: transparent;
+            color: black;
+
+
+        }
+
+
+        .event_url_start {
+            position: absolute;
+            top: 462px;
+            left: 225px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+
+
+
+
+
+        .event_url_start a,
+        .action_2 a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        .event_picture img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+
+
+
+        }
+        .restart-container {
+            position: fixed;  /* Фиксированное позиционирование */
+            z-index: 1000;    /* Поверх всех элементов */
+
+            /* Настройте эти значения по своему вкусу */
+            top: 450px;         /* Отступ сверху */
+            left: 275px;       /* Отступ слева */
+            transform: translate(-50%, -50%); /* Центрирование */
+
+            padding: 20px;    /* Внутренние отступы */
+            background-color: rgba(0, 0, 0, 0.0); /* Полупрозрачный фон */
+            border-radius: 10px; /* Скругленные углы */
+            text-align: center; /* Выравнивание по центру */
+        }
+
+        .no-image {
+            padding: 20px;
+            background: #f0f0f0;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+       .consequence {
+            position: absolute;
+            top: 155px;
+            left: 200px;
+            right: 15px;
+            bottom: 15px;
+            z-index: 100;
+            width: 125px;
+            color: black;
+            line-height: 2px;
+
+            /* Стили для переноса текста */
+            overflow-wrap: break-word;    /* Перенос длинных слов */
+            word-wrap: break-word;       /* Для старых браузеров */
+            word-break: break-word;      /* Дополнительное правило */
+
+
+
+
+            /* Дополнительные свойства для улучшения отображения */
+            overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
+            padding: 10px;               /* Отступы внутри блока */
+            font-size: 16px;             /* Читаемый размер шрифта */
+            line-height: 1;            /* Межстрочный интервал */
+
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+
+</head>
+<body>
+
+
+
+    <div class="high-panel">
+
+        <div class="button-container-hp">
+            <!-- Кнопки в виде изображений -->
+            <p class= "znachenie_hp">
+                {{ Hit_points }}
+            </p>
+            <button class="button-image">
+                <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+
+
+        <div class="button-container-bag">
+            <!-- Кнопки в виде изображений -->
+            <button class="button-image" onclick="window.location.href='{% url 'mybag' %}'">
+                <img src="/static/image/panel/bag_norm.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+
+
+
+
+
+        <div class="button-container-market">
+            <button class="button-image">
+                <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
+            </button>
+        </div>
+    </div>
+
+
+
+
+    <div class="event_picture">
+        <img src="{% static 'image/fons/IMAGE 2025-07-16 20_51_49.png' %}" alt="Вольная">
+    </div>
+
+    <div class="event_text">
+        <p>Поздравляю! Вы заслужили лояльность барина, он дал Вам вольную и теперь Вы свободны
+            (Вы достигли конца бета версии игры, в поздних версиях Вас ждет дальнейшие этапы) </p>
+    </div>
+    <div class="book-container">
+
+        <img src="/static/image/panel/book_norm.png" alt="Кнопка 2" class="book-image">
+
+
+    </div>
+    <div class="restart-container">
+
+        <a href="{% url 'play' %}?reset=true" class="btn">Начать заново</a>
+    </div>
+
+
+
+
+    <div class="choise-coutainer">
+
+        <div class="button-choise-coutainer1">
+            <button class="button-image">
+                <img src="/static/image/panel/chois.png" alt="Кнопка 1" class="button-image-choise1">
+            </button>
+        </div>
+
+        <div class="button-choise-coutainer2">
+            <button class="button-image">
+                <img src="/static/image/panel/chois.png" alt="Кнопка 1" class="button-image-choise2">
+            </button>
+        </div>
+
+
+
+
+
+
+
+
+
+{% comment %} Блок статуса игрока {% endcomment %}
+
+
+<div class="player-status">
+    <p>{{ player_status.status_HP }}</p>
+    <p>{{ player_status.status_Money }}</p>
+    <p>{{ player_status.status_Loyalty }}</p>
+</div>
+
+
+<style>
+    .player-status {
+            position: absolute;
+            left: 55px;
+            top: 5px;
+            width: 30px;
+            padding: 1px;
+
+            border-radius: 1px;
+
+            font-size: 24px;
+            line-height: 0.3;
+            z-index: 150;
+            color: black; /* Явно задаем цвет текста */
+            font-family: Impact, fantasy;
+
+        }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация элементов
+    const actionButtons = document.querySelectorAll('.action-link');
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'choice-message';
+    document.body.appendChild(messageContainer);
+
+    // Определяем ID текущего события из URL
+    const getCurrentEventId = () => {
+        const pathParts = window.location.pathname.split('/');
+        return pathParts[pathParts.length - 2]; // Предполагаем формат /play/event_id/
+    };
+
+    const currentEventId = getCurrentEventId();
+    const lastProcessedEvent = sessionStorage.getItem('lastProcessedEvent');
+
+    // Сбрасываем состояние, если это новое событие
+    if (!lastProcessedEvent || lastProcessedEvent !== currentEventId) {
+        sessionStorage.removeItem('choiceMade');
+    }
+
+    // Восстанавливаем состояние кнопок
+    const choiceMade = sessionStorage.getItem('choiceMade') === 'true';
+    if (choiceMade) {
+        actionButtons.forEach(btn => {
+            btn.style.opacity = '0.5';
+            btn.style.pointerEvents = 'none';
+        });
+    }
+
+    // Блокировка истории
+    history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function() {
+        if (choiceMade) {
+            showMessage("Изменение выбора невозможно!");
+            history.pushState(null, null, window.location.href);
+        }
+    });
+
+    // Обработчик для кнопок выбора
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            if (sessionStorage.getItem('choiceMade') === 'true') {
+                showMessage("Вы уже сделали выбор!");
+                return;
+            }
+
+            // Сохраняем состояние
+            sessionStorage.setItem('choiceMade', 'true');
+            sessionStorage.setItem('lastProcessedEvent', currentEventId);
+
+            // Визуальные эффекты
+            this.classList.add('selected');
+            actionButtons.forEach(btn => {
+                btn.style.transition = 'opacity 0.3s ease';
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+            });
+
+            // Переход с задержкой
+            setTimeout(() => {
+                window.location.href = this.getAttribute('data-url');
+            }, 500);
+        });
+    });
+
+    function showMessage(text) {
+        messageContainer.textContent = text;
+        messageContainer.style.display = 'block';
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 2000);
+    }
+});
+</script>
+
+<style>
+.choice-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.action-link {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-link.selected {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.action-link.processed {
+    opacity: 0.5;
+    pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.pathname.includes('/event_end/')) {
+        const bagButtonContainer = document.querySelector('.button-container-bag');
+        const bagButton = bagButtonContainer.querySelector('.button-image');
+
+        if (bagButton) {
+            // 1. Сохраняем оригинальные стили и содержимое
+            const originalHTML = bagButton.innerHTML;
+            const originalStyles = window.getComputedStyle(bagButton);
+
+            // 2. Блокируем функционал
+            bagButton.onclick = null;
+            bagButton.style.cursor = 'not-allowed';
+
+            // 3. Создаем заблокированную версию с тем же HTML
+            bagButton.innerHTML = `
+                <div style="
+                    width: ${originalStyles.width};
+                    height: ${originalStyles.height};
+                    position: relative;
+                    display: inline-block;
+                ">
+                    <img src="/static/image/panel/bag_disabled.png"
+                         alt="Сумка недоступна"
+                         style="
+                            width: 103%;
+                            height: 103%;
+                            object-fit: contain;
+                            filter: grayscale(100%) brightness(0.7);
+                         ">
+                    <span class="bag-tooltip" style="
+                        position: absolute;
+                        bottom: -20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(0,0,0,0.8);
+                        color: white;
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        white-space: nowrap;
+                        visibility: hidden;
+                        width: max-content;
+                    ">В настоящее время недоступно</span>
+                </div>
+            `;
+
+            // 4. Добавляем обработчик для подсказки
+            const newImg = bagButton.querySelector('img');
+            newImg.addEventListener('mouseenter', function() {
+                bagButton.querySelector('.bag-tooltip').style.visibility = 'visible';
+            });
+            newImg.addEventListener('mouseleave', function() {
+                bagButton.querySelector('.bag-tooltip').style.visibility = 'hidden';
+            });
+        }
+    }
+});
+</script>
+
+
+</body>
+</html>

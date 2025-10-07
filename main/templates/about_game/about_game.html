@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Русская Сага - Об игре</title>
+    {% load static %}
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-image: url("{% static 'image/fons/village_main.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f5e9c9;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 15px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .menu-container {
+            background:
+                radial-gradient(circle, transparent 30%, rgba(43, 24, 9, 0.95) 100%),
+                url("{% static 'image/fons/parchment_texture.jpg' %}");
+            background-size: cover;
+            border: 2px solid #8B4513;
+            border-radius: 12px;
+            box-shadow:
+                0 0 15px rgba(139, 69, 19, 0.7),
+                inset 0 0 30px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 500px;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-container::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .title {
+            color: #d4af37;
+            font-size: 32px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #8B4513;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        .title::after {
+            content: "✸";
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4af37;
+            font-size: 20px;
+        }
+
+        .section-title {
+            color: #d4af37;
+            font-size: 22px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #8B4513;
+            text-align: left;
+        }
+
+        .game-description {
+            color: #f5e9c9;
+            font-size: 16px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .game-description span.highlight {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .feature-item {
+            color: #f5e9c9;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+        }
+
+        .feature-item::before {
+            content: "•";
+            color: #d4af37;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .development-notice {
+            background: rgba(139, 69, 19, 0.3);
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .development-notice .highlight {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .decoration {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .decoration-item {
+            color: #d4af37;
+            font-size: 24px;
+            text-shadow: 0 0 5px rgba(139, 69, 19, 0.8);
+            opacity: 0.7;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button {
+            background: linear-gradient(to bottom, #8B4513, #5d2c0d);
+            color: #f5e9c9;
+            border: 1px solid #d4af37;
+            padding: 16px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button:hover, .button:focus {
+            background: linear-gradient(to bottom, #a0522d, #703818);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Медиа-запросы для самых маленьких экранов */
+        @media (max-width: 360px) {
+            .title {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .game-description {
+                font-size: 14px;
+            }
+
+            .feature-item {
+                font-size: 13px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 14px 8px;
+                min-height: 50px;
+            }
+
+            .decoration-item {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .menu-container {
+                padding: 15px 10px;
+            }
+
+            .title {
+                margin-bottom: 15px;
+                font-size: 28px;
+            }
+
+            .section-title {
+                margin: 15px 0 10px;
+                font-size: 20px;
+            }
+
+            .menu-buttons {
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .button {
+                padding: 12px 8px;
+                min-height: 48px;
+                font-size: 16px;
+            }
+        }
+
+        /* Портретный режим */
+        @media (orientation: portrait) {
+            body {
+                padding: 10px;
+            }
+
+            .menu-container {
+                max-width: 95%;
+            }
+        }
+
+        /* Ландшафтный режим */
+        @media (orientation: landscape) {
+            .menu-container {
+                max-width: 80%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h1 class="title">ОБ ИГРЕ</h1>
+
+        <div class="game-description">
+            <span class="highlight">1601 год. Смутное время на Руси.</span> Вы - простой крестьянин, чья судьба зависит от ваших решений. Ваша цель - выбиться в высшее общество, но для этого нужно сначала освободиться от крепостных уз.
+        </div>
+
+        <h2 class="section-title">Цели игры</h2>
+        <div class="game-description">
+            Добиться свободы можно двумя путями:
+        </div>
+        <div class="feature-list">
+            <div class="feature-item">Добиться <span class="highlight">100% лояльности барина</span>, и он даст вам вольную</div>
+            <div class="feature-item">Накопить <span class="highlight">100 золотых монет</span> и выкупить свою повинность</div>
+        </div>
+
+        <h2 class="section-title">Механики игры</h2>
+        <div class="feature-list">
+            <div class="feature-item"><span class="highlight">События и выбор</span> - игра полна исторических событий XVI века на Руси. Каждый ваш выбор влияет на отношение барина и ваше финансовое положение</div>
+            <div class="feature-item"><span class="highlight">Карта мира</span> - изучайте окрестности, находите новые возможности и знакомьтесь с персонажами</div>
+            <div class="feature-item"><span class="highlight">Система торговли</span> - вовремя продавайте урожай и покупайте необходимые предметы для жизни в суровых условиях Руси</div>
+            <div class="feature-item"><span class="highlight">Стратегические решения</span> - от каждого выбора зависит ваша судьба. Подходите к решениям с умом!</div>
+        </div>
+
+        <div class="development-notice">
+            <div class="highlight">СТАДИЯ РАЗРАБОТКИ</div>
+            <div class="game-description">Вам доступен только первый этап игры. Следите за обновлениями!</div>
+        </div>
+
+        <div class="decoration">
+            <div class="decoration-item">🌾</div>
+            <div class="decoration-item">⚔️</div>
+            <div class="decoration-item">👑</div>
+            <div class="decoration-item">🗺️</div>
+            <div class="decoration-item">💰</div>
+        </div>
+
+        <div class="menu-buttons">
+            <a href="{% url 'index' %}" class="button">Главное меню</a>
+        </div>
+    </div>
+</body>
+</html>

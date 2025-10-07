@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Симулятор крестьянина</title>
+
+
+    <style>
+        .znachenie_hp {
+            position: absolute;
+            padding-left: 50px;
+            padding-top: 15px;
+            color: black;
+            font-weight: 900;
+            font-size: 25px;
+            margin: 1px;
+        }
+
+        .button-image {
+            font-size: 1rem;
+            width: 7em; /* Задайте желаемую ширину изображения */
+            height: 7em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            display: flex;
+        }
+
+        .button-container-hp {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 10px;
+            padding-top: 1px;
+        }
+
+        .button-image:hover {
+            background: #45a049; /* Темно-зеленый при наведении */
+            background: transparent;
+        }
+
+        .high-panel {
+            display: table-cell;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 5px;
+            padding-top: 1px;
+        }
+
+        body {
+            background-image: url('{{ scene.background_image.url }}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1.5s ease-in-out;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;  /* Убирает отступы по умолчанию */
+            padding: 0;
+
+
+        }
+
+    </style>
+    <style>
+        /* Основной контейнер с фиксированными размерами */
+        .game-container {
+            position: relative;
+            width: 800px;  /* Фиксированная ширина */
+            height: 600px; /* Фиксированная высота */
+            margin: 0 auto; /* Центрирование по горизонтали */
+            overflow: auto; /* Прокрутка если контент не помещается */
+            border: 1px solid #ccc; /* Опционально: граница для визуализации */
+            background-image: url('{{ scene.background_image.url }}');
+
+            background-repeat: no-repeat;
+            background-position: center;
+
+        }
+
+        /* Контент внутри контейнера */
+        .content {
+            position: relative;
+            width: 100%;
+            min-height: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Стили для отображения сцены */
+        .scene-description {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 3px;
+            margin-top: 350px;
+
+
+
+        }
+
+        /* Стили для вариантов выбора */
+        .choices-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3px;
+            margin-top: 1px;
+        }
+
+        .choice-button {
+
+            background-color: rgba(50, 50, 50, 0.8);
+            color: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            text-align: center;
+
+        }
+
+        .choice-button:hover {
+            background-color: rgba(70, 70, 70, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+
+
+        /* Кнопка возврата */
+        .return-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 850px) {
+            .game-container {
+                width: 100%;
+                height: 100vh;
+                background-size: cover;
+            }
+        }
+ /* ... существующие стили ... */
+
+        /* Стили для заблокированных кнопок */
+        .choice-button.blocked {
+            background-color: rgba(30, 30, 30, 0.6);
+            color: #888;
+            border: 2px solid #555;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .choice-button.blocked:hover {
+            background-color: rgba(30, 30, 30, 0.6);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Стили для тултипа */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 10000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Стили для сообщений */
+        .messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20000;
+            max-width: 300px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
+        }
+
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+
+
+
+
+    </style>
+    <style>
+    .player-status {
+            position: absolute;
+            left: 55px;
+            top: 5px;
+            width: 30px;
+            padding: 1px;
+
+            border-radius: 1px;
+
+            font-size: 24px;
+            line-height: 0.3;
+            z-index: 15000;
+            color: black; /* Явно задаем цвет текста */
+            font-family: Impact, fantasy;
+
+        }
+</style>
+
+</head>
+<body>
+    <!-- Сообщения -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="high-panel">
+        <div class="button-container-hp">
+            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
+                <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
+            </button>
+        </div>
+    </div>
+
+    <div class="player-status">
+        <p id="hp-display">{{ player_status.status_HP }}</p>
+        <p id="money-display">{{ player_status.status_Money }}</p>
+        <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
+    </div>
+
+    <div class="scene-container">
+        <!-- Описание сцены -->
+        <div class="scene-description">
+            {{ scene.description }}
+        </div>
+
+        <!-- Контейнер для вариантов выбора -->
+        <div class="choices-container">
+            {% for choice in choices %}
+                <form method="POST" action="{% url 'quest:make_choice' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="choice_id" value="{{ choice.id }}">
+                    <button type="submit" class="choice-button">
+                        {{ choice.text }}
+                    </button>
+                </form>
+            {% endfor %}
+
+            {% for blocked in blocked_choices %}
+                <div class="tooltip" style="display: inline;">
+                    <button class="choice-button blocked" disabled>
+                        {{ blocked.choice.text }}
+                    </button>
+                    <span class="tooltiptext">
+                        {{ blocked.description }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% if not choices and not blocked_choices %}
+                <p class="choice-button">Нет доступных вариантов выбора</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
