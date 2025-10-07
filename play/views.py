@@ -176,6 +176,7 @@ def get_player_status(request):
         'poison': player_status.status_Poison,
         'fish': player_status.status_Fish,
         'jewelry': player_status.status_Jewelry,
+        'harvest': player_status.status_Jewelry,
     })
 
 def event_part_2(request, event_id):
@@ -183,6 +184,16 @@ def event_part_2(request, event_id):
     player_status = status.get_default_status(request.user)
     # player_status = get_player_status()
     action = request.GET.get('action')
+    # if season != 'winter_time':
+    #     player_status.status_Harvest += 1
+    # if current_season == "winter":
+    #     player_status.status_Harvest += 1
+    user_date = UserDate.objects.get(user=request.user)
+    season = user_date.get_season()
+    if season != "winter_time":
+        player_status.status_Harvest += 1
+
+
 
     if action == '1':
         consequence = event_obj.consequence_1
@@ -195,6 +206,7 @@ def event_part_2(request, event_id):
         player_status.status_Poison += event_obj.received_Poison
         player_status.status_Fish += event_obj.received_Fish
         player_status.status_Jewelry += event_obj.received_Jewelry
+        player_status.status_Harvest += event_obj.received_Harvest
 
     elif action == '2':
         consequence = event_obj.consequence_2
@@ -206,6 +218,7 @@ def event_part_2(request, event_id):
         player_status.status_Poison += event_obj.received_Poison_2
         player_status.status_Fish += event_obj.received_Fish_2
         player_status.status_Jewelry += event_obj.received_Jewelry_2
+        player_status.status_Harvest += event_obj.received_Harvest_2
     else:
         return redirect('play_next',  event_id=event_id)
 
@@ -229,7 +242,21 @@ def event_part_2(request, event_id):
     # background_image_url = f"{settings.STATIC_URL}image/fons/{background_image}"
 
     if player_status.status_HP <= 0:
-        return redirect('death_page')
+    #     return redirect('death_page')
+    # if player_status.status_Money <= 0:
+    #     return redirect('bankrot_page')
+    # if player_status.status_Loyalty <= 0:
+    #     return redirect('loyalty_page')
+    # if player_status.status_HP <= 0 or user_date.current_date >= user_date.death_date:
+        return render(request, 'death/death.html', status=200)
+    if player_status.status_Money <= 0:
+        return render(request, 'death/bankrot.html', status=200)
+    if player_status.status_Loyalty <= 0:
+        return render(request, 'death/izgnanie.html', status=200)
+    if player_status.status_Money >= 100:
+        return render(request, 'victory/victory_money.html', status=200)
+    if player_status.status_Loyalty >= 100:
+        return render(request, 'victory/victory_loyalty.html', status=200)
 
     return render(request, 'play/play.html', {
         'event': event_obj,
@@ -467,6 +494,37 @@ def use_Jewelry(request):
             })
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
+def use_Harvest(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        try:
+            player_status = status.objects.get(user=request.user)
 
+            if player_status.status_Harvest >= 0:
+                return JsonResponse({
+                    'success': False,
+                    'attention': 'Каждый месяц ты получаешь урожай!'
+                })
+
+            # Сохраняем старые значения для сравнения
+            old_hp = player_status.status_HP
+
+            # Обновляем значения
+
+
+            return JsonResponse({
+                'success': True,
+                'new_hp': player_status.status_HP,
+                'new_money': player_status.status_Money,
+                'new_loyalty': player_status.status_Loyalty,
+
+                'new_Fish': player_status.status_Fish,
+                'hp_diff': player_status.status_HP - old_hp  # Разница HP для анимации
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            })
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 

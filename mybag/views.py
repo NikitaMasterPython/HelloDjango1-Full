@@ -54,7 +54,7 @@ def map_0(request):
     # Формируем URL фона
     background_image_url = f"{settings.STATIC_URL}image/fons/{user_date.current_background}"
 
-    return render(request, 'map/map_0.html', {
+    return render(request, 'map/map_00.html', {
         'player_status': player_status,
         'background_image_url': background_image_url  # Добавляем фон в контекст
     })

@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-
-import os
 import ssl
 
 # Временное решение для разработки (не использовать в продакшене)
@@ -25,13 +23,11 @@ os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(__file__), 'cace
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-skbc+6$mt2(v18#02jvl=_yy03xpx7(1v3+*0%bd0h8tb1dqs#'
-
 
 # Для тестирования
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
@@ -41,7 +37,6 @@ RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 # Для продакшена зарегистрируйтесь на https://www.google.com/recaptcha/admin/
 # RECAPTCHA_PUBLIC_KEY = 'ваш_публичный_ключ'
 # RECAPTCHA_PRIVATE_KEY = 'ваш_приватный_ключ'
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -66,12 +61,10 @@ INSTALLED_APPS = [
     'captcha',
     'accounts',
 
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
 
     'main',
     'play',
@@ -79,8 +72,10 @@ INSTALLED_APPS = [
     'play_restart',
     'death',
     'map',
-
-
+    'market',
+    'quest',
+    'cheat_protection',
+    'victory',
 
 ]
 
@@ -94,6 +89,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'allauth.account.middleware.AccountMiddleware',
+    'quest.middleware.CheatProtectionMiddleware',
 ]
 
 ROOT_URLCONF = 'HelloDjango.urls'
@@ -128,7 +124,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -159,7 +154,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -186,19 +180,15 @@ SITE_ID = 1
 
 # Настройки allauth
 
-
-
-
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Разрешить вход по email или username
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_LOGIN_METHODS = ['email']  # Использовать email для входа
 ACCOUNT_SIGNUP_FIELDS = ['email*']  # Обязательные поля при регистрации
-
-
 
 # ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -210,7 +200,6 @@ LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'auth.User'  # Используйте стандартную модель
-
 
 # Для тестирования (письма в консоль)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

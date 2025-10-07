@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta  # для работы с месяцами
 import django.core.validators
 import random
@@ -70,17 +70,19 @@ class status(models.Model):
     status_Poison = models.IntegerField(default=0)
     status_Fish = models.IntegerField(default=0)
     status_Jewelry = models.IntegerField(default=0)
+    status_Harvest = models.IntegerField(default=0)
 
     def reset(self):
         """Сбрасывает все параметры к значениям по умолчанию"""
         self.status_HP = 100
         self.status_Money = 10
-        self.status_Loyalty = 0
-        self.status_Herbs = 1
-        self.status_Poison = 2
-        self.status_Samogon = 1
-        self.status_Fish = 1
-        self.status_Jewelry = 1
+        self.status_Loyalty = 10
+        self.status_Herbs = 0
+        self.status_Poison = 0
+        self.status_Samogon = 0
+        self.status_Fish = 0
+        self.status_Jewelry = 0
+        self.status_Harvest = 0
         self.save()
         return self
 
@@ -114,6 +116,7 @@ class event(models.Model):
     received_Poison = models.IntegerField(default=0, verbose_name='Яд')
     received_Fish = models.IntegerField(default=0, verbose_name='Рыба')
     received_Jewelry = models.IntegerField(default=0, verbose_name='Драгоценности')
+    received_Harvest = models.IntegerField(default=0, verbose_name='Урожай')
 
     action_2 = models.CharField(max_length=500, verbose_name = 'Действие 2')
     consequence_2 = models.CharField(max_length=500, verbose_name = 'Последствие 2')
@@ -126,11 +129,13 @@ class event(models.Model):
     received_Poison_2 = models.IntegerField(default=0, verbose_name='Яд')
     received_Fish_2 = models.IntegerField(default=0, verbose_name='Рыба')
     received_Jewelry_2 = models.IntegerField(default=0, verbose_name='Драгоценности')
+    received_Harvest_2 = models.IntegerField(default=0, verbose_name='Урожай')
 
     def __str__(self):
         return self.event_Text  # Это будет отображаться в админке вместо "event object (1)"
 
 class UserDate(models.Model):
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -138,8 +143,11 @@ class UserDate(models.Model):
         primary_key = True
     )
 
-    current_date = models.DateField(default=date(1601, 4, 1))
+    current_date = models.DateField(default=date(1600, 4, 1))
     last_event_id = models.PositiveIntegerField(null=True, blank=True)
+    death_date = models.DateField(default=date(1650, 4, 1))
+
+
 
     current_season = models.CharField(max_length=20, blank=True)
     current_background = models.CharField(max_length=100, blank=True)
@@ -157,9 +165,14 @@ class UserDate(models.Model):
 
     def next_month(self):
         """Переход на следующий месяц"""
+        old_date = self.current_date
+
         old_season = self.get_season()
         self.current_date += relativedelta(months=1)
         new_season = self.get_season()
+        print(f"BEFORE: Current date: {old_date}, Death date: {self.death_date}")
+        print(f"AFTER: Current date: {self.current_date}, Death date: {self.death_date}")
+
 
         # Обновляем фон при смене сезона
         if old_season != new_season:
@@ -170,7 +183,8 @@ class UserDate(models.Model):
 
     def reset_date(self):
         """Сброс даты к начальной"""
-        self.current_date = date(1701, 4, 1)
+        self.current_date = date(1600, 4, 1)
+        self.death = date(1650, 4, 1)
         self.update_background('summer_time')
         self.save()
 

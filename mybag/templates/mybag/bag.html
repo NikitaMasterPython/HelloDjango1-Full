@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Симулятор крестьянина</title>
 
-<!--    <link rel="stylesheet" href="static/styles/style.css">-->
     <style>
-
 
         .znachenie_hp {
             position: absolute;
@@ -31,7 +29,6 @@
 
         }
 
-
         .button-image_2 {
             font-size: 1rem;
             width: 22em; /* Задайте желаемую ширину изображения */
@@ -43,8 +40,6 @@
             display: flex;
 
         }
-
-
 
         .book-image {
             font-size: 1rem;
@@ -64,7 +59,6 @@
             margin: 10px;
             padding-top: 1px;
 
-
         }
         .button-container-bag {
             display: table-cell;
@@ -75,17 +69,12 @@
             padding-left: 10px;
             padding-right: 10px;
 
-
         }
         .button-container-market {
             margin-top: 30px;
             display: table-cell;
             flex-direction: cow;
             margin: 30px;
-
-
-
-
 
         }
         .normal-button {
@@ -124,7 +113,6 @@
             vertical-align: top;
             padding-left: 1px;
             padding-right: 10px;
-
 
         }
 
@@ -258,9 +246,6 @@
             background: transparent;
             color: black;
 
-
-
-
         }
 
         .action_2 {
@@ -281,10 +266,7 @@
             border: none;
             background: transparent;
             color: black;
-
-
         }
-
 
         .event_url_start {
             position: absolute;
@@ -293,10 +275,6 @@
             right: 15px;
             bottom: 15px;
             z-index: 100;
-
-
-
-
 
         .event_url_start a,
         .action_2 a {
@@ -307,15 +285,10 @@
             color: inherit;
         }
 
-
         .event_picture img {
             max-width: 100%;
             height: auto;
         }
-
-
-
-
 
         }
         .no-image {
@@ -340,9 +313,6 @@
             word-wrap: break-word;       /* Для старых браузеров */
             word-break: break-word;      /* Дополнительное правило */
 
-
-
-
             /* Дополнительные свойства для улучшения отображения */
             overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
             padding: 10px;               /* Отступы внутри блока */
@@ -355,53 +325,18 @@
                 to { opacity: 1; }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 
 </head>
 <body>
 
-
-
     <div class="high-panel">
 
         <div class="button-container-hp">
-            <!-- Кнопки в виде изображений -->
-            <p class= "znachenie_hp">
-                {{ Hit_points }}
-            </p>
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
                 <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
-
-
-
-
-<!--<script>-->
-<!--function goBackFromBag() {-->
-<!--    // Возвращаемся на страницу игры (play)-->
-<!--    window.location.href = "{% url 'play' %}?_refresh=" + Date.now();-->
-<!--}-->
-<!--</script>-->
-
-<!--<div class="button-container-bag">-->
-<!--    <button class="button-image" onclick="goBackFromBag()">-->
-<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
-<!--    </button>-->
-<!--</div>-->
-
 
 {# Кнопка "Назад" #}
 <div class="button-container-bag">
@@ -410,72 +345,18 @@
     </button>
 </div>
 
-<!--<div class="button-container-bag">-->
-<!--    <button class="button-image" onclick="history.back()">-->
-<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
-<!--    </button>-->
-<!--</div>-->
-
-
-<!--<script>-->
-<!--function goBackAndRefresh() {-->
-<!--    // 1. Получаем URL предыдущей страницы-->
-<!--    const previousUrl = document.referrer;-->
-
-<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
-<!--    if (previousUrl && previousUrl !== window.location.href) {-->
-<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
-<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
-<!--    } else {-->
-<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
-<!--        window.location.href = '/'; // Перенаправляем на главную-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-
-<!--<script>-->
-<!--function goBackAndRefresh() {-->
-<!--    // 1. Получаем URL предыдущей страницы-->
-<!--    const previousUrl = document.referrer;-->
-
-<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
-<!--    if (previousUrl && previousUrl !== window.location.href) {-->
-<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
-<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
-<!--    } else {-->
-<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
-<!--        window.location.href = '/'; // Перенаправляем на главную-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-<!--        <div class="button-container-bag">-->
-
-<!--            <button class="button-image" onclick="window.location.href='{% url 'index' %}'">-->
-<!--                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">-->
-<!--            </button>-->
-<!--        </div>-->
-
-
         <div class="button-container-market">
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'market:market' %}'">
                 <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
             </button>
         </div>
     </div>
-
-
 
 <div class="player-status">
     <p id="hp-display">{{ player_status.status_HP }}</p>
     <p id="money-display">{{ player_status.status_Money }}</p>
     <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
 </div>
-
-
-
-
 
 <div class="book-container">
 
@@ -489,19 +370,7 @@
 
 </div>
 
-
-
-
-
-
-
-
-
 {% comment %} Блок статуса игрока {% endcomment %}
-
-
-
-
 
 <style>
     .player-status {
@@ -515,25 +384,20 @@
 
             font-size: 24px;
             line-height: 0.3;
-            z-index: 150;
+            z-index: 15000;
             color: black; /* Явно задаем цвет текста */
             font-family: Impact, fantasy;
 
         }
 </style>
 
-
-
-
 <p class="button_inventary_herbs" id="herbs-display">{{ player_status.status_Herbs }}</p>
 <p class="button_inventary_Samogon" id="Samogon-display">{{ player_status.status_Samogon }}</p>
 <p class="button_inventary_Poison" id="Poison-display">{{ player_status.status_Poison }}</p>
 <p class="button_inventary_Fish" id="Fish-display">{{ player_status.status_Fish }}</p>
 <p class="button_inventary_Jewelry" id="Jewelry-display">{{ player_status.status_Jewelry }}</p>
-
+<p class="button_inventary_Harvest" id="Рarvest-display">{{ player_status.status_Harvest }}</p>
 <div>
-
-
 
     <style>
          .button_inventary_herbs {
@@ -599,8 +463,6 @@
             border-radius: 4px;
         }
 
-
-
          .button_inventary_Fish {
             cursor: pointer;
             user-select: none;
@@ -642,8 +504,28 @@
 
             border-radius: 4px;
         }
-    </style>
 
+        .button_inventary_Harvest {
+            cursor: pointer;
+            user-select: none;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            /* Обязательные свойства для позиционирования */
+            position: absolute; /* или 'fixed' в зависимости от needs */
+            left: 310px;
+            top: 259px;
+            z-index: 1500;
+
+            /* Дополнительные рекомендуемые свойства */
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+
+            border-radius: 4px;
+        }
+    </style>
 
     <style>
 
@@ -777,7 +659,6 @@
             display: block;
         }
 
-
         .button-imagee_Jewelry{
             border: none;
             background: transparent; /* Прозрачность */
@@ -821,21 +702,48 @@
             display: block;
         }
 
+.button-imagee_Harvest{
+            border: none;
+            background: transparent; /* Прозрачность */
+            cursor: pointer;
+            padding: 0;
+            position: absolute;
+            z-index: 1001;
+            display: inline-block;
+        }
 
+        /* Стили для кнопки */
+        .button-imagee {
+            left: 24px;
+            top: 84px;
+        }
 
+        /* Стили для кнопки ух, заебало конечно */
+        .button-imagee_Harvest{
+            left: 140px;
+            top: 108px;
+        }
 
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_Harvest:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
+        .button-imagee:active,
+        .button-imagee_Harvest:active {
+            transform: translateY(0);
+        }
 
+        /* Стили для изображений внутри кнопок */
 
-
-
-
-
-
-
-
-
-
+        .button-imagee_Harvest img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+        }
 
         .hp-increased {
             animation: hpPulse 0.5s 2;
@@ -864,8 +772,6 @@
         }
     </style>
 
-
-
 </div>
 
 <button class="button-imagee" id="useHerbsButton">
@@ -888,7 +794,9 @@
     <img src="/static/image/panel/jewelry.png" alt="драгоценности" class="button-imagee_Jewelry">
 </button>
 
-
+<button class="button-imagee_Harvest" id="useHarvestButton">
+    <img src="/static/image/panel/harvest.png" alt="урожай" class="button-imagee_Harvest">
+</button>
 
 <script>
 // Общая инициализация статуса (выполняется один раз)
@@ -902,6 +810,7 @@ if (window.location.pathname.includes('/play_next/')) {
         document.getElementById('Poison-display').textContent = data.Poison;
         document.getElementById('Fish-display').textContent = data.Fish;
         document.getElementById('Fish-display').textContent = data.Jewelry;
+        document.getElementById('Fish-display').textContent = data.Harvest;
     });
 }
 
@@ -1019,7 +928,27 @@ document.getElementById('useJewelryButton').addEventListener('click', function()
     .catch(error => alert('Ошибка сети'));
 });
 
-
+     // Обработчик для урожая
+document.getElementById('useHarvestButton').addEventListener('click', function() {
+    fetch('/use_Harvest/', {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'use'})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('hp-display').textContent = data.new_hp;
+            document.getElementById('Jewelry-display').textContent = data.new_Harvest;
+            const hpElement = document.getElementById('hp-display');
+            hpElement.classList.add('hp-increased');
+            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
+        } else {
+            alert('Внимание: ' + data.attention);
+        }
+    })
+    .catch(error => alert('Ошибка сети'));
+});
 </script>
 
 </body>

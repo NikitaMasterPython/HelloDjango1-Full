@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="verification-container">
+    <h2>Письмо отправлено!</h2>
+    <p>Мы отправили письмо с подтверждением на <strong>{{ email }}</strong>.</p>
+    <p>Пожалуйста, проверьте вашу почту и перейдите по ссылке в письме.</p>
+    <a href="{% url 'index' %}" class="button button-gold">Вернуться на главную</a>
+</div>
+
+<style>
+    .verification-container {
+        background: rgba(43, 24, 9, 0.9);
+        border: 3px solid #8B4513;
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 600px;
+        margin: 50px auto;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    
+    .verification-container h2 {
+        color: #d4af37;
+        margin-bottom: 20px;
+    }
+    
+    .verification-container p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}

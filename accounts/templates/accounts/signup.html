@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>Регистрация</h2>
+
 <form method="post">
   {% csrf_token %}
 
@@ -31,5 +32,33 @@
   <p>После регистрации вам на почту придет письмо с подтверждением</p>
 
   <button type="submit">Зарегистрироваться</button>
+
+  {% if messages %}
+
+    <div class="error-messages">
+
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+<style>
+
+    .error-messages {
+      background: rgba(139, 0, 0, 0.7);
+      border: 1px solid #8b0000;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #ffcccb;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    }
+</style>
+
+{% endif %}
+
+
+
 </form>
 {% endblock %}

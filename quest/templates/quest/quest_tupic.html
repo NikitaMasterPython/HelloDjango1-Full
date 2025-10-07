@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Симулятор крестьянина</title>
 
-
     <style>
         .znachenie_hp {
             position: absolute;
@@ -51,7 +50,7 @@
         }
 
         body {
-            background-image: url('{{ scene.background_image.url }}');
+            background-image: url('/static/image/quest/find_fishers/photo_2025-09-14 20.41.34.jpeg');
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -60,12 +59,8 @@
             font-family: Arial, sans-serif;
             margin: 0;  /* Убирает отступы по умолчанию */
             padding: 0;
-
-
         }
 
-    </style>
-    <style>
         /* Основной контейнер с фиксированными размерами */
         .game-container {
             position: relative;
@@ -74,11 +69,9 @@
             margin: 0 auto; /* Центрирование по горизонтали */
             overflow: auto; /* Прокрутка если контент не помещается */
             border: 1px solid #ccc; /* Опционально: граница для визуализации */
-            background-image: url('{{ scene.background_image.url }}');
-
+            background-image: url('/static/image/backgrounds/tupic.jpg');
             background-repeat: no-repeat;
             background-position: center;
-
         }
 
         /* Контент внутри контейнера */
@@ -100,9 +93,6 @@
             font-size: 18px;
             margin-bottom: 3px;
             margin-top: 350px;
-
-
-
         }
 
         /* Стили для вариантов выбора */
@@ -115,7 +105,6 @@
         }
 
         .choice-button {
-
             background-color: rgba(50, 50, 50, 0.8);
             color: white;
             border: 2px solid #ddd;
@@ -126,7 +115,6 @@
             transition: all 0.3s ease;
             min-width: 200px;
             text-align: center;
-
         }
 
         .choice-button:hover {
@@ -134,8 +122,6 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-
-
 
         /* Кнопка возврата */
         .return-button {
@@ -153,7 +139,6 @@
                 background-size: cover;
             }
         }
- /* ... существующие стили ... */
 
         /* Стили для заблокированных кнопок */
         .choice-button.blocked {
@@ -243,92 +228,71 @@
             from { opacity: 1; }
             to { opacity: 0; }
         }
-
-
-
-
-
     </style>
+
     <style>
-    .player-status {
+        .player-status {
             position: absolute;
             left: 55px;
             top: 5px;
             width: 30px;
             padding: 1px;
-
             border-radius: 1px;
-
             font-size: 24px;
             line-height: 0.3;
             z-index: 15000;
             color: black; /* Явно задаем цвет текста */
             font-family: Impact, fantasy;
-
         }
-</style>
-
+    </style>
 </head>
 <body>
     <!-- Сообщения -->
-    {% if messages %}
     <div class="messages">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+        <div class="alert alert-error">
+            Вы достигли тупиковой ветки сюжета
         </div>
-        {% endfor %}
     </div>
-    {% endif %}
 
     <div class="high-panel">
         <div class="button-container-hp">
-            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
+            <button class="button-image" onclick="window.location.href='main.html'">
                 <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
     </div>
 
     <div class="player-status">
-        <p id="hp-display">{{ player_status.status_HP }}</p>
-        <p id="money-display">{{ player_status.status_Money }}</p>
-        <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
+        <p id="hp-display">50</p>
+        <p id="money-display">25</p>
+        <p id="loyalty-display">10</p>
     </div>
 
     <div class="scene-container">
         <!-- Описание сцены -->
         <div class="scene-description">
-            {{ scene.description }}
+            Даже с картой вы не смогли найти дорогу к месту назначения
+            (данная часть игры в пассивной разработке, прогуляйтесь до нижнего озера)
         </div>
 
         <!-- Контейнер для вариантов выбора -->
         <div class="choices-container">
-            {% for choice in choices %}
-                <form method="POST" action="{% url 'quest:make_choice' %}" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="choice_id" value="{{ choice.id }}">
-                    <button type="submit" class="choice-button">
-                        {{ choice.text }}
-                    </button>
-                </form>
-            {% endfor %}
+            <button class="choice-button" onclick="window.location.href='{% url 'map_0' %}'">
+                Вернуться к карте
+            </button>
 
-            {% for blocked in blocked_choices %}
-                <div class="tooltip" style="display: inline;">
-                    <button class="choice-button blocked" disabled>
-                        {{ blocked.choice.text }}
-                    </button>
-                    <span class="tooltiptext">
-                        {{ blocked.description }}
-                    </span>
-                </div>
-            {% endfor %}
+            <button class="choice-button" onclick="window.location.href='{% url 'play' %}'">
+                Вернуться к игре
+            </button>
 
-            {% if not choices and not blocked_choices %}
-                <p class="choice-button">Нет доступных вариантов выбора</p>
-            {% endif %}
+            <div class="tooltip" style="display: inline;">
+
+                <span class="tooltiptext">
+                    Этот путь заблокирован.
+                    Вы достигли тупиковой ветки сюжета и не можете двигаться дальше.
+                </span>
+            </div>
         </div>
     </div>
 </body>
 </html>
-

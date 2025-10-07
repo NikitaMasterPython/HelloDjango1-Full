@@ -8,7 +8,6 @@
 <!--    <link rel="stylesheet" href="static/styles/style.css">-->
     <style>
 
-
         .znachenie_hp {
             position: absolute;
             padding-left: 50px;
@@ -31,8 +30,6 @@
 
         }
 
-
-
         .book-image {
             font-size: 1rem;
             width: 23em; /* Задайте желаемую ширину изображения */
@@ -51,7 +48,6 @@
             margin: 10px;
             padding-top: 1px;
 
-
         }
         .button-container-bag {
             display: table-cell;
@@ -62,17 +58,12 @@
             padding-left: 10px;
             padding-right: 10px;
 
-
         }
         .button-container-market {
             margin-top: 30px;
             display: table-cell;
             flex-direction: cow;
             margin: 30px;
-
-
-
-
 
         }
         .normal-button {
@@ -232,9 +223,6 @@
             background: transparent;
             color: black;
 
-
-
-
         }
 
         .action_2 {
@@ -256,9 +244,7 @@
             background: transparent;
             color: black;
 
-
         }
-
 
         .event_url_start {
             position: absolute;
@@ -267,10 +253,6 @@
             right: 15px;
             bottom: 15px;
             z-index: 100;
-
-
-
-
 
         .event_url_start a,
         .action_2 a {
@@ -281,17 +263,11 @@
             color: inherit;
         }
 
-
         .event_picture img {
             max-width: 100%;
             height: auto;
         }
 
-
-
-
-
-        }
         .no-image {
             padding: 20px;
             background: #f0f0f0;
@@ -314,9 +290,6 @@
             word-wrap: break-word;       /* Для старых браузеров */
             word-break: break-word;      /* Дополнительное правило */
 
-
-
-
             /* Дополнительные свойства для улучшения отображения */
             overflow-y: auto;            /* Добавляем прокрутку если контент не помещается */
             padding: 10px;               /* Отступы внутри блока */
@@ -329,87 +302,24 @@
                 to { opacity: 1; }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 
 </head>
 <body>
 
-
-
     <div class="high-panel">
 
         <div class="button-container-hp">
-            <!-- Кнопки в виде изображений -->
-            <p class= "znachenie_hp">
-                {{ Hit_points }}
-            </p>
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
                 <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
-
-
-
-
-<!--<script>-->
-<!--&lt;!&ndash;function goBackFromMap() {&ndash;&gt;-->
-<!--&lt;!&ndash;    // Возвращаемся в сумку (bag)&ndash;&gt;-->
-<!--&lt;!&ndash;    window.location.href = "{% url 'mybag' %}?_refresh=" + Date.now();&ndash;&gt;-->
-<!--&lt;!&ndash;}&ndash;&gt;-->
-<!--</script>-->
-
-<!--<div class="button-container-bag">-->
-<!--    <button class="button-image" onclick="goBackFromMap()">-->
-<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
-<!--    </button>-->
-<!--</div>-->
-
-
 
 <div class="button-container-bag">
     <button class="button-image" onclick="history.back()">
         <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">
     </button>
 </div>
-
-<!--<script>-->
-<!--function goBackAndRefresh() {-->
-<!--    // Проверяем, откуда мы пришли-->
-<!--    const previousUrl = document.referrer;-->
-
-<!--    // Определяем текущий путь-->
-<!--    const currentPath = window.location.pathname;-->
-
-<!--    // Если предыдущая страница существует и не является текущей-->
-<!--    if (previousUrl && new URL(previousUrl).pathname !== currentPath) {-->
-<!--        // Просто переходим назад без обновления-->
-<!--        history.back();-->
-<!--    } else {-->
-<!--        // Резервный вариант: переход на главную-->
-<!--        window.location.href = '/';-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-<!--        <div class="button-container-bag">-->
-
-<!--            <button class="button-image" onclick="window.location.href='{% url 'index' %}'">-->
-<!--                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">-->
-<!--            </button>-->
-<!--        </div>-->
-
 
         <div class="button-container-market">
             <button class="button-image">
@@ -418,17 +328,11 @@
         </div>
     </div>
 
-
-
 <div class="player-status">
     <p id="hp-display">{{ player_status.status_HP }}</p>
     <p id="money-display">{{ player_status.status_Money }}</p>
     <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
 </div>
-
-
-
-
 
 <div class="book-container">
 
@@ -436,19 +340,7 @@
 
 </div>
 
-
-
-
-
-
-
-
-
 {% comment %} Блок статуса игрока {% endcomment %}
-
-
-
-
 
 <style>
     .player-status {
@@ -462,20 +354,14 @@
 
             font-size: 24px;
             line-height: 0.3;
-            z-index: 150;
+            z-index: 15000;
             color: black; /* Явно задаем цвет текста */
             font-family: Impact, fantasy;
 
         }
 </style>
 
-
-
-
-
 <div>
-
-
 
     <style>
          .button_inventary_herbs {
@@ -541,8 +427,6 @@
             border-radius: 4px;
         }
 
-
-
          .button_inventary_Fish {
             cursor: pointer;
             user-select: none;
@@ -586,139 +470,7 @@
         }
     </style>
 
-
     <style>
-
-        .button-imagee,
-        .button-imagee_Samogon {
-            border: none;
-            background: transparent; /* Прозрачность */
-            cursor: pointer;
-            padding: 0;
-            position: absolute;
-            z-index: 101;
-            display: inline-block;
-        }
-
-        /* Стили для кнопки с травами */
-        .button-imagee {
-            left: 24px;
-            top: 84px;
-        }
-
-        /* Стили для кнопки с самогоном */
-        .button-imagee_Samogon {
-            left: 54px;
-            top: 84px;
-        }
-
-        /* Общие эффекты при наведении и нажатии */
-        .button-imagee:hover,
-        .button-imagee_Samogon:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-imagee:active,
-        .button-imagee_Samogon:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для изображений внутри кнопок */
-        .button-imagee img,
-        .button-imagee_Samogon img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .button-imagee_Poison{
-            border: none;
-            background: transparent; /* Прозрачность */
-            cursor: pointer;
-            padding: 0;
-            position: absolute;
-            z-index: 1001;
-            display: inline-block;
-        }
-
-        /* Стили для кнопки с травами */
-        .button-imagee {
-            left: 24px;
-            top: 84px;
-        }
-
-        /* Стили для кнопки с ядом ух, заебало конечно */
-        .button-imagee_Poison {
-            left: 83px;
-            top: 84px;
-        }
-
-        /* Общие эффекты при наведении и нажатии */
-        .button-imagee:hover,
-        .button-imagee_Poison:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-imagee:active,
-        .button-imagee_Poison:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для изображений внутри кнопок */
-        .button-imagee img,
-        .button-imagee_Poison img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .button-imagee_Fish{
-            border: none;
-            background: transparent; /* Прозрачность */
-            cursor: pointer;
-            padding: 0;
-            position: absolute;
-            z-index: 1001;
-            display: inline-block;
-        }
-
-        /* Стили для кнопки с травами */
-        .button-imagee {
-            left: 24px;
-            top: 84px;
-        }
-
-        /* Стили для кнопки с fish ух, заебало конечно */
-        .button-imagee_Fish{
-            left: 110px;
-            top: 84px;
-        }
-
-        /* Общие эффекты при наведении и нажатии */
-        .button-imagee:hover,
-        .button-imagee_Fish:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-imagee:active,
-        .button-imagee_Fish:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для изображений внутри кнопок */
-
-        .button-imagee_Fish img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            display: block;
-        }
-
 
         .button-imagee_cave{
             border: none;
@@ -763,67 +515,56 @@
             display: block;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        .hp-increased {
-            animation: hpPulse 0.5s 2;
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        @keyframes hpPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .loader {
+        .button-imagee_lake{
+            border: none;
+            background: transparent; /* Прозрачность */
+            cursor: pointer;
+            padding: 0;
+            position: absolute;
+            z-index: 1001;
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* Стили для кнопки */
+        .button-imagee {
+            left: 24px;
+            top: 84px;
         }
+
+        /* Стили для кнопки ух, заебало конечно */
+        .button-imagee_lake{
+            left: 84px;
+            top: 275px;
+        }
+
+        /* Общие эффекты при наведении и нажатии */
+        .button-imagee:hover,
+        .button-imagee_lake:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-imagee:active,
+        .button-imagee_lake:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для изображений внутри кнопок */
+
+        .button-imagee_lake img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            display: block;
+        }
+
     </style>
-
-
 
 </div>
 
-<button class="button-imagee" id="useHerbsButton">
-    <img src="/static/image/panel/herbs.png" alt="Лечебные травы" class="button-imagee">
-</button>
-
-<button class="button-imagee_Samogon" id="useSamogonButton">
-    <img src="/static/image/panel/samogon.png" alt="Самогон" class="button-imagee_Samogon">
-</button>
-
-<button class="button-imagee_Poison" id="usePoisonButton">
-    <img src="/static/image/panel/poison.png" alt="яд" class="button-imagee_Poison">
-</button>
-
-<button class="button-imagee_Fish" id="useFishButton">
-    <img src="/static/image/panel/fish.png" alt="рыба" class="button-imagee_Fish">
+<button class="button-imagee_lake" onclick="window.location.href='{% url 'play' %}'"
+        data-tooltip="Отправиться на озеро">
+    <img src="/static/image/panel/lake.png" alt="озеро" class="button-imagee_lake">
 </button>
 
 <button class="button-imagee_cave" onclick="window.location.href='{% url 'play' %}'"
@@ -888,11 +629,66 @@
     transform: translateX(-50%) translateY(-5px);
 }
 
-.button-imagee_cave:hover::after {
+.button-imagee_lake:hover::after {
+    transform: translateX(-50%) translateY(1px);
+}
+     display: inline-block;
+}
+
+/* Стили для самой подсказки */
+.button-imagee_lake::before {
+
+    top: 338px;
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    left: 195px;
+    color: A52A2A;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+
+}
+
+/* Стрелка подсказки */
+.button-imagee_lake::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    left: 105px;
+    top: 260px;
+    transform: translateX(-50%) translateY(100%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Показываем подсказку при наведении */
+.button-imagee_lake:hover::before,
+.button-imagee_lake:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.button-imagee_lake:hover::after {
     transform: translateX(-50%) translateY(1px);
 }
 </style>
-
 
 </body>
 </html>

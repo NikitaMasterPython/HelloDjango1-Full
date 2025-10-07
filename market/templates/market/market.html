@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Симулятор крестьянина</title>
 
-<!--    <link rel="stylesheet" href="static/styles/style.css">-->
     <style>
 
 
@@ -50,6 +50,17 @@
             font-size: 1rem;
             width: 23em; /* Задайте желаемую ширину изображения */
             height: 23em; /* Задайте желаемую высоту изображения */
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            vertical-align: top;
+            padding-left: 1px;
+
+        }
+        .book-market {
+            font-size: 1rem;
+            width: 23em; /* Задайте желаемую ширину изображения */
+            height: 10em; /* Задайте желаемую высоту изображения */
             border: none;
             cursor: pointer;
             background: transparent;
@@ -372,36 +383,19 @@
 </head>
 <body>
 
-
-
     <div class="high-panel">
 
         <div class="button-container-hp">
-            <!-- Кнопки в виде изображений -->
-            <p class= "znachenie_hp">
-                {{ Hit_points }}
-            </p>
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
                 <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
 
-
-
-
-<!--<script>-->
-<!--function goBackFromBag() {-->
-<!--    // Возвращаемся на страницу игры (play)-->
-<!--    window.location.href = "{% url 'play' %}?_refresh=" + Date.now();-->
-<!--}-->
-<!--</script>-->
-
-<!--<div class="button-container-bag">-->
-<!--    <button class="button-image" onclick="goBackFromBag()">-->
-<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
-<!--    </button>-->
-<!--</div>-->
-
+        <div class="button-container-bag">
+            <button class="button-image" onclick="window.location.href='{% url 'mybag' %}'">
+                <img src="/static/image/panel/bag_norm.png" alt="Сумка" class="button-image">
+            </button>
+        </div>
 
 {# Кнопка "Назад" #}
 <div class="button-container-bag">
@@ -410,59 +404,6 @@
     </button>
 </div>
 
-<!--<div class="button-container-bag">-->
-<!--    <button class="button-image" onclick="history.back()">-->
-<!--        <img src="/static/image/panel/door3.png" alt="Назад" class="button-image">-->
-<!--    </button>-->
-<!--</div>-->
-
-
-<!--<script>-->
-<!--function goBackAndRefresh() {-->
-<!--    // 1. Получаем URL предыдущей страницы-->
-<!--    const previousUrl = document.referrer;-->
-
-<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
-<!--    if (previousUrl && previousUrl !== window.location.href) {-->
-<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
-<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
-<!--    } else {-->
-<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
-<!--        window.location.href = '/'; // Перенаправляем на главную-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-
-<!--<script>-->
-<!--function goBackAndRefresh() {-->
-<!--    // 1. Получаем URL предыдущей страницы-->
-<!--    const previousUrl = document.referrer;-->
-
-<!--    // 2. Если есть предыдущая страница (не пустой реферер)-->
-<!--    if (previousUrl && previousUrl !== window.location.href) {-->
-<!--        // 3. Переходим на предыдущую страницу с параметром для обхода кеша-->
-<!--        window.location.href = previousUrl + (previousUrl.includes('?') ? '&' : '?') + '_refresh=' + Date.now();-->
-<!--    } else {-->
-<!--        // 4. Если нет истории (например, открыли в новой вкладке)-->
-<!--        window.location.href = '/'; // Перенаправляем на главную-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-<!--        <div class="button-container-bag">-->
-
-<!--            <button class="button-image" onclick="window.location.href='{% url 'index' %}'">-->
-<!--                <img src="/static/image/panel/door3.png" alt="Кнопка 1" class="button-image">-->
-<!--            </button>-->
-<!--        </div>-->
-
-
-        <div class="button-container-market">
-            <button class="button-image">
-                <img src="/static/image/panel/market_norm.png" alt="Кнопка 2" class="button-image">
-            </button>
-        </div>
     </div>
 
 
@@ -473,35 +414,477 @@
     <p id="loyalty-display">{{ player_status.status_Loyalty }}</p>
 </div>
 
-
-
-
-
 <div class="book-container">
 
     <img src="/static/image/panel/inventary_norm.png" alt="Кнопка 2" class="book-image">
 
     <div class="button-container-map">
-        <button class="button-image" onclick="window.location.href='{% url 'map_0' %}'">
-            <img src="/static/image/panel/map_0.png" alt="Кнопка 1" class="button-image_2">
-        </button>
+         <img src="/static/image/panel/market_table.png" alt="Кнопка 2" class="book-market">
     </div>
 
 </div>
+    <div>
+        <div class="container">
+            <div>
+                <div class="vertical-toggle" id="verticalToggle">
+                    <div class="toggle-handle top" id="toggleHandle"></div>
+                </div>
+            </div>
+        </div>
+        <p class="product-0">Наименование товара</p>
+        <p class="product-1">Лечебные травы</p>
+        <p class="product-2">Самогон</p>
+        <p class="product-3">Яд</p>
+        <p class="product-4">Рыба</p>
+        <p class="product-5">Драгоценности</p>
+        <p class="product-6">Урожай</p>
+
+        <p class="price_main">Цена</p>
+
+        <p class="price-1">{{ Herbs_sell_price }}/{{ Herbs_cost }}</p>
+        <p class="price-2">{{ samogon_sell_price }}/{{ samogon_cost }}</p>
+        <p class="price-3">{{ poison_sell_price }}/{{ poison_cost }}</p>
+        <p class="price-4">{{ fish_sell_price }}/{{ fish_cost }}</p>
+        <p class="price-5">{{ jewelry_sell_price }}/{{ jewelry_cost }}</p>
+        <p class="price-6">{{ harvest_sell_price }}/{{ harvest_cost }}</p>
 
 
 
 
+    </div>
 
+    </div>
 
+<style>
+    .product-0 {
+        position: absolute;
+        top: 513px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
 
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
 
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .product-1 {
+        position: absolute;
+        top: 530px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .product-2 {
+        position: absolute;
+        top: 545px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .product-3 {
+        position: absolute;
+        top: 560px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+
+    .product-4 {
+        position: absolute;
+        top: 575px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .product-5 {
+        position: absolute;
+        top: 590px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .product-6 {
+        position: absolute;
+        top: 605px; /* Центрируем по вертикали */
+        left: 33px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .price_main {
+        position: absolute;
+        top: 513px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .price-1 {
+        position: absolute;
+        top: 530px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .price-2 {
+        position: absolute;
+        top: 545px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+
+        .price-3 {
+        position: absolute;
+        top: 560px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+
+    .price-4 {
+        position: absolute;
+        top: 575px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .price-5 {
+        position: absolute;
+        top: 590px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .price-6 {
+        position: absolute;
+        top: 605px; /* Центрируем по вертикали */
+        left: 190px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .market_buy {
+        position: absolute;
+        top: 513px; /* Центрируем по вертикали */
+        left: 270px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+    .market_sell {
+        position: absolute;
+        top: 605px; /* Центрируем по вертикали */
+        left: 270px; /* Центрируем по горизонтали */
+
+        margin: 0;
+        color: black;
+        font-size: 12px; /* Размер шрифта */
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* Легкая тень для читаемости */
+        text-align: center;
+
+        z-index: 100; /* Убедимся, что текст поверх изображения */
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const verticalToggle = document.getElementById('verticalToggle');
+        const toggleHandle = document.getElementById('toggleHandle');
+
+        // Получаем начальное состояние из сервера (по умолчанию 'sell')
+        const initialAction = "{{ market_action|default:'sell' }}";
+        let isActive = initialAction === 'buy';
+
+        // Устанавливаем начальное положение ползунка
+        if (isActive) {
+            verticalToggle.classList.add('active');
+            toggleHandle.classList.remove('top');
+            toggleHandle.classList.add('bottom');
+            toggleHandle.textContent = 'Buy';
+        } else {
+            verticalToggle.classList.remove('active');
+            toggleHandle.classList.remove('bottom');
+            toggleHandle.classList.add('top');
+            toggleHandle.textContent = 'Sell';
+        }
+
+        // Обновляем все скрытые поля при загрузке
+        updateAllActionTypes();
+
+        // Обработчик переключения
+        verticalToggle.addEventListener('click', function() {
+            isActive = !isActive;
+
+            if (isActive) {
+                verticalToggle.classList.add('active');
+                toggleHandle.classList.remove('top');
+                toggleHandle.classList.add('bottom');
+                toggleHandle.textContent = 'Buy';
+            } else {
+                verticalToggle.classList.remove('active');
+                toggleHandle.classList.remove('bottom');
+                toggleHandle.classList.add('top');
+                toggleHandle.textContent = 'Sell';
+            }
+
+            // Обновляем все скрытые поля
+            updateAllActionTypes();
+
+            // Сохраняем состояние на сервере через AJAX
+            fetch('/market/save_action/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: isActive ? 'buy' : 'sell'
+                })
+            }).catch(error => console.error('Ошибка при сохранении состояния:', error));
+        });
+    });
+
+    // Функция для обновления всех action_type полей в формах
+    function updateAllActionTypes() {
+        const verticalToggle = document.getElementById('verticalToggle');
+        const actionTypeFields = document.querySelectorAll('input[name="action_type"]');
+
+        actionTypeFields.forEach(field => {
+            if (verticalToggle.classList.contains('active')) {
+                field.value = 'buy'; // Покупка
+            } else {
+                field.value = 'sell'; // Продажа
+            }
+        });
+    }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const verticalToggle = document.getElementById('verticalToggle');
+    const toggleHandle = document.getElementById('toggleHandle');
+    let isActive = "{{ market_action|default:'sell' }}" === 'buy';
+
+    // Функция для обновления переключателя
+    function updateToggle() {
+        if (isActive) {
+            verticalToggle.classList.add('active');
+            toggleHandle.classList.remove('top');
+            toggleHandle.classList.add('bottom');
+            toggleHandle.textContent = 'Buy';
+        } else {
+            verticalToggle.classList.remove('active');
+            toggleHandle.classList.remove('bottom');
+            toggleHandle.classList.add('top');
+            toggleHandle.textContent = 'Sell';
+        }
+        updateAllActionTypes();
+    }
+
+    // Инициализация
+    updateToggle();
+
+    // Обработчики событий
+    function handleToggle() {
+        isActive = !isActive;
+        updateToggle();
+
+        // Сохранение состояния на сервере
+        fetch('/market/save_action/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: isActive ? 'buy' : 'sell'
+            })
+        }).catch(error => console.error('Ошибка при сохранении состояния:', error));
+    }
+
+    // Добавляем обработчики для различных типов событий
+    verticalToggle.addEventListener('click', handleToggle);
+    verticalToggle.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleToggle();
+    }, {passive: false});
+
+    // Предотвращаем скролл при взаимодействии с переключателем
+    verticalToggle.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    }, {passive: false});
+});
+</script>
+
+<style>
+    .vertical-toggle {
+        position: absolute;
+        left: 270px;
+        top: 510px;
+        width: 50px;
+        height: 100px;
+        background: #8B4513;
+        border-radius: 50px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        overflow: hidden;
+        transition: background 0.3s ease;
+        z-index: 9999;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation; /* Важно для iOS */
+    }
+
+    .vertical-toggle.active {
+        background: #D2691E;
+    }
+
+    .toggle-handle {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: #D2B48C;
+        border-radius: 50%;
+        left: 5px;
+        transition: top 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        font-weight: bold;
+        user-select: none;
+    }
+
+    .toggle-handle.top {
+        top: 10px;
+    }
+
+    .toggle-handle.bottom {
+        top: 50px;
+    }
+
+    /* Улучшения для мобильных устройств */
+    @media (max-width: 768px) {
+        .vertical-toggle {
+            width: 60px;
+            height: 120px;
+        }
+
+        .toggle-handle {
+            width: 50px;
+            height: 50px;
+            left: 5px;
+        }
+
+        .toggle-handle.top {
+            top: 10px;
+        }
+
+        .toggle-handle.bottom {
+            top: 60px;
+        }
+    }
+</style>
 
 {% comment %} Блок статуса игрока {% endcomment %}
-
-
-
-
 
 <style>
     .player-status {
@@ -515,15 +898,12 @@
 
             font-size: 24px;
             line-height: 0.3;
-            z-index: 150;
+            z-index: 15000;
             color: black; /* Явно задаем цвет текста */
             font-family: Impact, fantasy;
 
         }
 </style>
-
-
-
 
 <p class="button_inventary_herbs" id="herbs-display">{{ player_status.status_Herbs }}</p>
 <p class="button_inventary_Samogon" id="Samogon-display">{{ player_status.status_Samogon }}</p>
@@ -532,8 +912,6 @@
 <p class="button_inventary_Jewelry" id="Jewelry-display">{{ player_status.status_Jewelry }}</p>
 <p class="button_inventary_Harvest" id="Рarvest-display">{{ player_status.status_Harvest }}</p>
 <div>
-
-
 
     <style>
          .button_inventary_herbs {
@@ -664,7 +1042,6 @@
             border-radius: 4px;
         }
     </style>
-
 
     <style>
 
@@ -931,186 +1308,92 @@
         }
     </style>
 
-
-
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 </div>
 
-<button class="button-imagee" id="useHerbsButton">
-    <img src="/static/image/panel/herbs.png" alt="Лечебные травы" class="button-imagee">
-</button>
+<form action="{% url 'market:buy_herbs' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-herbs">
+    <button type="submit" class="button-imagee">
+        <img src="/static/image/panel/herbs.png" alt="Лечебные травы" class="button-imagee">
+    </button>
+</form>
 
-<button class="button-imagee_Samogon" id="useSamogonButton">
-    <img src="/static/image/panel/samogon.png" alt="Самогон" class="button-imagee_Samogon">
-</button>
+<!-- Форма для самогона -->
+<form action="{% url 'market:buy_samogon' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-samogon">
+    <button type="submit" class="button-imagee_Samogon">
+        <img src="/static/image/panel/samogon.png" alt="Самогон" class="button-imagee_Samogon">
+    </button>
+</form>
 
-<button class="button-imagee_Poison" id="usePoisonButton">
-    <img src="/static/image/panel/poison.png" alt="яд" class="button-imagee_Poison">
-</button>
+<form action="{% url 'market:buy_poison' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-poison">
+    <button type="submit" class="button-imagee_Poison">
+        <img src="/static/image/panel/poison.png" alt="Яд" class="button-imagee_Poison">
+    </button>
+</form>
 
-<button class="button-imagee_Fish" id="useFishButton">
-    <img src="/static/image/panel/fish.png" alt="рыба" class="button-imagee_Fish">
-</button>
+<form action="{% url 'market:buy_fish' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-fish">
+    <button type="submit" class="button-imagee_Fish">
+        <img src="/static/image/panel/fish.png" alt="Рыба" class="button-imagee_Fish">
+    </button>
+</form>
 
-<button class="button-imagee_Jewelry" id="useJewelryButton">
-    <img src="/static/image/panel/jewelry.png" alt="драгоценности" class="button-imagee_Jewelry">
-</button>
+<form action="{% url 'market:buy_jewelry' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-jewelry">
+    <button type="submit" class="button-imagee_Jewelry">
+        <img src="/static/image/panel/jewelry.png" alt="Драгоценности" class="button-imagee_Jewelry">
+    </button>
+</form>
 
-<button class="button-imagee_Harvest" id="useHarvestButton">
-    <img src="/static/image/panel/harvest.png" alt="урожай" class="button-imagee_Harvest">
-</button>
-
+<form action="{% url 'market:buy_harvest' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action_type" value="buy" id="action-type-harvest">
+    <button type="submit" class="button-imagee_Harvest">
+        <img src="/static/image/panel/harvest.png" alt="Урожай" class="button-imagee_Harvest">
+    </button>
+</form>
 
 <script>
-// Общая инициализация статуса (выполняется один раз)
-if (window.location.pathname.includes('/play_next/')) {
-    fetch('/get_player_status/')
-    .then(r => r.json())
-    .then(data => {
-        document.getElementById('hp-display').textContent = data.hp;
-        document.getElementById('herbs-display').textContent = data.herbs;
-        document.getElementById('Samogon-display').textContent = data.Samogon;
-        document.getElementById('Poison-display').textContent = data.Poison;
-        document.getElementById('Fish-display').textContent = data.Fish;
-        document.getElementById('Fish-display').textContent = data.Jewelry;
-        document.getElementById('Fish-display').textContent = data.Harvest;
+    // Функция для обновления всех action_type полей в формах
+    function updateAllActionTypes() {
+        const verticalToggle = document.getElementById('verticalToggle');
+        const actionTypeFields = document.querySelectorAll('input[name="action_type"]');
+
+        actionTypeFields.forEach(field => {
+            if (verticalToggle.classList.contains('active')) {
+                field.value = 'buy'; // Покупка
+            } else {
+                field.value = 'sell'; // Продажа
+            }
+        });
+    }
+
+    // Обновляем значение при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAllActionTypes();
+
+        // Добавляем обработчик изменения положения ползунка
+        const verticalToggle = document.getElementById('verticalToggle');
+        verticalToggle.addEventListener('click', function() {
+            // Ждем небольшое время, чтобы классы успели обновиться
+            setTimeout(updateAllActionTypes, 100);
+        });
     });
-}
-
-// Обработчик для трав
-document.getElementById('useHerbsButton').addEventListener('click', function() {
-    fetch('/use_herbs/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('herbs-display').textContent = data.new_herbs;
-            // Эффект обновления HP
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-
-// Обработчик для самогона
-document.getElementById('useSamogonButton').addEventListener('click', function() {
-    fetch('/use_Samogon/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('Samogon-display').textContent = data.new_Samogon; // исправлено
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-
-// Обработчик для яда
-document.getElementById('usePoisonButton').addEventListener('click', function() {
-    fetch('/use_Poison/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            // Ключ исправлен на new_Poison
-            document.getElementById('Poison-display').textContent = data.new_Poison;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-
-
-    // Обработчик для рыбы
-document.getElementById('useFishButton').addEventListener('click', function() {
-    fetch('/use_Fish/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            // Ключ исправлен на new_fish
-            document.getElementById('Fish-display').textContent = data.new_Fish;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Ошибка: ' + data.error);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-
-     // Обработчик для драгоценностей
-document.getElementById('useJewelryButton').addEventListener('click', function() {
-    fetch('/use_Jewelry/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('Jewelry-display').textContent = data.new_Jewelry;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Внимание: ' + data.attention);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
-
-     // Обработчик для урожая
-document.getElementById('useHarvestButton').addEventListener('click', function() {
-    fetch('/use_Harvest/', {
-        method: 'POST',
-        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
-        body: JSON.stringify({action: 'use'})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('hp-display').textContent = data.new_hp;
-            document.getElementById('Jewelry-display').textContent = data.new_Harvest;
-            const hpElement = document.getElementById('hp-display');
-            hpElement.classList.add('hp-increased');
-            setTimeout(() => hpElement.classList.remove('hp-increased'), 1000);
-        } else {
-            alert('Внимание: ' + data.attention);
-        }
-    })
-    .catch(error => alert('Ошибка сети'));
-});
 </script>
 
 </body>

@@ -9,7 +9,6 @@ from django.utils.crypto import get_random_string
 from captcha.fields import ReCaptchaField
 from django.contrib.auth.models import User
 
-
 class CustomSignupForm(SignupForm):
     captcha = ReCaptchaField()
 

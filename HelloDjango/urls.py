@@ -19,26 +19,22 @@ from django.urls import path, include
 from main import views
 from django.conf import settings
 from django.conf.urls.static import static
-# from play import views
-# from play import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('main/', views.main, name='main'),
+    path('about/', views.about_game, name='about_game'),
+    path('achievements/', views.achievements, name='achievements'),
     path('', include('play.urls')),
     path('play_restart/', include('play_restart.urls')),  # Уберите лишний префикс
     path('', include('mybag.urls')),
-    path('death/', include('death.urls')),  # Без указания namespace
+    path('market/', include('market.urls')),
+    path('death/', include('death.urls')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
-
-
-    # path('event/<int:event_id>/', views.play_next, name='play_next'),
-
-    # path('play/', views.play, name='play'),
-    # path('', include('main.urls')),
-
+    path('fisher/', include('quest.urls')),
+    path('cheat_protection/', include('cheat_protection.urls')),
 
 ]
 

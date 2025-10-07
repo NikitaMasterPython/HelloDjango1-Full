@@ -2,20 +2,32 @@
 {% load i18n %}
 
 {% autoescape off %}
-{% user_display user as user_display %}
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+<h2>Подтверждение регистрации в Русской Саге</h2>
 
-<h2>Подтверждение регистрации</h2>
-<p>Здравствуйте, {{ user_display }}!</p>
+<p>Здравствуйте, {% user_display user %}!</p>
 
-<p>Вы получили это письмо, потому что зарегистрировались на сайте {{ site_name }}.</p>
+<p>Вы получили это письмо, потому что зарегистрировались на сайте {{ current_site.name }}.</p>
 
 <p>Для подтверждения регистрации перейдите по ссылке:</p>
-<p><a href="{{ activate_url }}">Подтвердить email</a></p>
+<p><a href="{{ activate_url }}" style="
+     display: inline-block;
+     padding: 12px 30px;
+     background: linear-gradient(to bottom, #d4af37, #b8860b);
+     color: #2b1809;
+     text-decoration: none;
+     font-weight: bold;
+     border-radius: 6px;
+     margin: 20px 0;
+     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+ ">Подтвердить email</a></p>
 
 <p>Если вы не регистрировались на сайте, проигнорируйте это письмо.</p>
 
-<p>С уважением,<br>
-Команда {{ site_name }}</p>
-{% endblocktrans %}
+<hr style="border-color: #8B4513; margin: 20px 0;">
+
+<p style="font-size: 14px; color: #777;">
+     С уважением,<br>
+     Команда {{ current_site.name }}<br>
+     <a href="http://{{ current_site.domain }}" style="color: #8B4513;">{{ current_site.domain }}</a>
+</p>
 {% endautoescape %}

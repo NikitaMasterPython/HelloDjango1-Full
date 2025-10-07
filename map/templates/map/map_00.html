@@ -351,11 +351,7 @@
     <div class="high-panel">
 
         <div class="button-container-hp">
-            <!-- Кнопки в виде изображений -->
-            <p class= "znachenie_hp">
-                {{ Hit_points }}
-            </p>
-            <button class="button-image">
+            <button class="button-image" onclick="window.location.href='{% url 'main' %}'">
                 <img src="/static/image/panel/hp.png" alt="Кнопка 1" class="button-image">
             </button>
         </div>
@@ -421,7 +417,7 @@
 
             font-size: 24px;
             line-height: 0.3;
-            z-index: 150;
+            z-index: 15000;
             color: black; /* Явно задаем цвет текста */
             font-family: Impact, fantasy;
 
@@ -436,389 +432,137 @@
 
 
 
-    <style>
-         .button_inventary_herbs {
-            cursor: pointer;
-            user-select: none;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-
-            /* Обязательные свойства для позиционирования */
-            position: absolute; /* или 'fixed' в зависимости от needs */
-            left: 83px;
-            top: 200px;
-            z-index: 200;
-
-            /* Дополнительные рекомендуемые свойства */
-            display: block;
-            margin: 0;
-            padding: 5px 10px;
-
-            border-radius: 4px;
-        }
-
-        .button_inventary_Samogon {
-            cursor: pointer;
-            user-select: none;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-
-            /* Обязательные свойства для позиционирования */
-            position: absolute; /* или 'fixed' в зависимости от needs */
-            left: 141px;
-            top: 200px;
-            z-index: 200;
-
-            /* Дополнительные рекомендуемые свойства */
-            display: block;
-            margin: 0;
-            padding: 5px 10px;
-
-            border-radius: 4px;
-        }
-
-        .button_inventary_Poison {
-            cursor: pointer;
-            user-select: none;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-
-            /* Обязательные свойства для позиционирования */
-            position: absolute; /* или 'fixed' в зависимости от needs */
-            left: 200px;
-            top: 200px;
-            z-index: 1500;
-
-            /* Дополнительные рекомендуемые свойства */
-            display: block;
-            margin: 0;
-            padding: 5px 10px;
-
-            border-radius: 4px;
-        }
-
-
-
-         .button_inventary_Fish {
-            cursor: pointer;
-            user-select: none;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-
-            /* Обязательные свойства для позиционирования */
-            position: absolute; /* или 'fixed' в зависимости от needs */
-            left: 258px;
-            top: 200px;
-            z-index: 1500;
-
-            /* Дополнительные рекомендуемые свойства */
-            display: block;
-            margin: 0;
-            padding: 5px 10px;
-
-            border-radius: 4px;
-        }
-
-        .button_inventary_cave {
-            cursor: pointer;
-            user-select: none;
-            color: black;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-
-            /* Обязательные свойства для позиционирования */
-            position: absolute; /* или 'fixed' в зависимости от needs */
-            left: 317px;
-            top: 200px;
-            z-index: 1500;
-
-            /* Дополнительные рекомендуемые свойства */
-            display: block;
-            margin: 0;
-            padding: 5px 10px;
-
-            border-radius: 4px;
-        }
-    </style>
-
-
-    <style>
-
-
-
-        .button-imagee_cave{
-            border: none;
-            background: transparent; /* Прозрачность */
-            cursor: pointer;
-            padding: 0;
-            position: absolute;
-            z-index: 1001;
-            display: inline-block;
-        }
-
-        /* Стили для кнопки */
-        .button-imagee {
-            left: 24px;
-            top: 84px;
-        }
-
-        /* Стили для кнопки ух, заебало конечно */
-        .button-imagee_cave{
-            left: 124px;
-            top: 289px;
-        }
-
-        /* Общие эффекты при наведении и нажатии */
-        .button-imagee:hover,
-        .button-imagee_cave:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-imagee:active,
-        .button-imagee_cave:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для изображений внутри кнопок */
-
-        .button-imagee_cave img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            display: block;
-        }
-
-
-
-
-
-
-
-        .button-imagee_lake{
-            border: none;
-            background: transparent; /* Прозрачность */
-            cursor: pointer;
-            padding: 0;
-            position: absolute;
-            z-index: 1001;
-            display: inline-block;
-        }
-
-        /* Стили для кнопки */
-        .button-imagee {
-            left: 24px;
-            top: 84px;
-        }
-
-        /* Стили для кнопки ух, заебало конечно */
-        .button-imagee_lake{
-            left: 84px;
-            top: 275px;
-        }
-
-        /* Общие эффекты при наведении и нажатии */
-        .button-imagee:hover,
-        .button-imagee_lake:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-imagee:active,
-        .button-imagee_lake:active {
-            transform: translateY(0);
-        }
-
-        /* Стили для изображений внутри кнопок */
-
-        .button-imagee_lake img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            display: block;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        .hp-increased {
-            animation: hpPulse 0.5s 2;
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        @keyframes hpPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-
-
-
-</div>
-
-
-
-<button class="button-imagee_lake" onclick="window.location.href='{% url 'play' %}'"
-        data-tooltip="Отправиться на озеро">
-    <img src="/static/image/panel/lake.png" alt="озеро" class="button-imagee_lake">
-</button>
-
-<button class="button-imagee_cave" onclick="window.location.href='{% url 'play' %}'"
-        data-tooltip="Исследовать пещеру">
-    <img src="/static/image/panel/cave.png" alt="пещера" class="button-imagee_cave">
-</button>
-
 <style>
-/* Стили для контейнера подсказки */
-.button-imagee_cave {
+    /* Универсальный стиль для кнопок карты */
+    .map-button {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        position: absolute;
+        z-index: 1001; /* Базовый z-index для кнопок */
+        display: inline-block;
+    }
 
-    display: inline-block;
-}
+    .map-button img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        display: block;
+    }
 
-/* Стили для самой подсказки */
-.button-imagee_cave::before {
+    .map-button:hover {
+        transform: translateY(-2px);
+    }
 
-    top: 338px;
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 12px;
-    left: 65px;
-    color: A52A2A;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    pointer-events: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    .map-button:active {
+        transform: translateY(0);
+    }
 
-}
+    /* Стили для подсказки - УВЕЛИЧИЛИ Z-INDEX */
+    .map-button::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 2147483647; /* Максимально возможный z-index */
+        pointer-events: none; /* Важно: игнорирует клики */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
 
-/* Стрелка подсказки */
-.button-imagee_cave::after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    left: 142px;
-    top: 275px;
-    transform: translateX(-50%) translateY(100%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
+    /* Стрелка подсказки - УВЕЛИЧИЛИ Z-INDEX */
+    .map-button::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(100%);
+        border-width: 6px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
 
-/* Показываем подсказку при наведении */
-.button-imagee_cave:hover::before,
-.button-imagee_cave:hover::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(-5px);
-}
+        pointer-events: none; /* Важно: игнорирует клики */
+    }
 
-.button-imagee_lake:hover::after {
-    transform: translateX(-50%) translateY(1px);
-}
-
-
-     display: inline-block;
-}
-
-/* Стили для самой подсказки */
-.button-imagee_lake::before {
-
-    top: 338px;
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 12px;
-    left: 195px;
-    color: A52A2A;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    pointer-events: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-
-}
-
-/* Стрелка подсказки */
-.button-imagee_lake::after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    left: 105px;
-    top: 260px;
-    transform: translateX(-50%) translateY(100%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-/* Показываем подсказку при наведении */
-.button-imagee_lake:hover::before,
-.button-imagee_lake:hover::after {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(-5px);
-}
-
-.button-imagee_lake:hover::after {
-    transform: translateX(-50%) translateY(1px);
-}
+    /* Показ подсказки при наведении */
+    .map-button:hover::before,
+    .map-button:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-5px);
+    }
 </style>
 
+<!-- Примеры использования -->
+<button class="map-button"
+        style="left: 170px; top: 551px;"
+        onclick="window.location.href='{% url 'quest:game' %}'"
+        data-tooltip="Отправиться на нижнее озеро">
+    <img src="/static/image/panel/lake.png" alt="озеро">
+</button>
+
+<button class="map-button"
+        style="left: 244px; top: 580px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Исследовать пещеру">
+    <img src="/static/image/panel/cave.png" alt="пещера">
+</button>
+
+<button class="map-button"
+        style="left: 74px; top: 550px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Исследовать пещеру">
+    <img src="/static/image/panel/cave.png" alt="пещера">
+</button>
+
+<button class="map-button"
+        style="left: 65px; top: 450px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Лагерь разбойников">
+    <img src="/static/image/panel/robbers.png" alt="разбойники">
+</button>
+
+<button class="map-button"
+        style="left: 195px; top: 400px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Отправиться на верхнее озеро">
+    <img src="/static/image/panel/lake_2.png" alt="озеро">
+</button>
+
+<button class="map-button"
+        style="left: 50px; top: 370px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Ебучий лес">
+    <img src="/static/image/panel/forest_1.png" alt="озеро">
+</button>
+
+<button class="map-button"
+        style="left: 45px; top: 260px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Дремучий лес">
+    <img src="/static/image/panel/forest_2.png" alt="озеро">
+</button>
+
+<button class="map-button"
+        style="left: 55px; top: 165px;"
+        onclick="window.location.href='{% url 'quest:tupic' %}'"
+        data-tooltip="Отправиться в горы">
+    <img src="/static/image/panel/mountain.png" alt="озеро">
+</button>
 
 </body>
 </html>
