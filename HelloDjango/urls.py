@@ -33,6 +33,7 @@ urlpatterns = [
     path('death/', include('death.urls')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
+    path('captcha/', include('captcha.urls')),
     path('fisher/', include('quest.urls')),
     path('cheat_protection/', include('cheat_protection.urls')),
 

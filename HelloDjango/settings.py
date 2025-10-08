@@ -212,3 +212,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_HOST_USER = 'ваш@email.ru'
 # EMAIL_HOST_PASSWORD = 'пароль'
 # DEFAULT_FROM_EMAIL = 'ваш@email.ru'
+
+# reCAPTCHA v3 settings (тестовые ключи - работают без регистрации)
+
+# RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+# RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+# RECAPTCHA_REQUIRED_SCORE = 0.85

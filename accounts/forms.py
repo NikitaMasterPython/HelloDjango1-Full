@@ -1,16 +1,24 @@
 from django import forms
+from django.urls import path, include
 from allauth.account.forms import SignupForm, LoginForm
-from captcha.fields import ReCaptchaField
+# from captcha.fields import ReCaptchaField
+
+
+from captcha.fields import CaptchaField
+# from django_recaptcha.fields import ReCaptchaField
+
+# from django_recaptcha.fields import ReCaptchaField
 from django.utils.crypto import get_random_string
 
 from allauth.account.forms import SignupForm
 from django import forms
 from django.utils.crypto import get_random_string
-from captcha.fields import ReCaptchaField
+# from captcha.fields import ReCaptchaField
 from django.contrib.auth.models import User
 
 class CustomSignupForm(SignupForm):
-    captcha = ReCaptchaField()
+    # captcha = ReCaptchaField()
+    captcha = CaptchaField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,7 +56,8 @@ class CustomSignupForm(SignupForm):
         return user
 
 class CustomLoginForm(LoginForm):
-    captcha = ReCaptchaField()
+    # captcha = ReCaptchaField()
+    captcha = CaptchaField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
