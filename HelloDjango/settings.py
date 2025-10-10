@@ -29,10 +29,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-skbc+6$mt2(v18#02jvl=_yy03xpx7(1v3+*0%bd0h8tb1dqs#'
 
-# Для тестирования
-SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+# reCAPTCHA v3 settings (тестовые ключи - работают без регистрации)
 RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+RECAPTCHA_REQUIRED_SCORE = 0.85  # Минимальный score для прохождения
+# Явно указываем использование v3
+RECAPTCHA_DOMAIN = 'www.recaptcha.net'  # Альтернативный домен, если google.com заблокирован
 
 # Для продакшена зарегистрируйтесь на https://www.google.com/recaptcha/admin/
 # RECAPTCHA_PUBLIC_KEY = 'ваш_публичный_ключ'
@@ -203,6 +206,11 @@ AUTH_USER_MODEL = 'auth.User'  # Используйте стандартную �
 
 # Для тестирования (письма в консоль)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Настройки captcha
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+CAPTCHA_LENGTH = 6
+CAPTCHA_FONT_SIZE = 30
 
 # Для реальной отправки (пример для Yandex)
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
