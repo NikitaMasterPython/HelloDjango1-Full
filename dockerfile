@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Создаем необходимые директории
-RUN mkdir -p static templates
+RUN mkdir -p static templates staticfiles
 
 # Применяем миграции
 RUN python manage.py migrate
