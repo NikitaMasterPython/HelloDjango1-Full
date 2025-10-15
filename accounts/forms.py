@@ -76,10 +76,12 @@ class CustomSignupForm(SignupForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
         # Удаляем поле username из формы
         if 'username' in self.fields:
             del self.fields['username']
-
+	    #self.fields.pop('code', None)
     def save(self, request):
         # Получаем пользователя через родительский метод
         user = super().save(request)
@@ -114,9 +116,11 @@ class CustomLoginForm(LoginForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Убираем поле для кода
-        self.fields.pop('code', None)
-        self.login_by_code = False
+        # Убираем поле для код
+        if 'code' in self.fields:
+            self.fields.pop('code')
+        #self.fields.pop('code', None)
+        #self.login_by_code = False
 
 
 

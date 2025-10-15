@@ -47,7 +47,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '192.168.0.103',  # Ваш текущий локальный IP
     'localhost',
-    '127.0.0.1',
+    '127.0.0.1',    '195.42.234.138',
 ]
 
 
@@ -93,6 +93,7 @@ MIDDLEWARE = [
 
     'allauth.account.middleware.AccountMiddleware',
     'quest.middleware.CheatProtectionMiddleware',
+    #'accounts.middleware.DisableLoginCodeMiddleware', 
 ]
 
 ROOT_URLCONF = 'HelloDjango.urls'
@@ -195,11 +196,13 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_LOGIN_METHODS = ['email']  # Использовать email для входа
 ACCOUNT_SIGNUP_FIELDS = ['email*']  # Обязательные поля при регистрации
 
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-ACCOUNT_LOGIN_BY_CODE_ENABLED = False  # Отключаем вход по коду
+ACCOUNT_LOGIN_BY_CODE_ENABLED = True  # Отключаем вход по коду
+
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
@@ -213,7 +216,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 CAPTCHA_LENGTH = 6
 CAPTCHA_FONT_SIZE = 30
+# Production settings
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Принудительно отключаем систему кодов
 # Для реальной отправки (пример для Yandex)
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.yandex.ru'
