@@ -35,7 +35,7 @@ class CustomSignupView(SignupView):
             confirm=True
         )
         # ОТПРАВКА ПИСЬМА ДО ОТПРАВКИ СИГНАЛА
-       # email_address.send_confirmation()
+        email_address.send_confirmation()
 
         # Отправляем сигнал о регистрации
         signals.user_signed_up.send(

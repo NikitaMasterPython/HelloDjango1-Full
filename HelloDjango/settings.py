@@ -188,23 +188,30 @@ SITE_ID = 1
 
 # Настройки allauth
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = False
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Разрешить вход по email или username
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-
-ACCOUNT_LOGIN_METHODS = ['email']  # Использовать email для входа
-ACCOUNT_SIGNUP_FIELDS = ['email*']  # Обязательные поля при регистрации
+#
+# ACCOUNT_LOGIN_METHODS = ['email']  # Использовать email для входа
+# ACCOUNT_SIGNUP_FIELDS = ['email*']  # Обязательные поля при регистрации
 
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-ACCOUNT_LOGIN_BY_CODE_ENABLED = True  # Отключаем вход по коду
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False  # Отключаем вход по коду
 
-ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = False
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+    'login': 'accounts.forms.CustomLoginForm',
+}
 
 LOGIN_REDIRECT_URL = '/main'
 LOGOUT_REDIRECT_URL = '/'
@@ -221,24 +228,31 @@ CAPTCHA_FONT_SIZE = 30
 # Production settings
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/home/django/debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': '/home/django/debug.log',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'therussiansaga@yandex.ru'
+EMAIL_HOST_PASSWORD = 'tilhnizhfiojdliy'
+DEFAULT_FROM_EMAIL = 'therussiansaga@yandex.ru'
 # Принудительно отключаем систему кодов
 # Для реальной отправки (пример для Yandex)
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
