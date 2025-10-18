@@ -50,7 +50,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',    '195.42.234.138',
 ]
 
-
+#ACCOUNT_FORMS = {
+#    'signup': 'allauth.account.forms.SignupForm',
+#}
 # Application definition
 
 INSTALLED_APPS = [
@@ -219,6 +221,24 @@ CAPTCHA_FONT_SIZE = 30
 # Production settings
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/django/debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 # Принудительно отключаем систему кодов
 # Для реальной отправки (пример для Yandex)
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -71,20 +71,43 @@ from django.contrib.auth.models import User
 #         # Убираем поле для кода
 #         self.fields.pop('code', None)
 #         self.login_by_code = False
+
+#НОРМ
+#class CustomSignupForm(SignupForm):
+  #  captcha = CaptchaField()
+ #   def __init__(self, *args, **kwargs):
+#        super().__init__(*args, **kwargs)
+
+        # Удаляем поле username из формы
+  #      if 'username' in self.fields:
+ #           del self.fields['username']
+#	    self.fields.pop('code', None)
+
+    #def save(self, request):
+        # Получаем пользователя через родительский метод
+        #user = super().save(request)
+#class CustomSignupForm(SignupForm):
+    #captcha = CaptchaField()
+    #password1 = forms.CharField(
+     #   label="Пароль",
+    #    widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'})
+   # )
+   # password2 = forms.CharField(
+  #      label="Подтверждение пароля", 
+ #       widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'})
+#    )
+
+   # def __init__(self, *args, **kwargs):
+  #      super().__init__(*args, **kwargs)
+ #       if 'username' in self.fields:
+#            del self.fields['username']
 class CustomSignupForm(SignupForm):
     captcha = CaptchaField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-
-        # Удаляем поле username из формы
         if 'username' in self.fields:
             del self.fields['username']
-	    #self.fields.pop('code', None)
-    def save(self, request):
-        # Получаем пользователя через родительский метод
-        user = super().save(request)
 
         # Генерируем уникальное имя пользователя на основе email
         email_prefix = self.cleaned_data['email'].split('@')[0]
