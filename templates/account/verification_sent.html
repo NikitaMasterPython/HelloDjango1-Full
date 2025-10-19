@@ -1,14 +1,24 @@
-{% extends "account/base_entrance.html" %}
+{% extends "base.html" %}
 {% load i18n %}
-{% load allauth %}
-{% block head_title %}
-    {% trans "Verify Your Email Address" %}
-{% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Verify Your Email Address" %}
-    {% endelement %}
-    {% element p %}
-        {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}
-    {% endelement %}
-{% endblock content %}
+<div style="max-width: 600px; margin: 50px auto; padding: 30px; text-align: center; background: rgba(139, 69, 19, 0.1); border: 2px solid #8B4513; border-radius: 10px;">
+    <h1 style="color: #8B4513; margin-bottom: 20px;">{% trans "Подтвердите ваш email" %}</h1>
+    
+    <p style="margin-bottom: 20px; line-height: 1.6;">
+        {% trans "Мы отправили вам email для подтверждения. Перейдите по ссылке в письме чтобы завершить регистрацию." %}
+    </p>
+    
+    <p style="margin-bottom: 20px; line-height: 1.6;">
+        {% trans "Если вы не видите письмо в основном inbox, проверьте папку спам." %}
+    </p>
+    
+    <p style="margin-bottom: 30px; line-height: 1.6;">
+        {% trans "Свяжитесь с нами если не получили письмо в течение нескольких минут." %}
+    </p>
+    
+    <a href="/" style="padding: 10px 20px; background: #8B4513; color: white; text-decoration: none; border-radius: 5px;">
+        {% trans "На главную" %}
+    </a>
+</div>
+{% endblock %}

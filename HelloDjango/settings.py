@@ -44,12 +44,19 @@ RECAPTCHA_DOMAIN = 'www.recaptcha.net'  # Альтернативный доме�
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.0.103',  # Ваш текущий локальный IP
-    'localhost',
-    '127.0.0.1',    '195.42.234.138',
-]
 
+#ALLOWED_HOSTS = [
+#    '192.168.0.103',  # Ваш текущий локальный IP
+#    'localhost',
+#    '127.0.0.1',    '195.42.234.138',
+#]
+ALLOWED_HOSTS = [
+    '195.42.234.138',  # IP вашего сервера
+    'localhost',
+    '127.0.0.1',
+    # Уберите локальные адреса, они не нужны на сервере
+    # '192.168.0.103',
+]
 #ACCOUNT_FORMS = {
 #    'signup': 'allauth.account.forms.SignupForm',
 #}
